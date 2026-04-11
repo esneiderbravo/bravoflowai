@@ -1,0 +1,34 @@
+# Backend module config (Supabase-first)
+
+enabled: true
+version: 1
+platform: supabase
+
+principles:
+  repository_pattern_required: true
+  dto_domain_separation_required: true
+  edge_functions_for_secrets: true
+  service_abstraction_required: true
+
+security:
+  rls_required: true
+  https_only: true
+  no_client_side_secrets: true
+  auth_guard_required_for_user_data_endpoints: true
+
+# Future backend integration policy.
+integration_policy:
+  external_api_calls_must_be_wrapped_in_services: true
+  retries_for_transient_failures: true
+  timeout_required_seconds: 30
+  idempotency_required_for_write_operations: true
+
+observability:
+  structured_logging_required: true
+  error_classification_required: true
+  pii_redaction_required: true
+
+quality_gates:
+  contract_tests_required_for_new_repositories: true
+  migration_reference_required_in_data_changes: true
+  failure_type_mapping_required: true

@@ -1,0 +1,49 @@
+# Root OpenSpec orchestrator for BravoFlow AI.
+# This file intentionally stays minimal: it references modules and defines
+# global governance only (no duplicated module-level rule definitions).
+
+schema: spec-driven
+
+# ── Project metadata ──────────────────────────────────────────────────────────
+project_name: BravoFlow AI
+description: AI-powered personal finance application
+tech_stack:
+  - Flutter
+  - Supabase
+
+# ── Modular configuration references ─────────────────────────────────────────
+modules:
+  architecture: architecture.yaml
+  frontend: frontend.yaml
+  backend: backend.yaml
+  ai: ai.yaml
+  migrations: migrations.yaml
+  standards: standards.yaml
+  workflow: workflow.yaml
+
+# ── Global enforcement (high-level only) ─────────────────────────────────────
+global_enforcement:
+  open_spec_workflow_required: true
+  migrations_required_for_database_changes: true
+  formatter_and_lint_compliance_required: true
+  architecture_boundaries_enforced: true
+
+# ── Feature governance ────────────────────────────────────────────────────────
+feature_governance:
+  require_opsx_propose: true
+  require_modular_architecture: true
+  require_module_compliance: true
+  require_migrations_when_data_changes: true
+
+# ── Auto-fix behavior ─────────────────────────────────────────────────────────
+auto_fix: true
+auto_fix_rules:
+  - formatting_issues
+  - naming_conventions
+  - layer_placement_corrections
+
+# ── Scalability flags ─────────────────────────────────────────────────────────
+scalability:
+  modular_architecture: true
+  ai_ready: true
+  migration_enforced: true

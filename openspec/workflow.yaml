@@ -1,0 +1,43 @@
+# Open Spec workflow module config
+
+enabled: true
+version: 1
+
+required_steps:
+  - opsx-propose
+  - design_review
+  - tasks_definition
+  - opsx-apply
+  - verification
+  - archive
+
+phase_gates:
+  propose:
+    required_artifacts:
+      - proposal.md
+  design:
+    required_artifacts:
+      - design.md
+  apply:
+    required_artifacts:
+      - tasks.md
+    all_tasks_must_be_checked: true
+
+verification:
+  required_commands:
+    - flutter analyze
+    - flutter test
+  required_checks:
+    - architecture_boundaries_validated
+    - migration_requirements_validated
+    - standards_compliance_validated
+
+release_readiness:
+  feature_flag_check_required_for_ai_changes: true
+  database_migration_review_required: true
+  observability_check_required: true
+
+completion:
+  all_tasks_must_be_checked: true
+  archive_requires_confirmation_if_warnings: true
+  post_archive_retrospective_recommended: true

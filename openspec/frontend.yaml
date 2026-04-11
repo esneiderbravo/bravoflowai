@@ -1,0 +1,42 @@
+# Frontend module config (Flutter)
+
+enabled: true
+version: 1
+platform: flutter
+
+ui_standards:
+  dark_mode_first: true
+  max_widget_file_lines: 200
+  reusable_widgets_required: true
+  const_constructors_preferred: true
+  no_inline_magic_numbers_in_widgets: true
+
+state_management:
+  provider: riverpod
+  ui_logic_separation_required: true
+  notifier_per_feature_required: true
+
+imports:
+  avoid_relative_imports_when_possible: true
+  order:
+    - dart_and_flutter
+    - external_packages
+    - core
+    - features
+    - shared
+
+# Future feature expectations for screen quality.
+screen_quality_gates:
+  loading_error_empty_states_required: true
+  extract_reusable_widgets_threshold_lines: 60
+  no_repository_calls_in_widgets: true
+
+accessibility:
+  tappable_target_min_size: 44
+  semantic_labels_for_critical_actions: required
+  contrast_compliance_required: true
+
+performance:
+  prefer_const_widgets: true
+  avoid_expensive_build_methods: true
+  pagination_required_for_large_lists: true

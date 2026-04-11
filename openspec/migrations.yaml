@@ -1,0 +1,30 @@
+# Database migration module config
+
+enabled: true
+version: 1
+
+requirements:
+  migration_required_for_schema_change: true
+  rls_policy_required_for_new_table: true
+  rollback_plan_required: true
+  backward_compatibility_window_required: true
+
+paths:
+  migrations_dir: supabase/migrations
+  schema_docs: openspec/specs/database/schema.md
+
+naming:
+  migration_file_pattern: YYYYMMDDHHMMSS_<description>.sql
+  table_names: snake_case_plural
+  column_names: snake_case
+
+safety_checks:
+  destructive_changes_require_approval: true
+  data_backfill_plan_required: true
+  index_review_required_for_large_tables: true
+  foreign_key_and_cascade_review_required: true
+
+quality_gates:
+  migration_lint_required: true
+  staging_apply_required_before_production: true
+  schema_doc_update_required: true

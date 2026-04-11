@@ -1,0 +1,53 @@
+# Architecture module config
+# Defines layer boundaries, dependency direction, and feature-level architecture gates.
+
+enabled: true
+version: 1
+pattern: hybrid_clean_architecture
+
+# High-level bounded contexts for future feature planning.
+bounded_contexts:
+  - finance_core
+  - ai_intelligence
+  - identity_and_access
+  - onboarding_and_growth
+
+layers:
+  - presentation
+  - application
+  - domain
+  - data
+
+dependency_rules:
+  presentation_depends_on:
+    - application
+  application_depends_on:
+    - domain
+  domain_depends_on: []
+  data_depends_on:
+    - domain
+
+enforcement:
+  no_business_logic_in_ui: true
+  no_direct_data_access_from_ui: true
+  feature_based_structure_required: true
+  repository_pattern_required: true
+  domain_must_remain_framework_independent: true
+
+# Template every new feature should follow.
+feature_template:
+  required_paths:
+    - features/<feature>/presentation/
+    - features/<feature>/application/
+    - features/<feature>/data/
+  optional_paths:
+    - features/<feature>/domain/
+    - features/<feature>/widgets/
+
+# Required review checks before feature merge.
+quality_gates:
+  architecture_review_required: true
+  forbidden_dependencies:
+    - presentation_to_data
+    - domain_to_flutter
+  required_dependency_direction: presentation_to_application_to_domain

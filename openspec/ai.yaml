@@ -1,0 +1,45 @@
+# AI module config
+
+enabled: true
+version: 1
+
+strategy:
+  ai_layer_required: true
+  replaceable_provider_architecture: true
+  rules_based_mvp_first: true
+  provider_swap_without_ui_changes_required: true
+
+phases:
+  mvp:
+    engine: rules
+    capabilities:
+      - spending_insights
+      - saving_suggestions
+  phase2:
+    engine: external_llm
+    capabilities:
+      - conversational_assistant
+      - predictive_forecasting
+
+constraints:
+  no_ai_keys_in_client: true
+  use_backend_proxy_for_external_ai: true
+  sensitive_financial_data_minimization_required: true
+
+prompt_governance:
+  system_prompt_versioning_required: true
+  prompt_template_location: openspec/specs/ai/
+  disallowed_content_policy_enforced: true
+
+rollout:
+  feature_flag_required_for_new_ai_capabilities: true
+  gradual_rollout_percentage_steps:
+    - 5
+    - 25
+    - 50
+    - 100
+
+evaluation:
+  offline_validation_required: true
+  hallucination_risk_review_required: true
+  user_feedback_capture_required: true

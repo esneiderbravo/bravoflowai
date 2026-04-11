@@ -19,6 +19,8 @@ linting:
     - prefer_const_constructors
     - prefer_final_fields
     - always_declare_return_types
+    - directives_ordering
+    - depend_on_referenced_packages
   requiredDiagnostics:
     - unused_import
 
@@ -29,6 +31,7 @@ namingConventions:
   constants:
     localAndScoped: lowerCamelCase
     globalTopLevel: ALL_CAPS
+  providers: <feature><type>Provider
 
 fileStructure:
   architecture:
@@ -64,6 +67,17 @@ autoFix:
     - dart fix --apply
     - flutter analyze
 
+testing_standards:
+  unit_tests_required_for_domain_logic: true
+  notifier_tests_required_for_state_management: true
+  widget_state_tests_required: true
+  integration_smoke_test_required_per_feature: true
+
+documentation_standards:
+  feature_change_must_update_open_spec_artifacts: true
+  data_model_changes_must_update_schema_docs: true
+  architecture_impacts_must_be_noted_in_design: true
+
 enforcement:
   requiredInCi:
     - flutter analyze
@@ -71,4 +85,3 @@ enforcement:
   recommendedPreCommit:
     - dart format .
     - dart fix --apply
-
