@@ -1,0 +1,62 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:bravoflowai/features/auth/data/dtos/user_dto.dart';
+import 'package:bravoflowai/features/transactions/data/dtos/transaction_dto.dart';
+import 'package:bravoflowai/features/ai_insights/data/dtos/ai_insight_dto.dart';
+import 'package:bravoflowai/domain/entities/ai_insight.dart';
+
+void main() {
+  group('DTO mappings', () {
+    test('UserDto maps json to domain', () {
+      final dto = UserDto.fromJson({
+        'id': 'u1',
+        'email': 'user@mail.com',
+        'name': 'User',
+        'currency': 'USD',
+        'created_at': '2026-04-11T00:00:00.000Z',
+      });
+
+      final user = dto.toDomain();
+      expect(user.id, 'u1');
+      expect(user.email, 'user@mail.com');
+      expect(dto.toJson()['name'], 'User');
+    });
+
+    test('TransactionDto maps json to domain', () {
+      final dto = TransactionDto.fromJson({
+        'id': 't1',
+        'user_id': 'u1',
+        'amount': 50.5,
+        'category_id': 'c1',
+        'description': 'Lunch',
+        'date': '2026-04-11',
+        'type': 'expense',
+        'created_at': '2026-04-11T10:00:00.000Z',
+        'categories': {'name': 'Food'},
+      });
+
+      final tx = dto.toDomain();
+      expect(tx.description, 'Lunch');
+      expect(tx.category.name, 'Food');
+      expect(tx.amount.amount, 50.5);
+    });
+
+    test('AiInsightDto maps json to domain and back', () {
+      final dto = AiInsightDto.fromJson({
+        'id': 'a1',
+        'user_id': 'u1',
+        'type': 'prediction',
+        'title': 'Forecast',
+        'body': 'You may overspend next week.',
+        'confidence': 0.8,
+        'generated_at': '2026-04-11T10:00:00.000Z',
+        'related_transaction_ids': ['t1'],
+      });
+
+      final insight = dto.toDomain();
+      expect(insight.type, AiInsightType.prediction);
+      expect(insight.relatedTransactionIds, ['t1']);
+      expect(dto.toJson()['title'], 'Forecast');
+    });
+  });
+}
+

@@ -81,7 +81,7 @@ void main() {
 
   test('TransactionNotifier adds item', () async {
     final repo = MockTransactionRepository();
-    when(() => repo.getAll(range: any(named: 'range')))
+    when(() => repo.getAll())
         .thenAnswer((_) async => const Right([]));
     when(() => repo.create(tx)).thenAnswer((_) async => Right(tx));
 
@@ -130,7 +130,7 @@ void main() {
 
   test('Notifier surfaces failures', () async {
     final repo = MockTransactionRepository();
-    when(() => repo.getAll(range: any(named: 'range')))
+    when(() => repo.getAll())
         .thenAnswer((_) async => const Left(ServerFailure('fail')));
 
     final container = ProviderContainer(
@@ -142,4 +142,3 @@ void main() {
     expect(state.isLoading || state.hasError, isTrue);
   });
 }
-
