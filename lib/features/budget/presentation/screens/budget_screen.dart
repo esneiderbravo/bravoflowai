@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_text_styles.dart';
-import '../../../core/constants/app_constants.dart';
-import '../../../core/utils/app_utils.dart';
-import '../../../shared/widgets/loading_overlay.dart';
-import '../application/budget_providers.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/utils/app_utils.dart';
+import '../../../../shared/widgets/loading_overlay.dart';
+import '../../application/budget_providers.dart';
 
 class BudgetScreen extends ConsumerWidget {
   const BudgetScreen({super.key});
@@ -42,7 +42,7 @@ class BudgetScreen extends ConsumerWidget {
             : ListView.separated(
                 padding: const EdgeInsets.all(AppConstants.spacingMd),
                 itemCount: budgets.length,
-                separatorBuilder: (_, __) =>
+                separatorBuilder: (context, index) =>
                     const SizedBox(height: AppConstants.spacingMd),
                 itemBuilder: (context, i) {
                   final budget = budgets[i];
@@ -82,4 +82,3 @@ class BudgetScreen extends ConsumerWidget {
     );
   }
 }
-

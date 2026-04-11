@@ -19,3 +19,7 @@ final isAuthenticatedProvider = Provider<bool>(
   (ref) => ref.watch(authStateProvider).valueOrNull?.session != null,
 );
 
+/// Current authenticated user id, empty when signed out.
+final currentUserIdProvider = Provider<String>(
+  (ref) => ref.read(supabaseClientProvider).auth.currentUser?.id ?? '',
+);

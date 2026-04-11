@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../core/theme/app_colors.dart';
+
+/// Persistent bottom-navigation shell used by all main app routes.
+class AppShell extends StatelessWidget {
+  const AppShell({super.key, required this.child});
+
+  final Widget child;
+
+  static const _tabs = [
+    _TabItem(icon: Icons.dashboard_outlined, label: 'Home', path: '/dashboard'),
+    _TabItem(
+        icon: Icons.receipt_long_outlined,
+        label: 'Transactions',
+        path: '/transactions'),
+    _TabItem(
+        icon: Icons.auto_awesome_outlined, label: 'AI', path: '/ai'),
+    _TabItem(
+        icon: Icons.account_balance_wallet_outlined,
+        label: 'Budget',
+        path: '/budget'),
+  ];
+
+  int _locationToIndex(String location) {
+    for (var i = 0; i < _tabs.length; i++) {
+      if (location.startsWith(_tabs[i].path)) return i;
+    }
+    return 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).matchedLocation;
+    final currentIndex = _locationToIndex(location);
+
+    return Scaffold(
+      backgroundColor: AppColors.backgroundDark,
+      body: child,
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: AppColors.surfaceDark,
+        indicatorColor: AppColors.primaryBlue.withValues(alpha: 0.15),
+        selectedIndex: currentIndex,
+        onDestinationSelected: (i) => context.go(_tabs[i].path),
+        destinations: _tabs
+            .map(
+              (t) => NavigationDestination(
+                icon: Icon(t.icon, color: AppColors.textSecondary),
+                selectedIcon: Icon(t.icon, color: AppColors.primaryBlue),
+                label: t.label,
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}
+
+class _TabItem {
+  const _TabItem(
+      {required this.icon, required this.label, required this.path});
+  final IconData icon;
+  final String label;
+  final String path;
+}
+

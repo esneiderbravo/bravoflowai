@@ -72,7 +72,7 @@ class TransactionListScreen extends ConsumerWidget {
                     ref.read(transactionNotifierProvider.notifier).refresh(),
                 child: ListView.separated(
                   itemCount: transactions.length,
-                  separatorBuilder: (_, __) => const Divider(
+                  separatorBuilder: (context, index) => const Divider(
                     height: 1,
                     color: AppColors.cardDark,
                     indent: 72,
@@ -89,4 +89,3 @@ class TransactionListScreen extends ConsumerWidget {
     );
   }
 }
-

@@ -6,23 +6,10 @@ import '../../features/auth/presentation/screens/sign_in_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/ai_insights/ai_insights_screen.dart';
+import '../../features/transactions/presentation/screens/transaction_list_screen.dart';
+import '../../features/transactions/presentation/screens/add_transaction_screen.dart';
+import '../../features/budget/presentation/screens/budget_screen.dart';
 import '../../shared/widgets/app_shell.dart';
-
-// ── Placeholder screens for routes not yet implemented ───────────────────────
-
-class _PlaceholderScreen extends StatelessWidget {
-  const _PlaceholderScreen({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: Center(
-          child: Text('$title — Coming soon',
-              style: Theme.of(context).textTheme.bodyLarge),
-        ),
-      );
-}
 
 // ── Router refresh notifier ───────────────────────────────────────────────────
 
@@ -31,7 +18,7 @@ class _RouterNotifier extends ChangeNotifier {
   _RouterNotifier(Ref ref) {
     ref.listen<AsyncValue<dynamic>>(
       authStateProvider,
-      (_, __) => notifyListeners(),
+      (prev, next) => notifyListeners(),
     );
   }
 }
@@ -71,33 +58,36 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       // ── Auth routes (no shell / no bottom nav) ──────────────────────────
       GoRoute(
         path: '/auth/sign-in',
-        builder: (_, __) => const SignInScreen(),
+        builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
         path: '/auth/sign-up',
-        builder: (_, __) => const SignUpScreen(),
+        builder: (context, state) => const SignUpScreen(),
       ),
 
       // ── App shell routes (with bottom nav) ─────────────────────────────
       ShellRoute(
-        builder: (_, __, child) => AppShell(child: child),
+        builder: (context, state, child) => AppShell(child: child),
         routes: [
           GoRoute(
             path: '/dashboard',
-            builder: (_, __) => const DashboardScreen(),
+            builder: (context, state) => const DashboardScreen(),
           ),
           GoRoute(
             path: '/transactions',
-            builder: (_, __) =>
-                const _PlaceholderScreen(title: 'Transactions'),
+            builder: (context, state) => const TransactionListScreen(),
+          ),
+          GoRoute(
+            path: '/transactions/add',
+            builder: (context, state) => const AddTransactionScreen(),
           ),
           GoRoute(
             path: '/ai',
-            builder: (_, __) => const AiInsightsScreen(),
+            builder: (context, state) => const AiInsightsScreen(),
           ),
           GoRoute(
             path: '/budget',
-            builder: (_, __) => const _PlaceholderScreen(title: 'Budget'),
+            builder: (context, state) => const BudgetScreen(),
           ),
         ],
       ),

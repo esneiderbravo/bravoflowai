@@ -17,18 +17,18 @@ class TransactionRepositoryImpl implements TransactionRepository {
     DateRange? range,
   }) async {
     try {
-      var query = client
-          .from('transactions')
-          .select('*, categories(name)')
-          .order('date', ascending: false);
+      final rows = range == null
+          ? await client
+              .from('transactions')
+              .select('*, categories(name)')
+              .order('date', ascending: false)
+          : await client
+              .from('transactions')
+              .select('*, categories(name)')
+              .gte('date', range.start.toIso8601String().substring(0, 10))
+              .lte('date', range.end.toIso8601String().substring(0, 10))
+              .order('date', ascending: false);
 
-      if (range != null) {
-        query = query
-            .gte('date', range.start.toIso8601String().substring(0, 10))
-            .lte('date', range.end.toIso8601String().substring(0, 10));
-      }
-
-      final rows = await query;
       final transactions = (rows as List)
           .map((r) => TransactionDto.fromJson(r as Map<String, dynamic>)
               .toDomain())
@@ -104,4 +104,3 @@ class TransactionRepositoryImpl implements TransactionRepository {
     }
   }
 }
-
