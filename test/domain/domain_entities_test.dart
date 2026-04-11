@@ -1,0 +1,91 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:bravoflowai/domain/entities/user.dart';
+import 'package:bravoflowai/domain/entities/category.dart';
+import 'package:bravoflowai/domain/entities/transaction.dart';
+import 'package:bravoflowai/domain/entities/budget.dart';
+import 'package:bravoflowai/domain/entities/ai_insight.dart';
+import 'package:bravoflowai/domain/value_objects/money.dart';
+import 'package:bravoflowai/domain/value_objects/date_range.dart';
+
+void main() {
+  group('Domain entities and value objects', () {
+    test('AppUser equality works', () {
+      final now = DateTime(2026, 4, 11);
+      final a = AppUser(
+        id: 'u1',
+        email: 'a@b.com',
+        name: 'Ana',
+        currency: 'USD',
+        createdAt: now,
+      );
+      final b = AppUser(
+        id: 'u1',
+        email: 'a@b.com',
+        name: 'Ana',
+        currency: 'USD',
+        createdAt: now,
+      );
+      expect(a, b);
+    });
+
+    test('Money arithmetic enforces currency and calculates correctly', () {
+      const a = Money(amount: 20);
+      const b = Money(amount: 5);
+      expect((a + b).amount, 25);
+      expect((a - b).amount, 15);
+      expect((a * 2).amount, 40);
+      expect(a.currencySymbol, '\$');
+    });
+
+    test('DateRange contains date', () {
+      final range = DateRange(
+        start: DateTime(2026, 4, 1),
+        end: DateTime(2026, 4, 30),
+      );
+      expect(range.contains(DateTime(2026, 4, 11)), isTrue);
+      expect(range.contains(DateTime(2026, 5, 1)), isFalse);
+    });
+
+    test('Transaction income/expense helpers work', () {
+      const category = Category(id: 'c1', userId: 'u1', name: 'Salary');
+      final tx = Transaction(
+        id: 't1',
+        userId: 'u1',
+        amount: const Money(amount: 1000),
+        category: category,
+        description: 'Monthly salary',
+        date: DateTime(2026, 4, 1),
+        type: TransactionType.income,
+        createdAt: DateTime(2026, 4, 1),
+      );
+      expect(tx.isIncome, isTrue);
+      expect(tx.isExpense, isFalse);
+    });
+
+    test('Budget holds expected fields', () {
+      const category = Category(id: 'c1', userId: 'u1', name: 'Food');
+      final budget = Budget(
+        id: 'b1',
+        userId: 'u1',
+        category: category,
+        amount: const Money(amount: 400),
+        period: BudgetPeriod.monthly,
+        startsAt: DateTime(2026, 4, 1),
+      );
+      expect(budget.period, BudgetPeriod.monthly);
+    });
+
+    test('AiInsight defaults confidence to 1.0', () {
+      final insight = AiInsight(
+        id: 'a1',
+        userId: 'u1',
+        type: AiInsightType.saving,
+        title: 'Save more',
+        body: 'Reduce dining out.',
+        generatedAt: DateTime(2026, 4, 11),
+      );
+      expect(insight.confidence, 1.0);
+    });
+  });
+}
+

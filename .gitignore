@@ -1,0 +1,44 @@
+# ── OS / editor junk ─────────────────────────────────────────────────────────
+.DS_Store
+*.swp
+*.swo
+*.tmp
+*.log
+.history
+
+# ── IntelliJ / Android Studio / VS Code ─────────────────────────────────────
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# ── Flutter / Dart / Pub ─────────────────────────────────────────────────────
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+.pub-cache/
+/build/
+coverage/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# Android build outputs
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# ── Environment / secrets ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Supabase local/dev artifacts ─────────────────────────────────────────────
+.supabase/
+supabase/.temp/
+
+# ── Generated symbol/map files ───────────────────────────────────────────────
+app.*.symbols
+app.*.map.json

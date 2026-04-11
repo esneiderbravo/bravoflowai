@@ -1,0 +1,74 @@
+version: 1
+name: bravoflowai-standards
+
+formatter:
+  dart:
+    tool: dart format
+    lineLength:
+      min: 80
+      max: 100
+      enforced: 100
+    trailingCommasInWidgets: required
+    preferConstConstructors: required
+
+linting:
+  base: flutter_lints
+  requiredRules:
+    - avoid_print
+    - prefer_single_quotes
+    - prefer_const_constructors
+    - prefer_final_fields
+    - always_declare_return_types
+  requiredDiagnostics:
+    - unused_import
+
+namingConventions:
+  files: snake_case
+  classes: PascalCase
+  variables: camelCase
+  constants:
+    localAndScoped: lowerCamelCase
+    globalTopLevel: ALL_CAPS
+
+fileStructure:
+  architecture:
+    - presentation
+    - application
+    - domain
+    - data
+  constraints:
+    maxWidgetFileLines: 200
+    uiContainsBusinessLogic: forbidden
+    directDataLayerAccessFromUi: forbidden
+
+imports:
+  order:
+    - dart_and_flutter
+    - external_packages
+    - core
+    - features
+    - shared
+  relativeImports:
+    policy: avoid_when_possible
+    preferred: package_imports
+
+autoFix:
+  onViolation:
+    - run_dart_format
+    - run_dart_fix_apply
+    - remove_unused_imports
+    - add_const_when_possible
+    - extract_large_widgets
+  commands:
+    - dart format .
+    - dart fix --apply
+    - flutter analyze
+
+enforcement:
+  requiredInCi:
+    - flutter analyze
+    - flutter test
+  recommendedPreCommit:
+    - dart format .
+    - dart fix --apply
+
