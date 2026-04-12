@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/i18n/app_localizations.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 /// Row of quick-action icon buttons with routes.
@@ -42,6 +41,7 @@ class _ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
     final label = switch (action.label) {
       _ActionLabel.addTransaction => l10n.add_transaction,
       _ActionLabel.budget => l10n.budget,
@@ -57,11 +57,17 @@ class _ActionButton extends StatelessWidget {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: AppColors.cardDark,
+              color: colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-              boxShadow: AppColors.aiGlow(AppColors.primaryBlue),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withValues(alpha: 0.08),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
             ),
-            child: Icon(action.icon, color: AppColors.primaryBlue, size: 26),
+            child: Icon(action.icon, color: colorScheme.primary, size: 26),
           ),
           const SizedBox(height: AppConstants.spacingXs),
           Text(label, style: AppTextStyles.labelSmall, textAlign: TextAlign.center),

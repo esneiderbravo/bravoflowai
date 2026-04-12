@@ -30,9 +30,9 @@ class AiInsightsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(aiNotifierProvider);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
         title: Text(context.l10n.ai_insights, style: AppTextStyles.headingLarge),
         actions: [
@@ -55,7 +55,7 @@ class AiInsightsScreen extends ConsumerWidget {
             return Container(
               padding: const EdgeInsets.all(AppConstants.spacingLg),
               decoration: BoxDecoration(
-                color: AppColors.cardDark,
+                color: colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(AppConstants.radiusLg),
                 border: Border.all(color: color.withValues(alpha: 0.25)),
                 boxShadow: AppColors.aiGlow(color),
@@ -78,7 +78,7 @@ class AiInsightsScreen extends ConsumerWidget {
                   const SizedBox(height: AppConstants.spacingXs),
                   Text(
                     insight.body,
-                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+                    style: AppTextStyles.bodyMedium.copyWith(color: colorScheme.onSurfaceVariant),
                   ),
                 ],
               ),

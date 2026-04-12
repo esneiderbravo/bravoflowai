@@ -18,6 +18,7 @@ void main() {
     email: 'jane@bravo.ai',
     avatarUrl: null,
     languageCode: 'es',
+    themeMode: 'system',
     createdAt: DateTime(2026, 4, 11),
   );
 
@@ -29,6 +30,7 @@ void main() {
         fullName: any(named: 'fullName'),
         avatarUrl: any(named: 'avatarUrl'),
         languageCode: any(named: 'languageCode'),
+        themeMode: any(named: 'themeMode'),
       ),
     ).thenAnswer((_) async => Right(profile));
 
@@ -58,6 +60,7 @@ void main() {
         fullName: 'Jane Updated',
         avatarUrl: any(named: 'avatarUrl'),
         languageCode: any(named: 'languageCode'),
+        themeMode: any(named: 'themeMode'),
       ),
     ).called(1);
   });
@@ -91,6 +94,7 @@ void main() {
         fullName: any(named: 'fullName'),
         avatarUrl: any(named: 'avatarUrl'),
         languageCode: any(named: 'languageCode'),
+        themeMode: any(named: 'themeMode'),
       ),
     );
   });

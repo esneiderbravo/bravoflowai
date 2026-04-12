@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../shared/widgets/loading_overlay.dart';
@@ -15,11 +16,12 @@ class TransactionListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(transactionNotifierProvider);
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
-        title: Text('Transactions', style: AppTextStyles.headingLarge),
+        title: Text(l10n.tab_transactions, style: AppTextStyles.headingLarge),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list_rounded),
@@ -28,9 +30,9 @@ class TransactionListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primaryBlue,
+        backgroundColor: colorScheme.primary,
         onPressed: () => context.go('/transactions/add'),
-        child: const Icon(Icons.add_rounded, color: AppColors.textPrimary),
+        child: Icon(Icons.add_rounded, color: colorScheme.onPrimary),
       ),
       body: state.when(
         loading: () => const LoadingOverlay(),
@@ -44,7 +46,7 @@ class TransactionListScreen extends ConsumerWidget {
               const SizedBox(height: AppConstants.spacingMd),
               ElevatedButton(
                 onPressed: () => ref.read(transactionNotifierProvider.notifier).refresh(),
-                child: const Text('Retry'),
+                child: Text(l10n.retry_button),
               ),
             ],
           ),
@@ -60,9 +62,9 @@ class TransactionListScreen extends ConsumerWidget {
                       size: 64,
                     ),
                     const SizedBox(height: AppConstants.spacingMd),
-                    Text('No transactions yet', style: AppTextStyles.headingSmall),
+                    Text(l10n.transactions_empty_title, style: AppTextStyles.headingSmall),
                     const SizedBox(height: AppConstants.spacingXs),
-                    Text('Tap + to add your first one.', style: AppTextStyles.bodySmall),
+                    Text(l10n.transactions_empty_message, style: AppTextStyles.bodySmall),
                   ],
                 ),
               )
@@ -72,7 +74,7 @@ class TransactionListScreen extends ConsumerWidget {
                 child: ListView.separated(
                   itemCount: transactions.length,
                   separatorBuilder: (context, index) =>
-                      const Divider(height: 1, color: AppColors.cardDark, indent: 72),
+                      Divider(height: 1, color: colorScheme.outlineVariant, indent: 72),
                   itemBuilder: (context, i) => TransactionTile(
                     transaction: transactions[i],
                     onDelete: () =>

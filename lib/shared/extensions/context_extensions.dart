@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_text_styles.dart';
 
 /// Convenience extensions on [BuildContext].
 extension ContextExtensions on BuildContext {
@@ -25,8 +25,8 @@ extension ContextExtensions on BuildContext {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(message, style: AppTextStyles.bodySmall),
-          backgroundColor: AppColors.cardDark,
+          content: Text(message, style: textTheme.bodySmall),
+          backgroundColor: colorScheme.surfaceContainerHighest,
         ),
       );
   }
@@ -36,7 +36,7 @@ extension ContextExtensions on BuildContext {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(message, style: AppTextStyles.bodySmall),
+          content: Text(message, style: textTheme.bodySmall?.copyWith(color: Colors.white)),
           backgroundColor: AppColors.error,
         ),
       );

@@ -35,6 +35,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           'full_name': fallbackName,
           'email': user.email,
           'language_code': 'es',
+          'theme_mode': 'system',
           'currency': 'USD',
         };
 
@@ -52,6 +53,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           ...row,
           'email': row['email'] ?? user.email,
           'language_code': sanitizeLanguageCode(row['language_code'] as String?),
+          'theme_mode': sanitizeThemeMode(row['theme_mode'] as String?),
         }).toDomain(),
       );
     } on sb.AuthException catch (e) {
@@ -75,6 +77,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required String fullName,
     String? avatarUrl,
     String? languageCode,
+    String? themeMode,
   }) async {
     try {
       final user = client.auth.currentUser;
@@ -86,6 +89,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
         fullName: fullName,
         avatarUrl: avatarUrl,
         languageCode: languageCode,
+        themeMode: themeMode,
       );
       await client.from('profiles').update(payload).eq('id', user.id);
       return getCurrentProfile();
@@ -151,11 +155,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required String fullName,
     String? avatarUrl,
     String? languageCode,
+    String? themeMode,
   }) {
     final payload = <String, dynamic>{
       'name': fullName,
       'full_name': fullName,
       'language_code': sanitizeLanguageCode(languageCode),
+      'theme_mode': sanitizeThemeMode(themeMode),
     };
     if (avatarUrl != null) {
       payload['avatar_url'] = avatarUrl;
@@ -164,8 +170,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   static String sanitizeLanguageCode(String? languageCode) {
-    final code = languageCode?.trim().toLowerCase();
-    return code == 'en' ? 'en' : 'es';
+    return ProfileDto.sanitizeLanguageCode(languageCode);
+  }
+
+  static String sanitizeThemeMode(String? themeMode) {
+    return ProfileDto.sanitizeThemeMode(themeMode);
   }
 
   String _contentTypeFor(String extension) {

@@ -24,6 +24,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language_label => 'Language';
 
   @override
+  String get theme_label => 'Theme';
+
+  @override
+  String get theme_system => 'System default';
+
+  @override
+  String get theme_dark => 'Dark';
+
+  @override
+  String get theme_light => 'Light';
+
+  @override
+  String get theme_updated_successfully => 'Theme updated.';
+
+  @override
+  String get theme_update_failed => 'Could not update theme preference.';
+
+  @override
+  String get transactions_empty_title => 'No transactions yet';
+
+  @override
+  String get transactions_empty_message => 'Tap + to add your first one.';
+
+  @override
+  String get add_transaction_title => 'Add transaction';
+
+  @override
+  String get transaction_type_expense => 'Expense';
+
+  @override
+  String get transaction_type_income => 'Income';
+
+  @override
+  String get transaction_amount_label => 'Amount';
+
+  @override
+  String get transaction_amount_required => 'Enter an amount';
+
+  @override
+  String get transaction_amount_invalid => 'Invalid number';
+
+  @override
+  String get transaction_description_label => 'Description';
+
+  @override
+  String get transaction_description_required => 'Enter a description';
+
+  @override
+  String get save_transaction_button => 'Save transaction';
+
+  @override
+  String get budget_empty_title => 'No budgets yet';
+
+  @override
+  String get budget_empty_message => 'Budget tracking is coming soon.';
+
+  @override
   String get retry_button => 'Retry';
 
   @override

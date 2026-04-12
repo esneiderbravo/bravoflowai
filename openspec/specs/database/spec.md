@@ -1,15 +1,19 @@
 # Database Specification
 
 ### Requirement: Profiles schema supports user profile management fields
-The system MUST maintain a `public.profiles` table keyed by `auth.users(id)` and MUST include fields required by profile management: `id`, `full_name`, `email`, `avatar_url`, and `created_at`.
+The system MUST maintain a `public.profiles` table keyed by `auth.users(id)` and MUST include fields required by profile management and personalization: `id`, `full_name`, `email`, `avatar_url`, `language_code`, `theme_mode`, and `created_at`. The `language_code` field MUST default to `'es'`.
 
 #### Scenario: New profile row shape
 - **WHEN** a profile row is created for a new authenticated user
-- **THEN** the row SHALL include `id` linked to `auth.users(id)` and SHALL support `full_name`, `email`, and `avatar_url` fields
+- **THEN** the row SHALL include `id` linked to `auth.users(id)` and SHALL support `full_name`, `email`, `avatar_url`, `language_code`, and `theme_mode` fields
 
 #### Scenario: Existing profiles migration
 - **WHEN** migration is applied to an environment with existing profile rows
-- **THEN** the system SHALL preserve existing rows and SHALL backfill compatible values required for profile rendering
+- **THEN** the system SHALL preserve existing rows and SHALL backfill compatible values required for profile rendering, including a default `language_code` of `'es'` where absent
+
+#### Scenario: Theme mode default value
+- **WHEN** a profile row is inserted without an explicit `theme_mode`
+- **THEN** the system SHALL store `theme_mode = 'system'` by default
 
 ### Requirement: Profiles remain protected by user ownership RLS
 The system MUST enforce row-level security so users can only read or write their own profile row.

@@ -123,6 +123,120 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get language_label;
 
+  /// No description provided for @theme_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme_label;
+
+  /// No description provided for @theme_system.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get theme_system;
+
+  /// No description provided for @theme_dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get theme_dark;
+
+  /// No description provided for @theme_light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get theme_light;
+
+  /// No description provided for @theme_updated_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme updated.'**
+  String get theme_updated_successfully;
+
+  /// No description provided for @theme_update_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update theme preference.'**
+  String get theme_update_failed;
+
+  /// No description provided for @transactions_empty_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get transactions_empty_title;
+
+  /// No description provided for @transactions_empty_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add your first one.'**
+  String get transactions_empty_message;
+
+  /// No description provided for @add_transaction_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add transaction'**
+  String get add_transaction_title;
+
+  /// No description provided for @transaction_type_expense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get transaction_type_expense;
+
+  /// No description provided for @transaction_type_income.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get transaction_type_income;
+
+  /// No description provided for @transaction_amount_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get transaction_amount_label;
+
+  /// No description provided for @transaction_amount_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount'**
+  String get transaction_amount_required;
+
+  /// No description provided for @transaction_amount_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid number'**
+  String get transaction_amount_invalid;
+
+  /// No description provided for @transaction_description_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get transaction_description_label;
+
+  /// No description provided for @transaction_description_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a description'**
+  String get transaction_description_required;
+
+  /// No description provided for @save_transaction_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Save transaction'**
+  String get save_transaction_button;
+
+  /// No description provided for @budget_empty_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No budgets yet'**
+  String get budget_empty_title;
+
+  /// No description provided for @budget_empty_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget tracking is coming soon.'**
+  String get budget_empty_message;
+
   /// No description provided for @retry_button.
   ///
   /// In en, this message translates to:

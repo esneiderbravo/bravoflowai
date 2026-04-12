@@ -25,11 +25,10 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final state = ref.watch(dashboardNotifierProvider);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundDark,
         title: Text(l10n.app_title, style: AppTextStyles.headingLarge),
         actions: [
           Padding(
@@ -37,10 +36,14 @@ class DashboardScreen extends ConsumerWidget {
             child: InkWell(
               onTap: () => context.go('/profile'),
               borderRadius: BorderRadius.circular(AppConstants.radiusFull),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 18,
-                backgroundColor: AppColors.cardDark,
-                child: Icon(Icons.person_outline_rounded, color: AppColors.textSecondary, size: 20),
+                backgroundColor: colorScheme.surfaceContainerHighest,
+                child: Icon(
+                  Icons.person_outline_rounded,
+                  color: colorScheme.onSurfaceVariant,
+                  size: 20,
+                ),
               ),
             ),
           ),
@@ -65,7 +68,7 @@ class DashboardScreen extends ConsumerWidget {
                       AppUtils.timeBasedGreeting(l10n),
                       dashboard.userName,
                     ),
-                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+                    style: AppTextStyles.bodyMedium.copyWith(color: colorScheme.onSurfaceVariant),
                   ),
                   const SizedBox(height: AppConstants.spacingSm),
                   Text(l10n.dashboard_overview, style: AppTextStyles.displayMedium),

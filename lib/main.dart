@@ -7,6 +7,7 @@ import 'core/i18n/app_localizations_delegate.dart';
 import 'core/router/app_router.dart';
 import 'core/services/supabase_service.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/app_theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,8 +28,11 @@ class BravoFlowApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(appLocaleBootstrapProvider);
+    ref.watch(appThemeBootstrapProvider);
+
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(appLocaleControllerProvider);
+    final themeMode = ref.watch(appThemeControllerProvider);
 
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.app_title,
@@ -41,10 +45,9 @@ class BravoFlowApp extends ConsumerWidget {
         return supportedLocales.contains(target) ? target : AppLocaleConfig.defaultLocale;
       },
 
-      // Dark-first theme
-      theme: AppTheme.dark,
+      theme: AppTheme.lightTheme,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.dark,
+      themeMode: themeMode,
 
       // go_router replaces `home:`
       routerConfig: router,

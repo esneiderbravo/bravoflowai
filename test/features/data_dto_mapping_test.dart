@@ -66,6 +66,7 @@ void main() {
         'email': 'jane@bravo.ai',
         'avatar_url': 'https://cdn/avatar.png',
         'language_code': 'en',
+        'theme_mode': 'dark',
         'created_at': '2026-04-11T00:00:00.000Z',
       });
 
@@ -75,9 +76,10 @@ void main() {
       expect(profile.email, 'jane@bravo.ai');
       expect(profile.avatarUrl, 'https://cdn/avatar.png');
       expect(profile.languageCode, 'en');
+      expect(profile.themeMode, 'dark');
     });
 
-    test('ProfileDto defaults language_code to es when absent', () {
+    test('ProfileDto defaults language_code and theme_mode when absent', () {
       final dto = ProfileDto.fromJson({
         'id': 'u2',
         'full_name': 'Carlos',
@@ -86,6 +88,7 @@ void main() {
         'created_at': '2026-04-11T00:00:00.000Z',
       });
       expect(dto.toDomain().languageCode, 'es');
+      expect(dto.toDomain().themeMode, 'system');
     });
   });
 }

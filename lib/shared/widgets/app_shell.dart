@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../core/i18n/app_localizations.dart';
-import '../../core/theme/app_colors.dart';
 
 /// Persistent bottom-navigation shell used by all main app routes.
 class AppShell extends StatelessWidget {
@@ -27,15 +27,16 @@ class AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final currentIndex = _locationToIndex(location);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
       body: child,
       bottomNavigationBar: NavigationBar(
-        backgroundColor: AppColors.surfaceDark,
-        indicatorColor: AppColors.primaryBlue.withValues(alpha: 0.15),
+        backgroundColor: colorScheme.surface,
+        indicatorColor: colorScheme.primary.withValues(alpha: 0.15),
         selectedIndex: currentIndex,
         onDestinationSelected: (i) => context.go(_tabs[i].path),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: _tabs
             .map(
               (t) {
@@ -46,10 +47,10 @@ class AppShell extends StatelessWidget {
                   _TabLabel.budget => context.l10n.tab_budget,
                 };
                 return NavigationDestination(
-                icon: Icon(t.icon, color: AppColors.textSecondary),
-                selectedIcon: Icon(t.icon, color: AppColors.primaryBlue),
-                label: label,
-              );
+                  icon: Icon(t.icon),
+                  selectedIcon: Icon(t.icon),
+                  label: label,
+                );
               },
             )
             .toList(),

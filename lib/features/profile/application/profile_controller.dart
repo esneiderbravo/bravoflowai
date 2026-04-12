@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/i18n/app_locale_controller.dart';
+import '../../../../core/theme/app_theme_controller.dart';
 import '../domain/validation/profile_validation.dart';
 import 'profile_providers.dart';
 import 'profile_state.dart';
@@ -19,6 +20,7 @@ class ProfileController extends AsyncNotifier<ProfileState> {
         profile: profile,
         fullNameDraft: profile.fullName,
         selectedLanguageCode: profile.languageCode,
+        selectedThemeMode: profile.themeMode,
       ),
     );
   }
@@ -58,6 +60,20 @@ class ProfileController extends AsyncNotifier<ProfileState> {
     state = AsyncData(
       current.copyWith(
         selectedLanguageCode: normalizedCode,
+        clearErrorMessage: true,
+        clearSuccessMessage: true,
+      ),
+    );
+  }
+
+  void updateSelectedThemeMode(String themeMode) {
+    final current = state.valueOrNull;
+    if (current == null || current.isSaving) return;
+
+    final normalized = _sanitizeThemeMode(themeMode);
+    state = AsyncData(
+      current.copyWith(
+        selectedThemeMode: normalized,
         clearErrorMessage: true,
         clearSuccessMessage: true,
       ),
@@ -107,22 +123,38 @@ class ProfileController extends AsyncNotifier<ProfileState> {
           fullName: current.fullNameDraft.trim(),
           avatarUrl: uploadedAvatarUrl,
           languageCode: current.selectedLanguageCode,
+          themeMode: current.selectedThemeMode,
         );
 
     state = updateResult.match(
       (failure) => AsyncData(current.copyWith(isSaving: false, errorMessage: failure.userMessage)),
       (profile) {
         ref.read(appLocaleControllerProvider.notifier).setLanguageCode(profile.languageCode);
+        ref.read(appThemeControllerProvider.notifier).setThemeModeCode(profile.themeMode);
         return AsyncData(
           ProfileState(
             profile: profile,
             fullNameDraft: profile.fullName,
             selectedLanguageCode: profile.languageCode,
+            selectedThemeMode: profile.themeMode,
             isSaving: false,
             successMessage: 'profile_saved_successfully',
           ),
         );
       },
     );
+  }
+
+  String _sanitizeThemeMode(String value) {
+    final normalized = value.trim().toLowerCase();
+    switch (normalized) {
+      case 'dark':
+        return 'dark';
+      case 'light':
+        return 'light';
+      case 'system':
+      default:
+        return 'system';
+    }
   }
 }
