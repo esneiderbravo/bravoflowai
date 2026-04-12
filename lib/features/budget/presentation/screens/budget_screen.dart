@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_utils.dart';
@@ -14,10 +15,11 @@ class BudgetScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(budgetNotifierProvider);
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
-      appBar: AppBar(title: Text('Budget', style: AppTextStyles.headingLarge)),
+      appBar: AppBar(title: Text(l10n.tab_budget, style: AppTextStyles.headingLarge)),
       body: state.when(
         loading: () => const LoadingOverlay(),
         error: (e, _) => Center(child: Text(e.toString(), style: AppTextStyles.bodyMedium)),
@@ -32,9 +34,9 @@ class BudgetScreen extends ConsumerWidget {
                       size: 64,
                     ),
                     const SizedBox(height: AppConstants.spacingMd),
-                    Text('No budgets yet', style: AppTextStyles.headingSmall),
+                    Text(l10n.budget_empty_title, style: AppTextStyles.headingSmall),
                     const SizedBox(height: AppConstants.spacingXs),
-                    Text('Budget tracking — coming soon.', style: AppTextStyles.bodySmall),
+                    Text(l10n.budget_empty_message, style: AppTextStyles.bodySmall),
                   ],
                 ),
               )
@@ -48,7 +50,7 @@ class BudgetScreen extends ConsumerWidget {
                   return Container(
                     padding: const EdgeInsets.all(AppConstants.spacingMd),
                     decoration: BoxDecoration(
-                      color: AppColors.cardDark,
+                      color: colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(AppConstants.radiusLg),
                     ),
                     child: Row(

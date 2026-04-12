@@ -5,6 +5,25 @@
   "profile_title": "Perfil",
   "save_button": "Guardar",
   "language_label": "Idioma",
+  "theme_label": "Tema",
+  "theme_system": "Sistema",
+  "theme_dark": "Oscuro",
+  "theme_light": "Claro",
+  "theme_updated_successfully": "Tema actualizado.",
+  "theme_update_failed": "No se pudo actualizar la preferencia de tema.",
+  "transactions_empty_title": "Aun no hay transacciones",
+  "transactions_empty_message": "Toca + para agregar la primera.",
+  "add_transaction_title": "Agregar transaccion",
+  "transaction_type_expense": "Gasto",
+  "transaction_type_income": "Ingreso",
+  "transaction_amount_label": "Monto",
+  "transaction_amount_required": "Ingresa un monto",
+  "transaction_amount_invalid": "Numero invalido",
+  "transaction_description_label": "Descripcion",
+  "transaction_description_required": "Ingresa una descripcion",
+  "save_transaction_button": "Guardar transaccion",
+  "budget_empty_title": "Aun no hay presupuestos",
+  "budget_empty_message": "El seguimiento de presupuesto estara disponible pronto.",
   "retry_button": "Reintentar",
   "full_name_label": "Nombre completo",
   "email_label": "Correo",
@@ -45,4 +64,3 @@
     }
   }
 }
-

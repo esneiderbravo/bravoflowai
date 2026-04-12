@@ -7,6 +7,69 @@ import 'app_text_styles.dart';
 
 /// BravoFlow AI — Global Theme Configuration
 abstract final class AppTheme {
+  static ThemeData get lightTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: Colors.white,
+      colorScheme: const ColorScheme.light(
+        primary: AppColors.primaryBlue,
+        secondary: AppColors.violetAI,
+        tertiary: AppColors.accentCyan,
+      ),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme).copyWith(
+        displayLarge: AppTextStyles.displayLarge.copyWith(color: Colors.black87),
+        displayMedium: AppTextStyles.displayMedium.copyWith(color: Colors.black87),
+        headlineLarge: AppTextStyles.headingLarge.copyWith(color: Colors.black87),
+        headlineMedium: AppTextStyles.headingMedium.copyWith(color: Colors.black87),
+        headlineSmall: AppTextStyles.headingSmall.copyWith(color: Colors.black87),
+        bodyLarge: AppTextStyles.bodyLarge.copyWith(color: Colors.black87),
+        bodyMedium: AppTextStyles.bodyMedium.copyWith(color: Colors.black87),
+        bodySmall: AppTextStyles.bodySmall.copyWith(color: Colors.black54),
+        labelMedium: AppTextStyles.labelMedium.copyWith(color: Colors.black87),
+        labelSmall: AppTextStyles.labelSmall.copyWith(color: Colors.black54),
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        elevation: 0,
+        centerTitle: false,
+      ),
+      cardTheme: CardThemeData(
+        color: Colors.white,
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusLg)),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryBlue,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 14),
+          textStyle: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+          borderSide: const BorderSide(color: Colors.black12),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+          borderSide: const BorderSide(color: Colors.black12),
+        ),
+        hintStyle: const TextStyle(color: Colors.black45),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
+      ),
+      dividerTheme: const DividerThemeData(color: Colors.black12, thickness: 1),
+    );
+  }
+
   static ThemeData get dark {
     return ThemeData(
       useMaterial3: true,

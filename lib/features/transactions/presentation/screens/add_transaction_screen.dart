@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../domain/entities/category.dart';
 import '../../../../domain/entities/transaction.dart';
@@ -56,9 +56,11 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
-      appBar: AppBar(title: Text('Add Transaction', style: AppTextStyles.headingLarge)),
+      appBar: AppBar(title: Text(l10n.add_transaction_title, style: AppTextStyles.headingLarge)),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -68,18 +70,22 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             children: [
               // ── Type toggle ─────────────────────────────────────────────
               SegmentedButton<TransactionType>(
-                segments: const [
-                  ButtonSegment(
+                segments: <ButtonSegment<TransactionType>>[
+                  ButtonSegment<TransactionType>(
                     value: TransactionType.expense,
-                    label: Text('Expense'),
-                    icon: Icon(Icons.arrow_upward_rounded),
+                    label: Text(l10n.transaction_type_expense),
+                    icon: const Icon(Icons.arrow_upward_rounded),
                   ),
-                  ButtonSegment(
+                  ButtonSegment<TransactionType>(
                     value: TransactionType.income,
-                    label: Text('Income'),
-                    icon: Icon(Icons.arrow_downward_rounded),
+                    label: Text(l10n.transaction_type_income),
+                    icon: const Icon(Icons.arrow_downward_rounded),
                   ),
                 ],
+                showSelectedIcon: false,
+                style: ButtonStyle(
+                  textStyle: WidgetStatePropertyAll<TextStyle>(AppTextStyles.labelMedium),
+                ),
                 selected: {_type},
                 onSelectionChanged: (s) => setState(() => _type = s.first),
               ),
@@ -89,14 +95,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               TextFormField(
                 controller: _amountController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                  labelText: 'Amount',
+                decoration: InputDecoration(
+                  labelText: l10n.transaction_amount_label,
                   prefixText: '\$ ',
-                  prefixIcon: Icon(Icons.attach_money_rounded),
+                  prefixIcon: const Icon(Icons.attach_money_rounded),
                 ),
                 validator: (v) {
-                  if (v == null || v.isEmpty) return 'Enter an amount';
-                  if (double.tryParse(v) == null) return 'Invalid number';
+                  if (v == null || v.isEmpty) return l10n.transaction_amount_required;
+                  if (double.tryParse(v) == null) return l10n.transaction_amount_invalid;
                   return null;
                 },
               ),
@@ -105,11 +111,12 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               // ── Description ─────────────────────────────────────────────
               TextFormField(
                 controller: _descController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  prefixIcon: Icon(Icons.notes_rounded),
+                decoration: InputDecoration(
+                  labelText: l10n.transaction_description_label,
+                  prefixIcon: const Icon(Icons.notes_rounded),
                 ),
-                validator: (v) => (v == null || v.trim().isEmpty) ? 'Enter a description' : null,
+                validator: (v) =>
+                    (v == null || v.trim().isEmpty) ? l10n.transaction_description_required : null,
               ),
               const SizedBox(height: AppConstants.spacingXl),
 
@@ -119,15 +126,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _submit,
                   child: _isLoading
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.textPrimary,
+                            color: colorScheme.onPrimary,
                           ),
                         )
-                      : const Text('Save Transaction'),
+                      : Text(l10n.save_transaction_button),
                 ),
               ),
             ],

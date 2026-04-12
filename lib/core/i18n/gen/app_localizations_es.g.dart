@@ -24,6 +24,63 @@ class AppLocalizationsEs extends AppLocalizations {
   String get language_label => 'Idioma';
 
   @override
+  String get theme_label => 'Tema';
+
+  @override
+  String get theme_system => 'Sistema';
+
+  @override
+  String get theme_dark => 'Oscuro';
+
+  @override
+  String get theme_light => 'Claro';
+
+  @override
+  String get theme_updated_successfully => 'Tema actualizado.';
+
+  @override
+  String get theme_update_failed => 'No se pudo actualizar la preferencia de tema.';
+
+  @override
+  String get transactions_empty_title => 'Aun no hay transacciones';
+
+  @override
+  String get transactions_empty_message => 'Toca + para agregar la primera.';
+
+  @override
+  String get add_transaction_title => 'Agregar transaccion';
+
+  @override
+  String get transaction_type_expense => 'Gasto';
+
+  @override
+  String get transaction_type_income => 'Ingreso';
+
+  @override
+  String get transaction_amount_label => 'Monto';
+
+  @override
+  String get transaction_amount_required => 'Ingresa un monto';
+
+  @override
+  String get transaction_amount_invalid => 'Numero invalido';
+
+  @override
+  String get transaction_description_label => 'Descripcion';
+
+  @override
+  String get transaction_description_required => 'Ingresa una descripcion';
+
+  @override
+  String get save_transaction_button => 'Guardar transaccion';
+
+  @override
+  String get budget_empty_title => 'Aun no hay presupuestos';
+
+  @override
+  String get budget_empty_message => 'El seguimiento de presupuesto estara disponible pronto.';
+
+  @override
   String get retry_button => 'Reintentar';
 
   @override

@@ -7,6 +7,7 @@ class ProfileState {
     required this.profile,
     required this.fullNameDraft,
     required this.selectedLanguageCode,
+    required this.selectedThemeMode,
     this.pendingAvatarBytes,
     this.pendingAvatarExtension,
     this.isSaving = false,
@@ -17,6 +18,7 @@ class ProfileState {
   final Profile profile;
   final String fullNameDraft;
   final String selectedLanguageCode;
+  final String selectedThemeMode;
   final Uint8List? pendingAvatarBytes;
   final String? pendingAvatarExtension;
   final bool isSaving;
@@ -27,6 +29,7 @@ class ProfileState {
     Profile? profile,
     String? fullNameDraft,
     String? selectedLanguageCode,
+    String? selectedThemeMode,
     Uint8List? pendingAvatarBytes,
     String? pendingAvatarExtension,
     bool clearPendingAvatar = false,
@@ -40,6 +43,7 @@ class ProfileState {
       profile: profile ?? this.profile,
       fullNameDraft: fullNameDraft ?? this.fullNameDraft,
       selectedLanguageCode: selectedLanguageCode ?? this.selectedLanguageCode,
+      selectedThemeMode: selectedThemeMode ?? this.selectedThemeMode,
       pendingAvatarBytes: clearPendingAvatar ? null : pendingAvatarBytes ?? this.pendingAvatarBytes,
       pendingAvatarExtension: clearPendingAvatar
           ? null

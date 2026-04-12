@@ -12,6 +12,7 @@ abstract interface class ProfileRepository {
     required String fullName,
     String? avatarUrl,
     String? languageCode,
+    String? themeMode,
   });
 
   Future<Either<Failure, String>> uploadAvatar({

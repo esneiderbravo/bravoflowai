@@ -5,6 +5,25 @@
   "profile_title": "Profile",
   "save_button": "Save",
   "language_label": "Language",
+  "theme_label": "Theme",
+  "theme_system": "System default",
+  "theme_dark": "Dark",
+  "theme_light": "Light",
+  "theme_updated_successfully": "Theme updated.",
+  "theme_update_failed": "Could not update theme preference.",
+  "transactions_empty_title": "No transactions yet",
+  "transactions_empty_message": "Tap + to add your first one.",
+  "add_transaction_title": "Add transaction",
+  "transaction_type_expense": "Expense",
+  "transaction_type_income": "Income",
+  "transaction_amount_label": "Amount",
+  "transaction_amount_required": "Enter an amount",
+  "transaction_amount_invalid": "Invalid number",
+  "transaction_description_label": "Description",
+  "transaction_description_required": "Enter a description",
+  "save_transaction_button": "Save transaction",
+  "budget_empty_title": "No budgets yet",
+  "budget_empty_message": "Budget tracking is coming soon.",
   "retry_button": "Retry",
   "full_name_label": "Full name",
   "email_label": "Email",
@@ -45,4 +64,3 @@
     }
   }
 }
-

@@ -29,8 +29,9 @@ class AuthForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppConstants.spacingLg),
@@ -51,7 +52,7 @@ class AuthForm extends StatelessWidget {
               const SizedBox(height: AppConstants.spacingXs),
               Text(
                 subtitle,
-                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.bodyMedium.copyWith(color: colorScheme.onSurfaceVariant),
               ),
               const SizedBox(height: AppConstants.spacingXl),
 
@@ -70,12 +71,12 @@ class AuthForm extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: isLoading ? null : onSubmit,
                   child: isLoading
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.textPrimary,
+                            color: colorScheme.onPrimary,
                           ),
                         )
                       : Text(submitLabel),

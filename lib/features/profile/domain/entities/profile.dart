@@ -8,6 +8,7 @@ class Profile extends Equatable {
     required this.email,
     required this.avatarUrl,
     required this.languageCode,
+    required this.themeMode,
     required this.createdAt,
   });
 
@@ -16,8 +17,17 @@ class Profile extends Equatable {
   final String email;
   final String? avatarUrl;
   final String languageCode;
+  final String themeMode;
   final DateTime createdAt;
 
   @override
-  List<Object?> get props => <Object?>[id, fullName, email, avatarUrl, languageCode, createdAt];
+  List<Object?> get props => <Object?>[
+    id,
+    fullName,
+    email,
+    avatarUrl,
+    languageCode,
+    themeMode,
+    createdAt,
+  ];
 }

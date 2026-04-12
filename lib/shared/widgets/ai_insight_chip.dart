@@ -13,13 +13,15 @@ class AiInsightChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppConstants.spacingMd,
         vertical: AppConstants.spacingMd,
       ),
       decoration: BoxDecoration(
-        color: AppColors.cardDark,
+        color: colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(AppConstants.radiusLg),
         border: Border.all(color: AppColors.violetAI.withValues(alpha: 0.3)),
       ),

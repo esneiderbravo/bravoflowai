@@ -48,10 +48,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          SnackBar(
-            content: Text(l10n.photo_permission_required),
-            backgroundColor: AppColors.error,
-          ),
+          SnackBar(content: Text(l10n.photo_permission_required), backgroundColor: AppColors.error),
         );
     }
   }
@@ -102,9 +99,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final state = ref.watch(profileControllerProvider);
 
     return state.when(
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.backgroundDark,
-        body: Center(child: CircularProgressIndicator()),
+      loading: () => Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary),
+        ),
       ),
       error: (error, _) {
         final message = error is AppException ? error.failure.userMessage : error.toString();
@@ -199,6 +197,37 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   .updateSelectedLanguageCode(value);
                             },
                     ),
+                    const SizedBox(height: AppSpacing.md),
+                    DropdownButtonFormField<String>(
+                      initialValue: data.selectedThemeMode,
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        labelText: context.l10n.theme_label,
+                        prefixIcon: const Icon(Icons.dark_mode_outlined),
+                      ),
+                      items: <DropdownMenuItem<String>>[
+                        DropdownMenuItem<String>(
+                          value: 'system',
+                          child: Text(context.l10n.theme_system),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: 'dark',
+                          child: Text(context.l10n.theme_dark),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: 'light',
+                          child: Text(context.l10n.theme_light),
+                        ),
+                      ],
+                      onChanged: data.isSaving
+                          ? null
+                          : (value) {
+                              if (value == null || value == data.selectedThemeMode) return;
+                              ref
+                                  .read(profileControllerProvider.notifier)
+                                  .updateSelectedThemeMode(value);
+                            },
+                    ),
                     const SizedBox(height: AppSpacing.lg),
                     SizedBox(
                       height: AppSpacing.xl + AppSpacing.lg,
@@ -211,12 +240,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 }
                               },
                         child: data.isSaving
-                            ? const SizedBox(
+                            ? SizedBox(
                                 width: AppSpacing.md + AppSpacing.xs,
                                 height: AppSpacing.md + AppSpacing.xs,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: AppColors.textPrimary,
+                                  color: Theme.of(context).colorScheme.onPrimary,
                                 ),
                               )
                             : Text(context.l10n.save_changes_button),
@@ -246,6 +275,8 @@ class _AvatarEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     final imageProvider = pendingAvatarBytes != null
         ? MemoryImage(pendingAvatarBytes!) as ImageProvider
         : (currentAvatarUrl != null && currentAvatarUrl!.isNotEmpty)
@@ -259,12 +290,12 @@ class _AvatarEditor extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             radius: AppSpacing.xl + AppSpacing.md,
-            backgroundColor: AppColors.cardDark,
+            backgroundColor: colorScheme.surfaceContainerHighest,
             backgroundImage: imageProvider,
             child: imageProvider == null
-                ? const Icon(
+                ? Icon(
                     Icons.person_outline_rounded,
-                    color: AppColors.textSecondary,
+                    color: colorScheme.onSurfaceVariant,
                     size: AppSpacing.xl,
                   )
                 : null,
@@ -272,11 +303,7 @@ class _AvatarEditor extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: const BoxDecoration(color: AppColors.primaryBlue, shape: BoxShape.circle),
-            child: const Icon(
-              Icons.camera_alt_outlined,
-              size: AppSpacing.md,
-              color: AppColors.textPrimary,
-            ),
+            child: const Icon(Icons.camera_alt_outlined, size: AppSpacing.md, color: Colors.white),
           ),
         ],
       ),
