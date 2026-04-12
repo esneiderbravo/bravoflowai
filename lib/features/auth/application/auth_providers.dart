@@ -11,6 +11,4 @@ final authRepositoryProvider = Provider<AuthRepository>(
 );
 
 /// Provides the [AuthNotifier] — the single source of truth for auth state.
-final authNotifierProvider =
-    AsyncNotifierProvider<AuthNotifier, AppUser?>(AuthNotifier.new);
-
+final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, AppUser?>(AuthNotifier.new);

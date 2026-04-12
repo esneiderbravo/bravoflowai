@@ -42,4 +42,3 @@ extension ContextExtensions on BuildContext {
       );
   }
 }
-

@@ -3,8 +3,6 @@ import 'dashboard_notifier.dart';
 import 'dashboard_state.dart';
 
 /// Provides the [DashboardNotifier] to the presentation layer.
-final dashboardNotifierProvider =
-    AsyncNotifierProvider<DashboardNotifier, DashboardState>(
+final dashboardNotifierProvider = AsyncNotifierProvider<DashboardNotifier, DashboardState>(
   DashboardNotifier.new,
 );
-

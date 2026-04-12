@@ -6,14 +6,10 @@ import '../data/repositories/ai_repository_impl.dart';
 import 'ai_notifier.dart';
 
 /// Provides the [AiRepository] — rules-based for MVP, swappable for Phase 2.
-final aiRepositoryProvider = Provider<AiRepository>(
-  (ref) {
-    // Derive insights from the current transaction list (rules engine)
-    final transactions = ref.watch(transactionNotifierProvider).valueOrNull ?? [];
-    return RulesBasedAiRepositoryImpl(transactions: transactions);
-  },
-);
+final aiRepositoryProvider = Provider<AiRepository>((ref) {
+  // Derive insights from the current transaction list (rules engine)
+  final transactions = ref.watch(transactionNotifierProvider).valueOrNull ?? [];
+  return RulesBasedAiRepositoryImpl(transactions: transactions);
+});
 
-final aiNotifierProvider =
-    AsyncNotifierProvider<AiNotifier, List<AiInsight>>(AiNotifier.new);
-
+final aiNotifierProvider = AsyncNotifierProvider<AiNotifier, List<AiInsight>>(AiNotifier.new);

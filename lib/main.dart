@@ -15,11 +15,7 @@ Future<void> main() async {
   // Initialize Supabase
   await SupabaseService.initialize();
 
-  runApp(
-    const ProviderScope(
-      child: BravoFlowApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: BravoFlowApp()));
 }
 
 /// Root application widget.

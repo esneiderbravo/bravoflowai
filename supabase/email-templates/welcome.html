@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Welcome to BravoFlow AI</title>
+    <!--
+      BravoFlow AI — Welcome Email
+      ─────────────────────────────
+      Supabase slot : Auth > Email Templates > Confirm signup
+      Subject       : Welcome to BravoFlow AI 🚀 Take control of your financial flow
+
+      Before pasting into Supabase replace:
+        [APP_URL]        → your production URL  (e.g. https://bravoflowai.com)
+        [SUPPORT_EMAIL]  → support email address
+
+      Leave as-is (Supabase injects at send time):
+        {{ .ConfirmationURL }}
+    -->
+  </head>
+
+  <body style="margin:0;padding:0;background-color:#0b132b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0b132b;">
+      <tr>
+        <td align="center" style="padding:48px 16px;">
+
+          <!-- Card -->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background-color:#131d35;border-radius:20px;overflow:hidden;">
+
+            <!-- Header -->
+            <tr>
+              <td align="center" style="padding:36px 40px;background:linear-gradient(135deg,#3a86ff 0%,#7b61ff 60%,#00d4ff 100%);">
+                <p style="margin:0;font-size:26px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;">BravoFlow AI</p>
+                <p style="margin:6px 0 0;font-size:12px;font-weight:500;color:rgba(255,255,255,0.7);letter-spacing:2px;text-transform:uppercase;">AI-First Personal Finance</p>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding:40px 40px 36px;">
+                <h1 style="margin:0 0 16px;font-size:22px;font-weight:700;color:#ffffff;line-height:1.3;">Welcome aboard 🎉</h1>
+                <p style="margin:0 0 32px;font-size:15px;line-height:1.7;color:#9ca3af;">
+                  Your account is ready. Click below to confirm your email and start taking control of your financial flow.
+                </p>
+
+                <!-- CTA -->
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="center">
+                      <a href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#3a86ff 0%,#7b61ff 100%);color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;border-radius:12px;">
+                        Confirm my account →
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="margin:20px 0 0;font-size:12px;color:#4b5563;text-align:center;line-height:1.6;">
+                  Link expires in 24 hours. Didn't sign up? You can safely ignore this email.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:20px 40px;border-top:1px solid #1a2540;">
+                <p style="margin:0;font-size:12px;color:#4b5563;text-align:center;">
+                  BravoFlow AI &nbsp;·&nbsp;
+                  <a href="mailto:[SUPPORT_EMAIL]" style="color:#3a86ff;text-decoration:none;">Support</a>
+                  &nbsp;·&nbsp;
+                  <a href="[APP_URL]" style="color:#4b5563;text-decoration:none;">[APP_URL]</a>
+                </p>
+              </td>
+            </tr>
+
+          </table>
+          <!-- /card -->
+
+        </td>
+      </tr>
+    </table>
+
+  </body>
+</html>
+

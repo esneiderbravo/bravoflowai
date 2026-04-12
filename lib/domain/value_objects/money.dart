@@ -17,11 +17,11 @@ class Money extends Equatable {
   bool get isZero => amount == 0;
 
   String get currencySymbol => switch (currency) {
-        Currency.usd => '\$',
-        Currency.eur => '€',
-        Currency.gbp => '£',
-        Currency.brl => 'R\$',
-      };
+    Currency.usd => '\$',
+    Currency.eur => '€',
+    Currency.gbp => '£',
+    Currency.brl => 'R\$',
+  };
 
   Money operator +(Money other) {
     assert(currency == other.currency, 'Cannot add different currencies');
@@ -33,8 +33,7 @@ class Money extends Equatable {
     return Money(amount: amount - other.amount, currency: currency);
   }
 
-  Money operator *(double factor) =>
-      Money(amount: amount * factor, currency: currency);
+  Money operator *(double factor) => Money(amount: amount * factor, currency: currency);
 
   @override
   List<Object> get props => [amount, currency];
@@ -42,4 +41,3 @@ class Money extends Equatable {
   @override
   String toString() => '$currencySymbol${amount.toStringAsFixed(2)}';
 }
-

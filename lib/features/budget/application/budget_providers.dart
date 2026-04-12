@@ -6,13 +6,12 @@ import '../../../../domain/repositories/budget_repository.dart';
 import '../data/repositories/budget_repository_impl.dart';
 
 final budgetRepositoryProvider = Provider<BudgetRepository>(
-  (ref) => BudgetRepositoryImpl(
-    client: ref.read(supabaseClientProvider),
-  ),
+  (ref) => BudgetRepositoryImpl(client: ref.read(supabaseClientProvider)),
 );
 
-final budgetNotifierProvider =
-    AsyncNotifierProvider<BudgetNotifier, List<Budget>>(BudgetNotifier.new);
+final budgetNotifierProvider = AsyncNotifierProvider<BudgetNotifier, List<Budget>>(
+  BudgetNotifier.new,
+);
 
 /// Manages the list of [Budget] entities.
 class BudgetNotifier extends AsyncNotifier<List<Budget>> {
@@ -23,12 +22,10 @@ class BudgetNotifier extends AsyncNotifier<List<Budget>> {
   }
 
   Future<void> add(Budget budget) async {
-    final result =
-        await ref.read(budgetRepositoryProvider).create(budget);
+    final result = await ref.read(budgetRepositoryProvider).create(budget);
     result.match(
       (f) => state = AsyncError(AppException(f), StackTrace.current),
-      (saved) =>
-          state = AsyncData([saved, ...state.valueOrNull ?? []]),
+      (saved) => state = AsyncData([saved, ...state.valueOrNull ?? []]),
     );
   }
 
@@ -36,9 +33,7 @@ class BudgetNotifier extends AsyncNotifier<List<Budget>> {
     final result = await ref.read(budgetRepositoryProvider).delete(id);
     result.match(
       (f) => state = AsyncError(AppException(f), StackTrace.current),
-      (_) => state = AsyncData(
-        (state.valueOrNull ?? []).where((b) => b.id != id).toList(),
-      ),
+      (_) => state = AsyncData((state.valueOrNull ?? []).where((b) => b.id != id).toList()),
     );
   }
 
@@ -47,4 +42,3 @@ class BudgetNotifier extends AsyncNotifier<List<Budget>> {
     state = await AsyncValue.guard(build);
   }
 }
-

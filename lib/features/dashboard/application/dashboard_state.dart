@@ -28,7 +28,5 @@ class DashboardState extends Equatable {
   bool get isPositiveChange => monthlyChangePct >= 0;
 
   @override
-  List<Object> get props =>
-      [userName, totalBalance, monthlyChangePct, aiInsightPreviews];
+  List<Object> get props => [userName, totalBalance, monthlyChangePct, aiInsightPreviews];
 }
-

@@ -17,29 +17,28 @@ class TransactionDto {
   });
 
   factory TransactionDto.fromJson(Map<String, dynamic> json) => TransactionDto(
-        id: json['id'] as String,
-        userId: json['user_id'] as String,
-        amount: (json['amount'] as num).toDouble(),
-        categoryId: json['category_id'] as String? ?? '',
-        categoryName:
-            (json['categories'] as Map?)?['name'] as String? ?? 'Uncategorized',
-        description: json['description'] as String? ?? '',
-        date: json['date'] as String,
-        type: json['type'] as String,
-        createdAt: json['created_at'] as String,
-      );
+    id: json['id'] as String,
+    userId: json['user_id'] as String,
+    amount: (json['amount'] as num).toDouble(),
+    categoryId: json['category_id'] as String? ?? '',
+    categoryName: (json['categories'] as Map?)?['name'] as String? ?? 'Uncategorized',
+    description: json['description'] as String? ?? '',
+    date: json['date'] as String,
+    type: json['type'] as String,
+    createdAt: json['created_at'] as String,
+  );
 
   factory TransactionDto.fromDomain(Transaction t) => TransactionDto(
-        id: t.id,
-        userId: t.userId,
-        amount: t.amount.amount,
-        categoryId: t.category.id,
-        categoryName: t.category.name,
-        description: t.description,
-        date: t.date.toIso8601String().substring(0, 10),
-        type: t.type.name,
-        createdAt: t.createdAt.toIso8601String(),
-      );
+    id: t.id,
+    userId: t.userId,
+    amount: t.amount.amount,
+    categoryId: t.category.id,
+    categoryName: t.category.name,
+    description: t.description,
+    date: t.date.toIso8601String().substring(0, 10),
+    type: t.type.name,
+    createdAt: t.createdAt.toIso8601String(),
+  );
 
   final String id;
   final String userId;
@@ -53,20 +52,16 @@ class TransactionDto {
 
   /// Converts to the Supabase insert/update payload (no generated fields).
   Map<String, dynamic> toJson() => {
-        'user_id': userId,
-        'amount': amount,
-        'category_id': categoryId.isEmpty ? null : categoryId,
-        'description': description,
-        'date': date,
-        'type': type,
-      };
+    'user_id': userId,
+    'amount': amount,
+    'category_id': categoryId.isEmpty ? null : categoryId,
+    'description': description,
+    'date': date,
+    'type': type,
+  };
 
   Transaction toDomain() {
-    final category = Category(
-      id: categoryId,
-      userId: userId,
-      name: categoryName,
-    );
+    final category = Category(id: categoryId, userId: userId, name: categoryName);
     return Transaction(
       id: id,
       userId: userId,
@@ -79,4 +74,3 @@ class TransactionDto {
     );
   }
 }
-

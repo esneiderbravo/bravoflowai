@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../domain/entities/transaction.dart';
 import '../../../../core/utils/app_utils.dart';
+import '../../../../domain/entities/transaction.dart';
 
 /// A single row in the transaction list.
 class TransactionTile extends StatelessWidget {
-  const TransactionTile({
-    super.key,
-    required this.transaction,
-    this.onTap,
-    this.onDelete,
-  });
+  const TransactionTile({super.key, required this.transaction, this.onTap, this.onDelete});
 
   final Transaction transaction;
   final VoidCallback? onTap;
@@ -58,8 +54,11 @@ class TransactionTile extends StatelessWidget {
           if (onDelete != null) ...[
             const SizedBox(width: AppConstants.spacingXs),
             IconButton(
-              icon: const Icon(Icons.delete_outline_rounded,
-                  color: AppColors.textDisabled, size: 18),
+              icon: const Icon(
+                Icons.delete_outline_rounded,
+                color: AppColors.textDisabled,
+                size: 18,
+              ),
               onPressed: onDelete,
             ),
           ],
@@ -68,4 +67,3 @@ class TransactionTile extends StatelessWidget {
     );
   }
 }
-

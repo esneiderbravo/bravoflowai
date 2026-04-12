@@ -44,12 +44,11 @@ final class UnknownFailure extends Failure {
 /// Extension to convert a [Failure] to a user-facing message string.
 extension FailureExtension on Failure {
   String get userMessage => switch (this) {
-        ServerFailure(message: final m) => m,
-        NetworkFailure() => 'Please check your internet connection.',
-        AuthFailure(message: final m) => m,
-        CacheFailure() => 'Failed to access local storage.',
-        ValidationFailure(message: final m) => m,
-        UnknownFailure() => 'Something went wrong. Please try again.',
-      };
+    ServerFailure(message: final m) => m,
+    NetworkFailure() => 'Please check your internet connection.',
+    AuthFailure(message: final m) => m,
+    CacheFailure() => 'Failed to access local storage.',
+    ValidationFailure(message: final m) => m,
+    UnknownFailure() => 'Something went wrong. Please try again.',
+  };
 }
-

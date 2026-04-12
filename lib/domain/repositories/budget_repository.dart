@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
-import '../entities/budget.dart';
+
 import '../../core/error/failure.dart';
+import '../entities/budget.dart';
 
 /// Contract for budget CRUD operations.
 abstract interface class BudgetRepository {
@@ -16,4 +17,3 @@ abstract interface class BudgetRepository {
   /// Permanently deletes a budget by [id].
   Future<Either<Failure, Unit>> delete(String id);
 }
-

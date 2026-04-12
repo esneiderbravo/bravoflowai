@@ -1,8 +1,9 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:bravoflowai/features/auth/data/dtos/user_dto.dart';
-import 'package:bravoflowai/features/transactions/data/dtos/transaction_dto.dart';
-import 'package:bravoflowai/features/ai_insights/data/dtos/ai_insight_dto.dart';
 import 'package:bravoflowai/domain/entities/ai_insight.dart';
+import 'package:bravoflowai/features/ai_insights/data/dtos/ai_insight_dto.dart';
+import 'package:bravoflowai/features/auth/data/dtos/user_dto.dart';
+import 'package:bravoflowai/features/profile/data/dtos/profile_dto.dart';
+import 'package:bravoflowai/features/transactions/data/dtos/transaction_dto.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DTO mappings', () {
@@ -57,6 +58,21 @@ void main() {
       expect(insight.relatedTransactionIds, ['t1']);
       expect(dto.toJson()['title'], 'Forecast');
     });
+
+    test('ProfileDto maps json to domain', () {
+      final dto = ProfileDto.fromJson({
+        'id': 'u1',
+        'full_name': 'Jane Doe',
+        'email': 'jane@bravo.ai',
+        'avatar_url': 'https://cdn/avatar.png',
+        'created_at': '2026-04-11T00:00:00.000Z',
+      });
+
+      final profile = dto.toDomain();
+      expect(profile.id, 'u1');
+      expect(profile.fullName, 'Jane Doe');
+      expect(profile.email, 'jane@bravo.ai');
+      expect(profile.avatarUrl, 'https://cdn/avatar.png');
+    });
   });
 }
-

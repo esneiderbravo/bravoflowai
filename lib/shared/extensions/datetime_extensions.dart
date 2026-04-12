@@ -8,9 +8,7 @@ extension DateTimeExtensions on DateTime {
 
   bool get isYesterday {
     final yesterday = DateTime.now().subtract(const Duration(days: 1));
-    return year == yesterday.year &&
-        month == yesterday.month &&
-        day == yesterday.day;
+    return year == yesterday.year && month == yesterday.month && day == yesterday.day;
   }
 
   bool get isThisMonth {
@@ -32,8 +30,18 @@ extension DateTimeExtensions on DateTime {
   /// e.g. "Apr 11"
   String get toShortDateString {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[month - 1]} $day';
   }
@@ -41,8 +49,18 @@ extension DateTimeExtensions on DateTime {
   /// e.g. "Apr 11, 2026"
   String get toLongDateString {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return '${months[month - 1]} $day, $year';
   }
@@ -53,9 +71,7 @@ extension DateTimeExtensions on DateTime {
 
   // ── Start / end of period ────────────────────────────────────────────────
   DateTime get startOfDay => DateTime(year, month, day);
-  DateTime get endOfDay =>
-      DateTime(year, month, day, 23, 59, 59, 999);
+  DateTime get endOfDay => DateTime(year, month, day, 23, 59, 59, 999);
   DateTime get startOfMonth => DateTime(year, month);
   DateTime get startOfYear => DateTime(year);
 }
-

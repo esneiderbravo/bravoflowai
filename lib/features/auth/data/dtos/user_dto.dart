@@ -12,18 +12,14 @@ class UserDto {
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) => UserDto(
-        id: json['id'] as String,
-        email: json['email'] as String? ?? '',
-        name: json['name'] as String? ?? '',
-        currency: json['currency'] as String? ?? 'USD',
-        createdAt: json['created_at'] as String,
-      );
+    id: json['id'] as String,
+    email: json['email'] as String? ?? '',
+    name: json['name'] as String? ?? '',
+    currency: json['currency'] as String? ?? 'USD',
+    createdAt: json['created_at'] as String? ?? DateTime.now().toIso8601String(),
+  );
 
-  factory UserDto.fromSupabaseUser(
-    sb.User user, {
-    String name = '',
-    String currency = 'USD',
-  }) =>
+  factory UserDto.fromSupabaseUser(sb.User user, {String name = '', String currency = 'USD'}) =>
       UserDto(
         id: user.id,
         email: user.email ?? '',
@@ -38,18 +34,13 @@ class UserDto {
   final String currency;
   final String createdAt;
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'currency': currency,
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'currency': currency};
 
   AppUser toDomain() => AppUser(
-        id: id,
-        email: email,
-        name: name,
-        currency: currency,
-        createdAt: DateTime.parse(createdAt),
-      );
+    id: id,
+    email: email,
+    name: name,
+    currency: currency,
+    createdAt: DateTime.parse(createdAt),
+  );
 }
-

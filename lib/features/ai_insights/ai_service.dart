@@ -9,8 +9,7 @@ abstract final class AiService {
 
   /// Placeholder: Returns a static insight until the AI backend is wired up.
   static Future<String> getInsight(String context) async {
-    await Future.delayed(const Duration(milliseconds: 500)); // simulate latency
+    await Future<void>.delayed(const Duration(milliseconds: 500)); // simulate latency
     return 'AI insights coming soon — stay tuned!';
   }
 }
-

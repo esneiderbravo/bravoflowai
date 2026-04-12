@@ -23,11 +23,8 @@ abstract final class AppUtils {
   }
 
   /// Clamps a value between [min] and [max].
-  static double clamp(double value, double min, double max) =>
-      value.clamp(min, max);
+  static double clamp(double value, double min, double max) => value.clamp(min, max);
 
   /// Returns a BorderRadius using [AppConstants.radiusLg] by default.
-  static BorderRadius get defaultRadius =>
-      BorderRadius.circular(AppConstants.radiusLg);
+  static BorderRadius get defaultRadius => BorderRadius.circular(AppConstants.radiusLg);
 }
-

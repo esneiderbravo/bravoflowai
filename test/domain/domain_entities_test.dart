@@ -1,30 +1,18 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:bravoflowai/domain/entities/user.dart';
+import 'package:bravoflowai/domain/entities/ai_insight.dart';
+import 'package:bravoflowai/domain/entities/budget.dart';
 import 'package:bravoflowai/domain/entities/category.dart';
 import 'package:bravoflowai/domain/entities/transaction.dart';
-import 'package:bravoflowai/domain/entities/budget.dart';
-import 'package:bravoflowai/domain/entities/ai_insight.dart';
-import 'package:bravoflowai/domain/value_objects/money.dart';
+import 'package:bravoflowai/domain/entities/user.dart';
 import 'package:bravoflowai/domain/value_objects/date_range.dart';
+import 'package:bravoflowai/domain/value_objects/money.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Domain entities and value objects', () {
     test('AppUser equality works', () {
       final now = DateTime(2026, 4, 11);
-      final a = AppUser(
-        id: 'u1',
-        email: 'a@b.com',
-        name: 'Ana',
-        currency: 'USD',
-        createdAt: now,
-      );
-      final b = AppUser(
-        id: 'u1',
-        email: 'a@b.com',
-        name: 'Ana',
-        currency: 'USD',
-        createdAt: now,
-      );
+      final a = AppUser(id: 'u1', email: 'a@b.com', name: 'Ana', currency: 'USD', createdAt: now);
+      final b = AppUser(id: 'u1', email: 'a@b.com', name: 'Ana', currency: 'USD', createdAt: now);
       expect(a, b);
     });
 
@@ -38,10 +26,7 @@ void main() {
     });
 
     test('DateRange contains date', () {
-      final range = DateRange(
-        start: DateTime(2026, 4, 1),
-        end: DateTime(2026, 4, 30),
-      );
+      final range = DateRange(start: DateTime(2026, 4, 1), end: DateTime(2026, 4, 30));
       expect(range.contains(DateTime(2026, 4, 11)), isTrue);
       expect(range.contains(DateTime(2026, 5, 1)), isFalse);
     });
@@ -88,4 +73,3 @@ void main() {
     });
   });
 }
-

@@ -1,7 +1,8 @@
 import 'package:fpdart/fpdart.dart';
+
+import '../../core/error/failure.dart';
 import '../entities/transaction.dart';
 import '../value_objects/date_range.dart';
-import '../../core/error/failure.dart';
 
 /// Contract for transaction CRUD operations against the data source.
 abstract interface class TransactionRepository {
@@ -20,4 +21,3 @@ abstract interface class TransactionRepository {
   /// Permanently deletes a transaction by [id].
   Future<Either<Failure, Unit>> delete(String id);
 }
-

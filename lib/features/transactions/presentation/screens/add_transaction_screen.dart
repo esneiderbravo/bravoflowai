@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/constants/app_constants.dart';
 import '../../../../domain/entities/category.dart';
 import '../../../../domain/entities/transaction.dart';
 import '../../../../domain/value_objects/money.dart';
@@ -13,8 +14,7 @@ class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key});
 
   @override
-  ConsumerState<AddTransactionScreen> createState() =>
-      _AddTransactionScreenState();
+  ConsumerState<AddTransactionScreen> createState() => _AddTransactionScreenState();
 }
 
 class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
@@ -25,12 +25,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   bool _isLoading = false;
 
   // Placeholder category until categories feature is built
-  final _placeholderCategory = const Category(
-    id: '',
-    userId: '',
-    name: 'General',
-    isDefault: true,
-  );
+  final _placeholderCategory = const Category(id: '', userId: '', name: 'General', isDefault: true);
 
   @override
   void dispose() {
@@ -63,9 +58,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
-      appBar: AppBar(
-        title: Text('Add Transaction', style: AppTextStyles.headingLarge),
-      ),
+      appBar: AppBar(title: Text('Add Transaction', style: AppTextStyles.headingLarge)),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -88,16 +81,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   ),
                 ],
                 selected: {_type},
-                onSelectionChanged: (s) =>
-                    setState(() => _type = s.first),
+                onSelectionChanged: (s) => setState(() => _type = s.first),
               ),
               const SizedBox(height: AppConstants.spacingLg),
 
               // ── Amount ──────────────────────────────────────────────────
               TextFormField(
                 controller: _amountController,
-                keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   labelText: 'Amount',
                   prefixText: '\$ ',
@@ -118,9 +109,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   labelText: 'Description',
                   prefixIcon: Icon(Icons.notes_rounded),
                 ),
-                validator: (v) => (v == null || v.trim().isEmpty)
-                    ? 'Enter a description'
-                    : null,
+                validator: (v) => (v == null || v.trim().isEmpty) ? 'Enter a description' : null,
               ),
               const SizedBox(height: AppConstants.spacingXl),
 
@@ -134,8 +123,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: AppColors.textPrimary),
+                            strokeWidth: 2,
+                            color: AppColors.textPrimary,
+                          ),
                         )
                       : const Text('Save Transaction'),
                 ),
@@ -147,4 +137,3 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     );
   }
 }
-

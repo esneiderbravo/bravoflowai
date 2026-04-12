@@ -19,9 +19,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
           .from('budgets')
           .select('*, categories(name)')
           .order('starts_at', ascending: false);
-      final budgets = (rows as List)
-          .map((r) => _fromRow(r as Map<String, dynamic>))
-          .toList();
+      final budgets = (rows as List).map((r) => _fromRow(r as Map<String, dynamic>)).toList();
       return Right(budgets);
     } on sb.PostgrestException catch (e) {
       return Left(ServerFailure(e.message));
@@ -99,12 +97,10 @@ class BudgetRepositoryImpl implements BudgetRepository {
   }
 
   Map<String, dynamic> _toJson(Budget budget) => {
-        'user_id': budget.userId,
-        'category_id':
-            budget.category.id.isEmpty ? null : budget.category.id,
-        'amount': budget.amount.amount,
-        'period': budget.period.name,
-        'starts_at': budget.startsAt.toIso8601String().substring(0, 10),
-      };
+    'user_id': budget.userId,
+    'category_id': budget.category.id.isEmpty ? null : budget.category.id,
+    'amount': budget.amount.amount,
+    'period': budget.period.name,
+    'starts_at': budget.startsAt.toIso8601String().substring(0, 10),
+  };
 }
-

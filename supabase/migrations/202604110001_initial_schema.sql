@@ -58,27 +58,27 @@ alter table public.budgets enable row level security;
 alter table public.ai_insights enable row level security;
 
 -- Policies
-create policy if not exists "own_profile" on public.profiles
+create policy "own_profile" on public.profiles
   for all
   using (auth.uid() = id)
   with check (auth.uid() = id);
 
-create policy if not exists "own_categories" on public.categories
+create policy "own_categories" on public.categories
   for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
-create policy if not exists "own_transactions" on public.transactions
+create policy "own_transactions" on public.transactions
   for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
-create policy if not exists "own_budgets" on public.budgets
+create policy "own_budgets" on public.budgets
   for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
-create policy if not exists "own_ai_insights" on public.ai_insights
+create policy "own_ai_insights" on public.ai_insights
   for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);

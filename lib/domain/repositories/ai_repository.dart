@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
-import '../entities/ai_insight.dart';
+
 import '../../core/error/failure.dart';
+import '../entities/ai_insight.dart';
 
 /// Contract for AI insight retrieval and interaction.
 ///
@@ -17,9 +18,5 @@ abstract interface class AiRepository {
   ///
   /// MVP: returns a canned response.
   /// Phase 2: proxied through a Supabase Edge Function.
-  Future<Either<Failure, String>> chatQuery(
-    String prompt, {
-    String? userId,
-  });
+  Future<Either<Failure, String>> chatQuery(String prompt, {String? userId});
 }
-
