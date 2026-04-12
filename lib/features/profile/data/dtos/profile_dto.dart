@@ -6,6 +6,7 @@ class ProfileDto {
     required this.fullName,
     required this.email,
     required this.avatarUrl,
+    required this.languageCode,
     required this.createdAt,
   });
 
@@ -17,6 +18,7 @@ class ProfileDto {
       fullName: (fullName == null || fullName.isEmpty) ? fallbackName : fullName,
       email: json['email'] as String? ?? '',
       avatarUrl: json['avatar_url'] as String?,
+      languageCode: json['language_code'] as String? ?? 'es',
       createdAt: json['created_at'] as String? ?? DateTime.now().toIso8601String(),
     );
   }
@@ -25,14 +27,23 @@ class ProfileDto {
   final String fullName;
   final String email;
   final String? avatarUrl;
+  final String languageCode;
   final String createdAt;
 
-  Map<String, dynamic> toUpdateJson({required String updatedFullName, String? updatedAvatarUrl}) {
-    return <String, dynamic>{
+  Map<String, dynamic> toUpdateJson({
+    required String updatedFullName,
+    required String updatedLanguageCode,
+    String? updatedAvatarUrl,
+  }) {
+    final payload = <String, dynamic>{
       'full_name': updatedFullName,
       'name': updatedFullName,
-      'avatar_url': ?updatedAvatarUrl,
+      'language_code': updatedLanguageCode,
     };
+    if (updatedAvatarUrl != null) {
+      payload['avatar_url'] = updatedAvatarUrl;
+    }
+    return payload;
   }
 
   Profile toDomain() {
@@ -41,6 +52,7 @@ class ProfileDto {
       fullName: fullName,
       email: email,
       avatarUrl: avatarUrl,
+      languageCode: languageCode,
       createdAt: DateTime.parse(createdAt),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../constants/app_constants.dart';
+import '../i18n/app_localizations.dart';
 
 /// BravoFlow AI — General Utility Helpers
 abstract final class AppUtils {
@@ -14,12 +16,12 @@ abstract final class AppUtils {
     return '$symbol$intPart.${parts[1]}';
   }
 
-  /// Returns a greeting based on the current hour.
-  static String timeBasedGreeting() {
+  /// Returns a localized greeting based on the current hour.
+  static String timeBasedGreeting(AppLocalizations l10n) {
     final hour = TimeOfDay.now().hour;
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
+    if (hour < 12) return l10n.greeting_morning;
+    if (hour < 17) return l10n.greeting_afternoon;
+    return l10n.greeting_evening;
   }
 
   /// Clamps a value between [min] and [max].

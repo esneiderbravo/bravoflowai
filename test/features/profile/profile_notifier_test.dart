@@ -20,6 +20,7 @@ void main() {
     fullName: 'Jane Doe',
     email: 'jane@bravo.ai',
     avatarUrl: null,
+    languageCode: 'es',
     createdAt: DateTime(2026, 4, 11),
   );
 
@@ -50,6 +51,7 @@ void main() {
       () => repo.updateProfile(
         fullName: any(named: 'fullName'),
         avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
       ),
     ).thenAnswer(
       (_) async => Right(
@@ -58,6 +60,7 @@ void main() {
           fullName: 'Jane Updated',
           email: 'jane@bravo.ai',
           avatarUrl: 'https://cdn/avatar.png?v=1',
+          languageCode: 'es',
           createdAt: DateTime(2026, 4, 11),
         ),
       ),
@@ -82,7 +85,11 @@ void main() {
       ),
     ).called(1);
     verify(
-      () => repo.updateProfile(fullName: 'Jane Updated', avatarUrl: 'https://cdn/avatar.png?v=1'),
+      () => repo.updateProfile(
+        fullName: 'Jane Updated',
+        avatarUrl: 'https://cdn/avatar.png?v=1',
+        languageCode: any(named: 'languageCode'),
+      ),
     ).called(1);
 
     final state = container.read(profileControllerProvider).value!;
@@ -111,6 +118,7 @@ void main() {
       () => repo.updateProfile(
         fullName: any(named: 'fullName'),
         avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
       ),
     );
   });
@@ -122,6 +130,7 @@ void main() {
       () => repo.updateProfile(
         fullName: any(named: 'fullName'),
         avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
       ),
     ).thenAnswer((_) async {
       await Future<void>.delayed(const Duration(milliseconds: 10));
@@ -142,6 +151,58 @@ void main() {
       () => repo.updateProfile(
         fullName: 'Jane Doe',
         avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
+      ),
+    ).called(1);
+  });
+
+  test('language draft is persisted only when saveProfile is executed', () async {
+    final repo = MockProfileRepository();
+    when(() => repo.getCurrentProfile()).thenAnswer((_) async => Right(profile));
+    when(
+      () => repo.updateProfile(
+        fullName: any(named: 'fullName'),
+        avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
+      ),
+    ).thenAnswer(
+      (_) async => Right(
+        Profile(
+          id: 'u1',
+          fullName: 'Jane Doe',
+          email: 'jane@bravo.ai',
+          avatarUrl: null,
+          languageCode: 'en',
+          createdAt: DateTime(2026, 4, 11),
+        ),
+      ),
+    );
+
+    final container = ProviderContainer(
+      overrides: <Override>[profileRepositoryProvider.overrideWithValue(repo)],
+    );
+    addTearDown(container.dispose);
+
+    await container.read(profileControllerProvider.future);
+
+    final notifier = container.read(profileControllerProvider.notifier);
+    notifier.updateSelectedLanguageCode('en');
+
+    verifyNever(
+      () => repo.updateProfile(
+        fullName: any(named: 'fullName'),
+        avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
+      ),
+    );
+
+    await notifier.saveProfile();
+
+    verify(
+      () => repo.updateProfile(
+        fullName: 'Jane Doe',
+        avatarUrl: any(named: 'avatarUrl'),
+        languageCode: 'en',
       ),
     ).called(1);
   });

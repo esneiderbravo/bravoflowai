@@ -6,6 +6,7 @@ class ProfileState {
   const ProfileState({
     required this.profile,
     required this.fullNameDraft,
+    required this.selectedLanguageCode,
     this.pendingAvatarBytes,
     this.pendingAvatarExtension,
     this.isSaving = false,
@@ -15,6 +16,7 @@ class ProfileState {
 
   final Profile profile;
   final String fullNameDraft;
+  final String selectedLanguageCode;
   final Uint8List? pendingAvatarBytes;
   final String? pendingAvatarExtension;
   final bool isSaving;
@@ -24,6 +26,7 @@ class ProfileState {
   ProfileState copyWith({
     Profile? profile,
     String? fullNameDraft,
+    String? selectedLanguageCode,
     Uint8List? pendingAvatarBytes,
     String? pendingAvatarExtension,
     bool clearPendingAvatar = false,
@@ -36,6 +39,7 @@ class ProfileState {
     return ProfileState(
       profile: profile ?? this.profile,
       fullNameDraft: fullNameDraft ?? this.fullNameDraft,
+      selectedLanguageCode: selectedLanguageCode ?? this.selectedLanguageCode,
       pendingAvatarBytes: clearPendingAvatar ? null : pendingAvatarBytes ?? this.pendingAvatarBytes,
       pendingAvatarExtension: clearPendingAvatar
           ? null

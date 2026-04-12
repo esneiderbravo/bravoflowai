@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/i18n/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 
 /// Persistent bottom-navigation shell used by all main app routes.
@@ -9,10 +10,10 @@ class AppShell extends StatelessWidget {
   final Widget child;
 
   static const _tabs = [
-    _TabItem(icon: Icons.dashboard_outlined, label: 'Home', path: '/dashboard'),
-    _TabItem(icon: Icons.receipt_long_outlined, label: 'Transactions', path: '/transactions'),
-    _TabItem(icon: Icons.auto_awesome_outlined, label: 'AI', path: '/ai'),
-    _TabItem(icon: Icons.account_balance_wallet_outlined, label: 'Budget', path: '/budget'),
+    _TabItem(icon: Icons.dashboard_outlined, label: _TabLabel.home, path: '/dashboard'),
+    _TabItem(icon: Icons.receipt_long_outlined, label: _TabLabel.transactions, path: '/transactions'),
+    _TabItem(icon: Icons.auto_awesome_outlined, label: _TabLabel.ai, path: '/ai'),
+    _TabItem(icon: Icons.account_balance_wallet_outlined, label: _TabLabel.budget, path: '/budget'),
   ];
 
   int _locationToIndex(String location) {
@@ -37,11 +38,19 @@ class AppShell extends StatelessWidget {
         onDestinationSelected: (i) => context.go(_tabs[i].path),
         destinations: _tabs
             .map(
-              (t) => NavigationDestination(
+              (t) {
+                final label = switch (t.label) {
+                  _TabLabel.home => context.l10n.tab_home,
+                  _TabLabel.transactions => context.l10n.tab_transactions,
+                  _TabLabel.ai => context.l10n.tab_ai,
+                  _TabLabel.budget => context.l10n.tab_budget,
+                };
+                return NavigationDestination(
                 icon: Icon(t.icon, color: AppColors.textSecondary),
                 selectedIcon: Icon(t.icon, color: AppColors.primaryBlue),
-                label: t.label,
-              ),
+                label: label,
+              );
+              },
             )
             .toList(),
       ),
@@ -52,6 +61,9 @@ class AppShell extends StatelessWidget {
 class _TabItem {
   const _TabItem({required this.icon, required this.label, required this.path});
   final IconData icon;
-  final String label;
+  final _TabLabel label;
   final String path;
 }
+
+enum _TabLabel { home, transactions, ai, budget }
+

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -43,11 +44,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ref.read(profileControllerProvider.notifier).setPendingAvatar(bytes, ext);
     } on PlatformException {
       if (!mounted) return;
+      final l10n = context.l10n;
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(
-            content: Text('Photo permission is required. Enable it in Settings.'),
+          SnackBar(
+            content: Text(l10n.photo_permission_required),
             backgroundColor: AppColors.error,
           ),
         );
@@ -68,12 +70,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
       if (nextState?.successMessage != null &&
           prevState?.successMessage != nextState?.successMessage) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(content: Text(nextState!.successMessage!), backgroundColor: AppColors.success),
-          );
-        ref.read(profileControllerProvider.notifier).clearFeedback();
+        // Wait one frame so l10n reads the new locale after language-save updates.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          final l10n = context.l10n;
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(
+                  nextState!.successMessage == 'profile_saved_successfully'
+                      ? l10n.profile_saved_successfully
+                      : nextState.successMessage!,
+                ),
+                backgroundColor: AppColors.success,
+              ),
+            );
+          ref.read(profileControllerProvider.notifier).clearFeedback();
+        });
       }
 
       if (nextState?.errorMessage != null && prevState?.errorMessage != nextState?.errorMessage) {
@@ -95,7 +109,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       error: (error, _) {
         final message = error is AppException ? error.failure.userMessage : error.toString();
         return Scaffold(
-          appBar: AppBar(title: const Text('Profile')),
+          appBar: AppBar(title: Text(context.l10n.profile_title)),
           body: Center(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.lg),
@@ -106,7 +120,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const SizedBox(height: AppSpacing.md),
                   ElevatedButton(
                     onPressed: () => ref.read(profileControllerProvider.notifier).reload(),
-                    child: const Text('Retry'),
+                    child: Text(context.l10n.retry_button),
                   ),
                 ],
               ),
@@ -123,7 +137,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         }
 
         return Scaffold(
-          appBar: AppBar(title: const Text('Profile')),
+          appBar: AppBar(title: Text(context.l10n.profile_title)),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(AppSpacing.lg),
@@ -144,7 +158,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       controller: _fullNameController,
                       onChanged: ref.read(profileControllerProvider.notifier).updateFullName,
                       decoration: InputDecoration(
-                        labelText: 'Full name',
+                        labelText: context.l10n.full_name_label,
                         errorText: data.errorMessage,
                         prefixIcon: const Icon(Icons.person_outline_rounded),
                       ),
@@ -153,10 +167,37 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     TextFormField(
                       initialValue: data.profile.email,
                       enabled: false,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
+                      decoration: InputDecoration(
+                        labelText: context.l10n.email_label,
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    DropdownButtonFormField<String>(
+                      initialValue: data.selectedLanguageCode,
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        labelText: context.l10n.language_label,
+                        prefixIcon: const Icon(Icons.language_outlined),
+                      ),
+                      items: <DropdownMenuItem<String>>[
+                        DropdownMenuItem<String>(
+                          value: 'es',
+                          child: Text(context.l10n.language_spanish),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: 'en',
+                          child: Text(context.l10n.language_english),
+                        ),
+                      ],
+                      onChanged: data.isSaving
+                          ? null
+                          : (value) {
+                              if (value == null || value == data.selectedLanguageCode) return;
+                              ref
+                                  .read(profileControllerProvider.notifier)
+                                  .updateSelectedLanguageCode(value);
+                            },
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     SizedBox(
@@ -178,7 +219,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   color: AppColors.textPrimary,
                                 ),
                               )
-                            : const Text('Save changes'),
+                            : Text(context.l10n.save_changes_button),
                       ),
                     ),
                   ],

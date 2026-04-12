@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bravoflowai/core/i18n/app_localizations_delegate.dart';
 import 'package:bravoflowai/features/dashboard/application/dashboard_notifier.dart';
 import 'package:bravoflowai/features/dashboard/application/dashboard_providers.dart';
 import 'package:bravoflowai/features/dashboard/application/dashboard_state.dart';
@@ -40,7 +41,12 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [dashboardNotifierProvider.overrideWith(_LoadingDashboardNotifier.new)],
-        child: const MaterialApp(home: DashboardScreen()),
+        child: MaterialApp(
+          locale: const Locale('es'),
+          localizationsDelegates: AppLocalizationDelegates.delegates,
+          supportedLocales: AppLocalizationDelegates.supportedLocales,
+          home: const DashboardScreen(),
+        ),
       ),
     );
 
@@ -51,12 +57,17 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [dashboardNotifierProvider.overrideWith(_DataDashboardNotifier.new)],
-        child: const MaterialApp(home: DashboardScreen()),
+        child: MaterialApp(
+          locale: const Locale('es'),
+          localizationsDelegates: AppLocalizationDelegates.delegates,
+          supportedLocales: AppLocalizationDelegates.supportedLocales,
+          home: const DashboardScreen(),
+        ),
       ),
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Your Financial Overview'), findsOneWidget);
+    expect(find.text('Tu resumen financiero'), findsOneWidget);
     expect(find.text('Test insight'), findsOneWidget);
   });
 
@@ -64,7 +75,12 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [dashboardNotifierProvider.overrideWith(_ErrorDashboardNotifier.new)],
-        child: const MaterialApp(home: DashboardScreen()),
+        child: MaterialApp(
+          locale: const Locale('es'),
+          localizationsDelegates: AppLocalizationDelegates.delegates,
+          supportedLocales: AppLocalizationDelegates.supportedLocales,
+          home: const DashboardScreen(),
+        ),
       ),
     );
     await tester.pumpAndSettle();

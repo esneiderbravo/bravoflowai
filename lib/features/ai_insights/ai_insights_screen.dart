@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../domain/entities/ai_insight.dart';
@@ -33,7 +34,7 @@ class AiInsightsScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
-        title: Text('AI Insights', style: AppTextStyles.headingLarge),
+        title: Text(context.l10n.ai_insights, style: AppTextStyles.headingLarge),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded),

@@ -1,3 +1,4 @@
+import 'package:bravoflowai/core/i18n/app_localizations_delegate.dart';
 import 'package:bravoflowai/features/profile/application/profile_providers.dart';
 import 'package:bravoflowai/features/profile/domain/entities/profile.dart';
 import 'package:bravoflowai/features/profile/domain/repositories/profile_repository.dart';
@@ -16,6 +17,7 @@ void main() {
     fullName: 'Jane Doe',
     email: 'jane@bravo.ai',
     avatarUrl: null,
+    languageCode: 'es',
     createdAt: DateTime(2026, 4, 11),
   );
 
@@ -26,29 +28,36 @@ void main() {
       () => repo.updateProfile(
         fullName: any(named: 'fullName'),
         avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
       ),
     ).thenAnswer((_) async => Right(profile));
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[profileRepositoryProvider.overrideWithValue(repo)],
-        child: const MaterialApp(home: ProfileScreen()),
+        child: MaterialApp(
+          locale: const Locale('es'),
+          localizationsDelegates: AppLocalizationDelegates.delegates,
+          supportedLocales: AppLocalizationDelegates.supportedLocales,
+          home: const ProfileScreen(),
+        ),
       ),
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Profile'), findsOneWidget);
-    expect(find.text('Save changes'), findsOneWidget);
-    expect(find.widgetWithText(TextFormField, 'Email'), findsOneWidget);
+    expect(find.text('Perfil'), findsOneWidget);
+    expect(find.text('Guardar cambios'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'Correo'), findsOneWidget);
 
-    await tester.enterText(find.widgetWithText(TextFormField, 'Full name'), 'Jane Updated');
-    await tester.tap(find.text('Save changes'));
+    await tester.enterText(find.widgetWithText(TextFormField, 'Nombre completo'), 'Jane Updated');
+    await tester.tap(find.text('Guardar cambios'));
     await tester.pumpAndSettle();
 
     verify(
       () => repo.updateProfile(
         fullName: 'Jane Updated',
         avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
       ),
     ).called(1);
   });
@@ -62,13 +71,18 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[profileRepositoryProvider.overrideWithValue(repo)],
-        child: const MaterialApp(home: ProfileScreen()),
+        child: MaterialApp(
+          locale: const Locale('es'),
+          localizationsDelegates: AppLocalizationDelegates.delegates,
+          supportedLocales: AppLocalizationDelegates.supportedLocales,
+          home: const ProfileScreen(),
+        ),
       ),
     );
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.widgetWithText(TextFormField, 'Full name'), ' ');
-    await tester.tap(find.text('Save changes'));
+    await tester.enterText(find.widgetWithText(TextFormField, 'Nombre completo'), ' ');
+    await tester.tap(find.text('Guardar cambios'));
     await tester.pumpAndSettle();
 
     expect(find.text('Full name is required'), findsWidgets);
@@ -76,6 +90,7 @@ void main() {
       () => repo.updateProfile(
         fullName: any(named: 'fullName'),
         avatarUrl: any(named: 'avatarUrl'),
+        languageCode: any(named: 'languageCode'),
       ),
     );
   });
