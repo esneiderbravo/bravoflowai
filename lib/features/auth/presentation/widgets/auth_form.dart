@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/constants/app_constants.dart';
 
 /// Reusable auth form layout used by both Sign In and Sign Up.
 ///
@@ -39,25 +40,28 @@ class AuthForm extends StatelessWidget {
               const SizedBox(height: AppConstants.spacingXxl),
 
               // ── Brand ───────────────────────────────────────────────────
-              Text(AppConstants.appName,
-                  style: AppTextStyles.displayLarge
-                      .copyWith(color: AppColors.primaryBlue)),
+              Text(
+                AppConstants.appName,
+                style: AppTextStyles.displayLarge.copyWith(color: AppColors.primaryBlue),
+              ),
               const SizedBox(height: AppConstants.spacingLg),
 
               // ── Heading ─────────────────────────────────────────────────
               Text(title, style: AppTextStyles.headingLarge),
               const SizedBox(height: AppConstants.spacingXs),
-              Text(subtitle,
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: AppColors.textSecondary)),
+              Text(
+                subtitle,
+                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+              ),
               const SizedBox(height: AppConstants.spacingXl),
 
               // ── Fields ──────────────────────────────────────────────────
-              ...fields.map((f) => Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: AppConstants.spacingMd),
-                    child: f,
-                  )),
+              ...fields.map(
+                (f) => Padding(
+                  padding: const EdgeInsets.only(bottom: AppConstants.spacingMd),
+                  child: f,
+                ),
+              ),
               const SizedBox(height: AppConstants.spacingSm),
 
               // ── Submit ───────────────────────────────────────────────────
@@ -78,10 +82,7 @@ class AuthForm extends StatelessWidget {
                 ),
               ),
 
-              if (footer != null) ...[
-                const SizedBox(height: AppConstants.spacingMd),
-                footer!,
-              ],
+              if (footer != null) ...[const SizedBox(height: AppConstants.spacingMd), footer!],
             ],
           ),
         ),
@@ -89,4 +90,3 @@ class AuthForm extends StatelessWidget {
     );
   }
 }
-

@@ -33,7 +33,5 @@ class Transaction extends Equatable {
   bool get isExpense => type == TransactionType.expense;
 
   @override
-  List<Object> get props =>
-      [id, userId, amount, category, description, date, type, createdAt];
+  List<Object> get props => [id, userId, amount, category, description, date, type, createdAt];
 }
-

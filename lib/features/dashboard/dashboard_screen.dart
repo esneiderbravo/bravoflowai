@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_text_styles.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../core/constants/app_constants.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_gradients.dart';
+import '../../../core/theme/app_text_styles.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../shared/widgets/ai_insight_chip.dart';
 import '../../../shared/widgets/loading_overlay.dart';
@@ -29,13 +32,13 @@ class DashboardScreen extends ConsumerWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: AppConstants.spacingMd),
-            child: CircleAvatar(
-              radius: 18,
-              backgroundColor: AppColors.cardDark,
-              child: const Icon(
-                Icons.person_outline_rounded,
-                color: AppColors.textSecondary,
-                size: 20,
+            child: InkWell(
+              onTap: () => context.go('/profile'),
+              borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+              child: const CircleAvatar(
+                radius: 18,
+                backgroundColor: AppColors.cardDark,
+                child: Icon(Icons.person_outline_rounded, color: AppColors.textSecondary, size: 20),
               ),
             ),
           ),
@@ -43,14 +46,11 @@ class DashboardScreen extends ConsumerWidget {
       ),
       body: state.when(
         loading: () => const LoadingOverlay(),
-        error: (e, _) => Center(
-          child: Text(e.toString(), style: AppTextStyles.bodyMedium),
-        ),
+        error: (e, _) => Center(child: Text(e.toString(), style: AppTextStyles.bodyMedium)),
         data: (dashboard) => SafeArea(
           child: RefreshIndicator(
             color: AppColors.primaryBlue,
-            onRefresh: () =>
-                ref.read(dashboardNotifierProvider.notifier).refresh(),
+            onRefresh: () => ref.read(dashboardNotifierProvider.notifier).refresh(),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(AppConstants.spacingMd),
@@ -60,14 +60,10 @@ class DashboardScreen extends ConsumerWidget {
                   // ── Greeting ──────────────────────────────────────────
                   Text(
                     '${AppUtils.timeBasedGreeting()}, ${dashboard.userName} 👋',
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary),
+                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
                   ),
                   const SizedBox(height: AppConstants.spacingSm),
-                  Text(
-                    'Your Financial Overview',
-                    style: AppTextStyles.displayMedium,
-                  ),
+                  Text('Your Financial Overview', style: AppTextStyles.displayMedium),
                   const SizedBox(height: AppConstants.spacingLg),
 
                   // ── Balance Card ───────────────────────────────────────
@@ -89,9 +85,8 @@ class DashboardScreen extends ConsumerWidget {
                           vertical: AppConstants.spacingXs,
                         ),
                         decoration: BoxDecoration(
-                          gradient: AppColors.primaryGradient,
-                          borderRadius: BorderRadius.circular(
-                              AppConstants.radiusFull),
+                          gradient: AppGradients.primary,
+                          borderRadius: BorderRadius.circular(AppConstants.radiusFull),
                         ),
                         child: Text('BETA', style: AppTextStyles.labelSmall),
                       ),
@@ -100,12 +95,8 @@ class DashboardScreen extends ConsumerWidget {
                   const SizedBox(height: AppConstants.spacingMd),
                   ...dashboard.aiInsightPreviews.map(
                     (insight) => Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: AppConstants.spacingSm),
-                      child: AiInsightChip(
-                        icon: Icons.lightbulb_outline_rounded,
-                        label: insight,
-                      ),
+                      padding: const EdgeInsets.only(bottom: AppConstants.spacingSm),
+                      child: AiInsightChip(icon: Icons.lightbulb_outline_rounded, label: insight),
                     ),
                   ),
                   const SizedBox(height: AppConstants.spacingLg),

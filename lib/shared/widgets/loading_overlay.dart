@@ -9,12 +9,6 @@ class LoadingOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(
-        color: color,
-        strokeWidth: 2.5,
-      ),
-    );
+    return Center(child: CircularProgressIndicator(color: color, strokeWidth: 2.5));
   }
 }
-

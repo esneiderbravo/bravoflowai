@@ -10,16 +10,9 @@ class AppShell extends StatelessWidget {
 
   static const _tabs = [
     _TabItem(icon: Icons.dashboard_outlined, label: 'Home', path: '/dashboard'),
-    _TabItem(
-        icon: Icons.receipt_long_outlined,
-        label: 'Transactions',
-        path: '/transactions'),
-    _TabItem(
-        icon: Icons.auto_awesome_outlined, label: 'AI', path: '/ai'),
-    _TabItem(
-        icon: Icons.account_balance_wallet_outlined,
-        label: 'Budget',
-        path: '/budget'),
+    _TabItem(icon: Icons.receipt_long_outlined, label: 'Transactions', path: '/transactions'),
+    _TabItem(icon: Icons.auto_awesome_outlined, label: 'AI', path: '/ai'),
+    _TabItem(icon: Icons.account_balance_wallet_outlined, label: 'Budget', path: '/budget'),
   ];
 
   int _locationToIndex(String location) {
@@ -57,10 +50,8 @@ class AppShell extends StatelessWidget {
 }
 
 class _TabItem {
-  const _TabItem(
-      {required this.icon, required this.label, required this.path});
+  const _TabItem({required this.icon, required this.label, required this.path});
   final IconData icon;
   final String label;
   final String path;
 }
-

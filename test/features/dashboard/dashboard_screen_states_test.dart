@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test/flutter_test.dart';
-
-import 'package:bravoflowai/features/dashboard/dashboard_screen.dart';
 import 'package:bravoflowai/features/dashboard/application/dashboard_notifier.dart';
 import 'package:bravoflowai/features/dashboard/application/dashboard_providers.dart';
 import 'package:bravoflowai/features/dashboard/application/dashboard_state.dart';
+import 'package:bravoflowai/features/dashboard/dashboard_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 class _LoadingDashboardNotifier extends DashboardNotifier {
   @override
@@ -40,9 +39,7 @@ void main() {
   testWidgets('DashboardScreen shows loading state', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          dashboardNotifierProvider.overrideWith(_LoadingDashboardNotifier.new),
-        ],
+        overrides: [dashboardNotifierProvider.overrideWith(_LoadingDashboardNotifier.new)],
         child: const MaterialApp(home: DashboardScreen()),
       ),
     );
@@ -53,9 +50,7 @@ void main() {
   testWidgets('DashboardScreen shows data state', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          dashboardNotifierProvider.overrideWith(_DataDashboardNotifier.new),
-        ],
+        overrides: [dashboardNotifierProvider.overrideWith(_DataDashboardNotifier.new)],
         child: const MaterialApp(home: DashboardScreen()),
       ),
     );
@@ -68,9 +63,7 @@ void main() {
   testWidgets('DashboardScreen shows error state', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          dashboardNotifierProvider.overrideWith(_ErrorDashboardNotifier.new),
-        ],
+        overrides: [dashboardNotifierProvider.overrideWith(_ErrorDashboardNotifier.new)],
         child: const MaterialApp(home: DashboardScreen()),
       ),
     );

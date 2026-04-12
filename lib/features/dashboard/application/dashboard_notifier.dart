@@ -27,4 +27,3 @@ class DashboardNotifier extends AsyncNotifier<DashboardState> {
     state = await AsyncValue.guard(build);
   }
 }
-

@@ -28,4 +28,3 @@ abstract final class AppConstants {
   static const String envSupabaseUrl = 'SUPABASE_URL';
   static const String envSupabaseAnonKey = 'SUPABASE_ANON_KEY';
 }
-

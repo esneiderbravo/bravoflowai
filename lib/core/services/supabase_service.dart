@@ -16,11 +16,7 @@ abstract final class SupabaseService {
     assert(url.isNotEmpty, 'SUPABASE_URL is missing from .env');
     assert(anonKey.isNotEmpty, 'SUPABASE_ANON_KEY is missing from .env');
 
-    await Supabase.initialize(
-      url: url,
-      anonKey: anonKey,
-      debug: false,
-    );
+    await Supabase.initialize(url: url, anonKey: anonKey, debug: false);
   }
 
   /// Returns the singleton [SupabaseClient] instance.
@@ -35,4 +31,3 @@ abstract final class SupabaseService {
   /// Returns `true` when a user is signed in.
   static bool get isAuthenticated => currentUser != null;
 }
-

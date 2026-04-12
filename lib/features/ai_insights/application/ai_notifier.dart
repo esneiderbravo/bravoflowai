@@ -11,8 +11,7 @@ class AiNotifier extends AsyncNotifier<List<AiInsight>> {
   @override
   Future<List<AiInsight>> build() async {
     final userId = ref.read(currentUserIdProvider);
-    final result =
-        await ref.read(aiRepositoryProvider).getInsights(userId);
+    final result = await ref.read(aiRepositoryProvider).getInsights(userId);
     return result.getOrElse((f) => throw AppException(f));
   }
 

@@ -1,17 +1,14 @@
+import 'package:bravoflowai/shared/widgets/ai_insight_chip.dart';
+import 'package:bravoflowai/shared/widgets/gradient_card.dart';
+import 'package:bravoflowai/shared/widgets/loading_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:bravoflowai/shared/widgets/gradient_card.dart';
-import 'package:bravoflowai/shared/widgets/ai_insight_chip.dart';
-import 'package:bravoflowai/shared/widgets/loading_overlay.dart';
 
 void main() {
   testWidgets('GradientCard renders child', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
-        home: Scaffold(
-          body: GradientCard(child: Text('hello')),
-        ),
+        home: Scaffold(body: GradientCard(child: Text('hello'))),
       ),
     );
 
@@ -22,10 +19,7 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: AiInsightChip(
-            icon: Icons.lightbulb_outline_rounded,
-            label: 'Insight text',
-          ),
+          body: AiInsightChip(icon: Icons.lightbulb_outline_rounded, label: 'Insight text'),
         ),
       ),
     );
@@ -34,13 +28,8 @@ void main() {
   });
 
   testWidgets('LoadingOverlay shows spinner', (tester) async {
-    await tester.pumpWidget(
-      const MaterialApp(
-        home: Scaffold(body: LoadingOverlay()),
-      ),
-    );
+    await tester.pumpWidget(const MaterialApp(home: Scaffold(body: LoadingOverlay())));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 }
-

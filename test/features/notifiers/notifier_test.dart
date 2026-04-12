@@ -1,8 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
-import 'package:mocktail/mocktail.dart';
-
 import 'package:bravoflowai/core/error/failure.dart';
 import 'package:bravoflowai/core/services/app_providers.dart';
 import 'package:bravoflowai/domain/entities/ai_insight.dart';
@@ -19,10 +14,17 @@ import 'package:bravoflowai/features/ai_insights/application/ai_providers.dart';
 import 'package:bravoflowai/features/auth/application/auth_providers.dart';
 import 'package:bravoflowai/features/budget/application/budget_providers.dart';
 import 'package:bravoflowai/features/transactions/application/transaction_providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:mocktail/mocktail.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
+
 class MockTransactionRepository extends Mock implements TransactionRepository {}
+
 class MockBudgetRepository extends Mock implements BudgetRepository {}
+
 class MockAiRepository extends Mock implements AiRepository {}
 
 void main() {
@@ -65,15 +67,20 @@ void main() {
     );
 
     when(() => repo.getCurrentUser()).thenAnswer((_) async => const Right(null));
-    when(() => repo.signIn(email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => Right(user));
+    when(
+      () => repo.signIn(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => Right(user));
 
     final container = ProviderContainer(
       overrides: [authRepositoryProvider.overrideWithValue(repo)],
     );
     addTearDown(container.dispose);
 
-    await container.read(authNotifierProvider.notifier)
+    await container
+        .read(authNotifierProvider.notifier)
         .signIn(email: 'user@mail.com', password: '123456');
 
     expect(container.read(authNotifierProvider).value?.id, 'u1');
@@ -81,8 +88,7 @@ void main() {
 
   test('TransactionNotifier adds item', () async {
     final repo = MockTransactionRepository();
-    when(() => repo.getAll())
-        .thenAnswer((_) async => const Right([]));
+    when(() => repo.getAll()).thenAnswer((_) async => const Right([]));
     when(() => repo.create(tx)).thenAnswer((_) async => Right(tx));
 
     final container = ProviderContainer(
@@ -130,8 +136,7 @@ void main() {
 
   test('Notifier surfaces failures', () async {
     final repo = MockTransactionRepository();
-    when(() => repo.getAll())
-        .thenAnswer((_) async => const Left(ServerFailure('fail')));
+    when(() => repo.getAll()).thenAnswer((_) async => const Left(ServerFailure('fail')));
 
     final container = ProviderContainer(
       overrides: [transactionRepositoryProvider.overrideWithValue(repo)],

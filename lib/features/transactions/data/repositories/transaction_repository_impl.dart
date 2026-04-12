@@ -13,25 +13,22 @@ class TransactionRepositoryImpl implements TransactionRepository {
   final sb.SupabaseClient client;
 
   @override
-  Future<Either<Failure, List<Transaction>>> getAll({
-    DateRange? range,
-  }) async {
+  Future<Either<Failure, List<Transaction>>> getAll({DateRange? range}) async {
     try {
       final rows = range == null
           ? await client
-              .from('transactions')
-              .select('*, categories(name)')
-              .order('date', ascending: false)
+                .from('transactions')
+                .select('*, categories(name)')
+                .order('date', ascending: false)
           : await client
-              .from('transactions')
-              .select('*, categories(name)')
-              .gte('date', range.start.toIso8601String().substring(0, 10))
-              .lte('date', range.end.toIso8601String().substring(0, 10))
-              .order('date', ascending: false);
+                .from('transactions')
+                .select('*, categories(name)')
+                .gte('date', range.start.toIso8601String().substring(0, 10))
+                .lte('date', range.end.toIso8601String().substring(0, 10))
+                .order('date', ascending: false);
 
       final transactions = (rows as List)
-          .map((r) => TransactionDto.fromJson(r as Map<String, dynamic>)
-              .toDomain())
+          .map((r) => TransactionDto.fromJson(r as Map<String, dynamic>).toDomain())
           .toList();
       return Right(transactions);
     } on sb.PostgrestException catch (e) {

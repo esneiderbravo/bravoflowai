@@ -25,4 +25,3 @@ class AppUser extends Equatable {
   @override
   List<Object> get props => [id, email, name, currency, createdAt];
 }
-

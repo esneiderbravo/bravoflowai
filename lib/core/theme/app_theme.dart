@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'app_colors.dart';
+import 'app_spacing.dart';
+import 'app_text_styles.dart';
 
 /// BravoFlow AI — Global Theme Configuration
 abstract final class AppTheme {
@@ -22,7 +25,19 @@ abstract final class AppTheme {
         onError: AppColors.textPrimary,
       ),
 
-      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      // Map AppTextStyles tokens to the Material TextTheme slots.
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
+        displayLarge: AppTextStyles.displayLarge,
+        displayMedium: AppTextStyles.displayMedium,
+        headlineLarge: AppTextStyles.headingLarge,
+        headlineMedium: AppTextStyles.headingMedium,
+        headlineSmall: AppTextStyles.headingSmall,
+        bodyLarge: AppTextStyles.bodyLarge,
+        bodyMedium: AppTextStyles.bodyMedium,
+        bodySmall: AppTextStyles.bodySmall,
+        labelMedium: AppTextStyles.labelMedium,
+        labelSmall: AppTextStyles.labelSmall,
+      ),
 
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.backgroundDark,
@@ -34,23 +49,16 @@ abstract final class AppTheme {
       cardTheme: CardThemeData(
         color: AppColors.cardDark,
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusLg)),
       ),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryBlue,
           foregroundColor: AppColors.textPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          textStyle: GoogleFonts.inter(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusMd)),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 14),
+          textStyle: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600),
         ),
       ),
 
@@ -58,17 +66,17 @@ abstract final class AppTheme {
         filled: true,
         fillColor: AppColors.cardDark,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
           borderSide: BorderSide.none,
         ),
-        hintStyle: TextStyle(color: AppColors.textDisabled),
+        hintStyle: const TextStyle(color: AppColors.textDisabled),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
       ),
 
-      dividerTheme: const DividerThemeData(
-        color: AppColors.cardDark,
-        thickness: 1,
-      ),
+      dividerTheme: const DividerThemeData(color: AppColors.cardDark, thickness: 1),
     );
   }
 }
-

@@ -17,14 +17,9 @@ class AuthNotifier extends AsyncNotifier<AppUser?> {
     return result.getOrElse((_) => null);
   }
 
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signIn({required String email, required String password}) async {
     state = const AsyncLoading();
-    final result = await ref
-        .read(authRepositoryProvider)
-        .signIn(email: email, password: password);
+    final result = await ref.read(authRepositoryProvider).signIn(email: email, password: password);
     state = result.match(
       (failure) => AsyncError(AppException(failure), StackTrace.current),
       AsyncData.new,
@@ -37,11 +32,9 @@ class AuthNotifier extends AsyncNotifier<AppUser?> {
     required String name,
   }) async {
     state = const AsyncLoading();
-    final result = await ref.read(authRepositoryProvider).signUp(
-          email: email,
-          password: password,
-          name: name,
-        );
+    final result = await ref
+        .read(authRepositoryProvider)
+        .signUp(email: email, password: password, name: name);
     state = result.match(
       (failure) => AsyncError(AppException(failure), StackTrace.current),
       AsyncData.new,
@@ -53,4 +46,3 @@ class AuthNotifier extends AsyncNotifier<AppUser?> {
     state = const AsyncData(null);
   }
 }
-

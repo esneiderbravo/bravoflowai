@@ -1,0 +1,15 @@
+Welcome to BravoFlow AI 🚀
+==========================
+
+Welcome aboard 🎉
+
+Your account is ready. Click the link below to confirm your email
+and start taking control of your financial flow.
+
+→ {{ .ConfirmationURL }}
+
+Link expires in 24 hours.
+Didn't sign up? You can safely ignore this email.
+
+──────────────────────────────
+BravoFlow AI · [SUPPORT_EMAIL] · [APP_URL]

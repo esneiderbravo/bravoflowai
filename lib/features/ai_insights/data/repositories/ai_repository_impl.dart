@@ -25,23 +25,22 @@ class RulesBasedAiRepositoryImpl implements AiRepository {
 
       // ── Rule 1: High spending month ──────────────────────────────────────
       final thisMonthExpenses = transactions
-          .where((t) =>
-              t.isExpense &&
-              t.date.year == now.year &&
-              t.date.month == now.month)
+          .where((t) => t.isExpense && t.date.year == now.year && t.date.month == now.month)
           .fold(0.0, (sum, t) => sum + t.amount.amount);
 
       if (thisMonthExpenses > 1000) {
-        insights.add(AiInsight(
-          id: nextId(),
-          userId: userId,
-          type: AiInsightType.spending,
-          title: 'High spending this month',
-          body:
-              'You\'ve spent \$${thisMonthExpenses.toStringAsFixed(0)} this month. '
-              'Consider reviewing your discretionary expenses.',
-          generatedAt: now,
-        ));
+        insights.add(
+          AiInsight(
+            id: nextId(),
+            userId: userId,
+            type: AiInsightType.spending,
+            title: 'High spending this month',
+            body:
+                'You\'ve spent \$${thisMonthExpenses.toStringAsFixed(0)} this month. '
+                'Consider reviewing your discretionary expenses.',
+            generatedAt: now,
+          ),
+        );
       }
 
       // ── Rule 2: Income vs expense balance ────────────────────────────────
@@ -53,43 +52,48 @@ class RulesBasedAiRepositoryImpl implements AiRepository {
           .fold(0.0, (sum, t) => sum + t.amount.amount);
 
       if (income > 0 && expenses / income > 0.9) {
-        insights.add(AiInsight(
-          id: nextId(),
-          userId: userId,
-          type: AiInsightType.alert,
-          title: 'Spending close to income',
-          body:
-              'Your expenses are ${((expenses / income) * 100).toStringAsFixed(0)}% '
-              'of your income. Try to keep this below 80%.',
-          generatedAt: now,
-        ));
+        insights.add(
+          AiInsight(
+            id: nextId(),
+            userId: userId,
+            type: AiInsightType.alert,
+            title: 'Spending close to income',
+            body:
+                'Your expenses are ${((expenses / income) * 100).toStringAsFixed(0)}% '
+                'of your income. Try to keep this below 80%.',
+            generatedAt: now,
+          ),
+        );
       }
 
       // ── Rule 3: Saving opportunity ───────────────────────────────────────
       if (income > 0 && expenses / income < 0.6) {
-        insights.add(AiInsight(
-          id: nextId(),
-          userId: userId,
-          type: AiInsightType.saving,
-          title: 'Great saving potential',
-          body:
-              'You\'re spending only ${((expenses / income) * 100).toStringAsFixed(0)}% '
-              'of your income. Consider investing the surplus.',
-          generatedAt: now,
-        ));
+        insights.add(
+          AiInsight(
+            id: nextId(),
+            userId: userId,
+            type: AiInsightType.saving,
+            title: 'Great saving potential',
+            body:
+                'You\'re spending only ${((expenses / income) * 100).toStringAsFixed(0)}% '
+                'of your income. Consider investing the surplus.',
+            generatedAt: now,
+          ),
+        );
       }
 
       // ── Default: no data yet ──────────────────────────────────────────────
       if (insights.isEmpty) {
-        insights.add(AiInsight(
-          id: nextId(),
-          userId: userId,
-          type: AiInsightType.prediction,
-          title: 'Add more transactions',
-          body:
-              'Add your income and expenses to start receiving personalised AI insights.',
-          generatedAt: now,
-        ));
+        insights.add(
+          AiInsight(
+            id: nextId(),
+            userId: userId,
+            type: AiInsightType.prediction,
+            title: 'Add more transactions',
+            body: 'Add your income and expenses to start receiving personalised AI insights.',
+            generatedAt: now,
+          ),
+        );
       }
 
       return Right(insights);
@@ -99,13 +103,9 @@ class RulesBasedAiRepositoryImpl implements AiRepository {
   }
 
   @override
-  Future<Either<Failure, String>> chatQuery(
-    String prompt, {
-    String? userId,
-  }) async {
+  Future<Either<Failure, String>> chatQuery(String prompt, {String? userId}) async {
     // Phase 2: proxy through Supabase Edge Function + LLM
-    return const Right(
-        'AI chat is coming in Phase 2. Add transactions to get started!');
+    return const Right('AI chat is coming in Phase 2. Add transactions to get started!');
   }
 }
 
@@ -114,4 +114,3 @@ class RulesBasedAiRepositoryImpl implements AiRepository {
 extension AiInsightPersistence on AiInsight {
   AiInsightDto toDto() => AiInsightDto.fromDomain(this);
 }
-

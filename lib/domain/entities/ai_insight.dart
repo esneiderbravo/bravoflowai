@@ -31,7 +31,14 @@ class AiInsight extends Equatable {
   final List<String> relatedTransactionIds;
 
   @override
-  List<Object> get props =>
-      [id, userId, type, title, body, confidence, generatedAt, relatedTransactionIds];
+  List<Object> get props => [
+    id,
+    userId,
+    type,
+    title,
+    body,
+    confidence,
+    generatedAt,
+    relatedTransactionIds,
+  ];
 }
-

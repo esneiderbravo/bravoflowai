@@ -18,30 +18,12 @@ abstract final class AppColors {
   static const Color textDisabled = Color(0xFF4B5563);
 
   // ── Status ─────────────────────────────────────────────────────────────────
-  static const Color success = Color(0xFF10B981);
+  static const Color success = Color(0xFF22C55E);
   static const Color error = Color(0xFFEF4444);
   static const Color warning = Color(0xFFF59E0B);
 
-  // ── Gradients ──────────────────────────────────────────────────────────────
-  static const LinearGradient primaryGradient = LinearGradient(
-    colors: [primaryBlue, violetAI, accentCyan],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
-
-  static const LinearGradient backgroundGradient = LinearGradient(
-    colors: [backgroundDark, surfaceDark],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
-
   // ── Glow / AI Accent ───────────────────────────────────────────────────────
   static List<BoxShadow> aiGlow(Color color) => [
-        BoxShadow(
-          color: color.withValues(alpha: 0.35),
-          blurRadius: 20,
-          spreadRadius: 2,
-        ),
-      ];
+    BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 20, spreadRadius: 2),
+  ];
 }
-

@@ -6,13 +6,9 @@ import '../data/repositories/transaction_repository_impl.dart';
 import 'transaction_notifier.dart';
 
 final transactionRepositoryProvider = Provider<TransactionRepository>(
-  (ref) => TransactionRepositoryImpl(
-    client: ref.read(supabaseClientProvider),
-  ),
+  (ref) => TransactionRepositoryImpl(client: ref.read(supabaseClientProvider)),
 );
 
-final transactionNotifierProvider =
-    AsyncNotifierProvider<TransactionNotifier, List<Transaction>>(
+final transactionNotifierProvider = AsyncNotifierProvider<TransactionNotifier, List<Transaction>>(
   TransactionNotifier.new,
 );
-
