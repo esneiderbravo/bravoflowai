@@ -34,6 +34,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           'name': fallbackName,
           'full_name': fallbackName,
           'email': user.email,
+          'language_code': 'es',
           'currency': 'USD',
         };
 
@@ -50,6 +51,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
         ProfileDto.fromJson(<String, dynamic>{
           ...row,
           'email': row['email'] ?? user.email,
+          'language_code': sanitizeLanguageCode(row['language_code'] as String?),
         }).toDomain(),
       );
     } on sb.AuthException catch (e) {
@@ -72,6 +74,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<Either<Failure, Profile>> updateProfile({
     required String fullName,
     String? avatarUrl,
+    String? languageCode,
   }) async {
     try {
       final user = client.auth.currentUser;
@@ -79,7 +82,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
         return const Left(AuthFailure('No authenticated user found.'));
       }
 
-      final payload = profileUpdatePayload(fullName: fullName, avatarUrl: avatarUrl);
+      final payload = profileUpdatePayload(
+        fullName: fullName,
+        avatarUrl: avatarUrl,
+        languageCode: languageCode,
+      );
       await client.from('profiles').update(payload).eq('id', user.id);
       return getCurrentProfile();
     } on sb.AuthException catch (e) {
@@ -140,8 +147,25 @@ class ProfileRepositoryImpl implements ProfileRepository {
     return '$userId/avatar.$normalized';
   }
 
-  static Map<String, dynamic> profileUpdatePayload({required String fullName, String? avatarUrl}) {
-    return <String, dynamic>{'name': fullName, 'full_name': fullName, 'avatar_url': ?avatarUrl};
+  static Map<String, dynamic> profileUpdatePayload({
+    required String fullName,
+    String? avatarUrl,
+    String? languageCode,
+  }) {
+    final payload = <String, dynamic>{
+      'name': fullName,
+      'full_name': fullName,
+      'language_code': sanitizeLanguageCode(languageCode),
+    };
+    if (avatarUrl != null) {
+      payload['avatar_url'] = avatarUrl;
+    }
+    return payload;
+  }
+
+  static String sanitizeLanguageCode(String? languageCode) {
+    final code = languageCode?.trim().toLowerCase();
+    return code == 'en' ? 'en' : 'es';
   }
 
   String _contentTypeFor(String extension) {

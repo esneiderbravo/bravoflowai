@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_gradients.dart';
 import '../../../core/theme/app_text_styles.dart';
@@ -22,13 +23,14 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final state = ref.watch(dashboardNotifierProvider);
 
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
         backgroundColor: AppColors.backgroundDark,
-        title: Text(AppConstants.appName, style: AppTextStyles.headingLarge),
+        title: Text(l10n.app_title, style: AppTextStyles.headingLarge),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: AppConstants.spacingMd),
@@ -59,11 +61,14 @@ class DashboardScreen extends ConsumerWidget {
                 children: [
                   // ── Greeting ──────────────────────────────────────────
                   Text(
-                    '${AppUtils.timeBasedGreeting()}, ${dashboard.userName} 👋',
+                    l10n.greeting_with_name(
+                      AppUtils.timeBasedGreeting(l10n),
+                      dashboard.userName,
+                    ),
                     style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
                   ),
                   const SizedBox(height: AppConstants.spacingSm),
-                  Text('Your Financial Overview', style: AppTextStyles.displayMedium),
+                  Text(l10n.dashboard_overview, style: AppTextStyles.displayMedium),
                   const SizedBox(height: AppConstants.spacingLg),
 
                   // ── Balance Card ───────────────────────────────────────
@@ -77,7 +82,7 @@ class DashboardScreen extends ConsumerWidget {
                   // ── AI Insights ────────────────────────────────────────
                   Row(
                     children: [
-                      Text('AI Insights', style: AppTextStyles.headingMedium),
+                      Text(l10n.ai_insights, style: AppTextStyles.headingMedium),
                       const SizedBox(width: AppConstants.spacingSm),
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -88,7 +93,7 @@ class DashboardScreen extends ConsumerWidget {
                           gradient: AppGradients.primary,
                           borderRadius: BorderRadius.circular(AppConstants.radiusFull),
                         ),
-                        child: Text('BETA', style: AppTextStyles.labelSmall),
+                        child: Text(l10n.beta_label, style: AppTextStyles.labelSmall),
                       ),
                     ],
                   ),
@@ -102,7 +107,7 @@ class DashboardScreen extends ConsumerWidget {
                   const SizedBox(height: AppConstants.spacingLg),
 
                   // ── Quick Actions ─────────────────────────────────────
-                  Text('Quick Actions', style: AppTextStyles.headingMedium),
+                  Text(l10n.quick_actions, style: AppTextStyles.headingMedium),
                   const SizedBox(height: AppConstants.spacingMd),
                   const QuickActionsRow(),
                 ],

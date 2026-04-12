@@ -65,6 +65,7 @@ void main() {
         'full_name': 'Jane Doe',
         'email': 'jane@bravo.ai',
         'avatar_url': 'https://cdn/avatar.png',
+        'language_code': 'en',
         'created_at': '2026-04-11T00:00:00.000Z',
       });
 
@@ -73,6 +74,18 @@ void main() {
       expect(profile.fullName, 'Jane Doe');
       expect(profile.email, 'jane@bravo.ai');
       expect(profile.avatarUrl, 'https://cdn/avatar.png');
+      expect(profile.languageCode, 'en');
+    });
+
+    test('ProfileDto defaults language_code to es when absent', () {
+      final dto = ProfileDto.fromJson({
+        'id': 'u2',
+        'full_name': 'Carlos',
+        'email': 'carlos@bravo.ai',
+        'avatar_url': null,
+        'created_at': '2026-04-11T00:00:00.000Z',
+      });
+      expect(dto.toDomain().languageCode, 'es');
     });
   });
 }

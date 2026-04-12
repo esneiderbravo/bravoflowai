@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/i18n/app_locale_controller.dart';
 import '../domain/validation/profile_validation.dart';
 import 'profile_providers.dart';
 import 'profile_state.dart';
@@ -14,7 +15,11 @@ class ProfileController extends AsyncNotifier<ProfileState> {
     final result = await ref.read(profileRepositoryProvider).getCurrentProfile();
     return result.match(
       (failure) => throw AppException(failure),
-      (profile) => ProfileState(profile: profile, fullNameDraft: profile.fullName),
+      (profile) => ProfileState(
+        profile: profile,
+        fullNameDraft: profile.fullName,
+        selectedLanguageCode: profile.languageCode,
+      ),
     );
   }
 
@@ -43,6 +48,20 @@ class ProfileController extends AsyncNotifier<ProfileState> {
     final current = state.valueOrNull;
     if (current == null) return;
     state = AsyncData(current.copyWith(clearErrorMessage: true, clearSuccessMessage: true));
+  }
+
+  void updateSelectedLanguageCode(String languageCode) {
+    final current = state.valueOrNull;
+    if (current == null || current.isSaving) return;
+
+    final normalizedCode = languageCode.trim().toLowerCase() == 'en' ? 'en' : 'es';
+    state = AsyncData(
+      current.copyWith(
+        selectedLanguageCode: normalizedCode,
+        clearErrorMessage: true,
+        clearSuccessMessage: true,
+      ),
+    );
   }
 
   Future<void> reload() async {
@@ -84,18 +103,26 @@ class ProfileController extends AsyncNotifier<ProfileState> {
 
     final updateResult = await ref
         .read(profileRepositoryProvider)
-        .updateProfile(fullName: current.fullNameDraft.trim(), avatarUrl: uploadedAvatarUrl);
+        .updateProfile(
+          fullName: current.fullNameDraft.trim(),
+          avatarUrl: uploadedAvatarUrl,
+          languageCode: current.selectedLanguageCode,
+        );
 
     state = updateResult.match(
       (failure) => AsyncData(current.copyWith(isSaving: false, errorMessage: failure.userMessage)),
-      (profile) => AsyncData(
-        ProfileState(
-          profile: profile,
-          fullNameDraft: profile.fullName,
-          isSaving: false,
-          successMessage: 'Profile saved successfully.',
-        ),
-      ),
+      (profile) {
+        ref.read(appLocaleControllerProvider.notifier).setLanguageCode(profile.languageCode);
+        return AsyncData(
+          ProfileState(
+            profile: profile,
+            fullNameDraft: profile.fullName,
+            selectedLanguageCode: profile.languageCode,
+            isSaving: false,
+            successMessage: 'profile_saved_successfully',
+          ),
+        );
+      },
     );
   }
 }

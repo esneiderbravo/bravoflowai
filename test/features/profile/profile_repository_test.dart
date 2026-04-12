@@ -12,17 +12,26 @@ void main() {
       final payload = ProfileRepositoryImpl.profileUpdatePayload(
         fullName: 'Jane Doe',
         avatarUrl: 'https://cdn/avatar.png',
+        languageCode: 'en',
       );
 
       expect(payload['name'], 'Jane Doe');
       expect(payload['full_name'], 'Jane Doe');
+      expect(payload['language_code'], 'en');
       expect(payload['avatar_url'], 'https://cdn/avatar.png');
     });
 
     test('profileUpdatePayload omits avatar_url when null', () {
       final payload = ProfileRepositoryImpl.profileUpdatePayload(fullName: 'Jane Doe');
 
+      expect(payload['language_code'], 'es');
       expect(payload.containsKey('avatar_url'), isFalse);
+    });
+
+    test('sanitizeLanguageCode falls back to Spanish for unsupported values', () {
+      expect(ProfileRepositoryImpl.sanitizeLanguageCode('en'), 'en');
+      expect(ProfileRepositoryImpl.sanitizeLanguageCode('pt'), 'es');
+      expect(ProfileRepositoryImpl.sanitizeLanguageCode(null), 'es');
     });
   });
 }

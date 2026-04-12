@@ -1,0 +1,48 @@
+{
+  "@@locale": "en",
+  "app_title": "BravoFlow AI",
+  "welcome_message": "Welcome",
+  "profile_title": "Profile",
+  "save_button": "Save",
+  "language_label": "Language",
+  "retry_button": "Retry",
+  "full_name_label": "Full name",
+  "email_label": "Email",
+  "save_changes_button": "Save changes",
+  "photo_permission_required": "Photo permission is required. Enable it in Settings.",
+  "profile_saved_successfully": "Profile saved successfully.",
+  "language_spanish": "Espa\u00f1ol",
+  "language_english": "English",
+  "language_updated_successfully": "Language updated.",
+  "language_update_failed": "Could not update language preference.",
+  "dashboard_overview": "Your Financial Overview",
+  "ai_insights": "AI Insights",
+  "beta_label": "BETA",
+  "quick_actions": "Quick Actions",
+  "total_balance": "Total Balance",
+  "monthly_change": "{change}% this month",
+  "@monthly_change": {
+    "placeholders": {
+      "change": {}
+    }
+  },
+  "add_transaction": "Add\nTransaction",
+  "budget": "Budget",
+  "reports": "Reports",
+  "ai_chat": "AI Chat",
+  "tab_home": "Home",
+  "tab_transactions": "Transactions",
+  "tab_ai": "AI",
+  "tab_budget": "Budget",
+  "greeting_morning": "Good morning",
+  "greeting_afternoon": "Good afternoon",
+  "greeting_evening": "Good evening",
+  "greeting_with_name": "{greeting}, {name} \ud83d\udc4b",
+  "@greeting_with_name": {
+    "placeholders": {
+      "greeting": {},
+      "name": {}
+    }
+  }
+}
+
