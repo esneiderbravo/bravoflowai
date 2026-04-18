@@ -1,0 +1,10 @@
+pre-commit:
+  commands:
+    format:
+      run: dart format .
+      stage_fixed: true
+    fix:
+      run: dart fix --apply
+      stage_fixed: true
+    analyze:
+      run: flutter analyze

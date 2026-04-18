@@ -9,14 +9,15 @@ quality bar and architecture standards.
 
 1. Fork the repository and clone your fork
 2. Copy `.env.example` → `.env` and fill in your Supabase credentials
-3. Install dependencies and run quality checks
+3. Install dependencies and activate git hooks
 
 ```bash
 flutter pub get
-dart format .
-flutter analyze
-flutter test
+brew install lefthook   # macOS — see https://github.com/evilmartians/lefthook for other platforms
+lefthook install        # activates pre-commit hooks from lefthook.yml
 ```
+
+> **Note:** `lefthook install` must be run once after cloning. Without it, the pre-commit hooks won't fire locally. Some GUI git clients (e.g. Tower, SourceTree) may not invoke shell-based hooks — use the terminal to commit if hooks don't trigger.
 
 ---
 
