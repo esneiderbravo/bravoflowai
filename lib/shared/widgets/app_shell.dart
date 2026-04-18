@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/i18n/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 
@@ -12,28 +13,36 @@ import '../../core/theme/app_spacing.dart';
 /// Implements the Luminous Stratum glass bottom-nav:
 /// - [AppColors.surface] @ 90 % + backdrop blur 24
 /// - Rounded top corners at [AppSpacing.radiusXl]
-/// - 4 tabs: Home / Flow / Bravo AI / More
+/// - 3 tabs: Home / Flow / More
 /// - Active tab: [AppColors.primaryFixed] pill indicator
 class AppShell extends StatelessWidget {
   const AppShell({super.key, required this.child});
 
   final Widget child;
 
-  static const _tabs = [
-    _TabItem(icon: Icons.grid_view_rounded, label: 'Home', path: '/dashboard'),
-    _TabItem(icon: Icons.swap_horiz_rounded, label: 'Flow', path: '/transactions'),
-    _TabItem(icon: Icons.more_horiz_rounded, label: 'More', path: '/more'),
+  static const _tabPaths = ['/dashboard', '/transactions', '/more'];
+  static const _tabIcons = [
+    Icons.grid_view_rounded,
+    Icons.swap_horiz_rounded,
+    Icons.more_horiz_rounded,
   ];
 
   int _locationToIndex(String location) {
-    for (var i = 0; i < _tabs.length; i++) {
-      if (location.startsWith(_tabs[i].path)) return i;
+    for (var i = 0; i < _tabPaths.length; i++) {
+      if (location.startsWith(_tabPaths[i])) return i;
     }
     return 0;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final tabs = [
+      _TabItem(icon: _tabIcons[0], label: l10n.tab_home, path: _tabPaths[0]),
+      _TabItem(icon: _tabIcons[1], label: l10n.tab_flow, path: _tabPaths[1]),
+      _TabItem(icon: _tabIcons[2], label: l10n.tab_more, path: _tabPaths[2]),
+    ];
+
     final location = GoRouterState.of(context).matchedLocation;
     final currentIndex = _locationToIndex(location);
 
@@ -43,8 +52,8 @@ class AppShell extends StatelessWidget {
       body: child,
       bottomNavigationBar: _GlassNavBar(
         currentIndex: currentIndex,
-        tabs: _tabs,
-        onTap: (i) => context.go(_tabs[i].path),
+        tabs: tabs,
+        onTap: (i) => context.go(tabs[i].path),
       ),
     );
   }

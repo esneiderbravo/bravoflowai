@@ -8,6 +8,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../domain/entities/account.dart';
 import '../../../../domain/value_objects/money.dart';
+import '../../../../shared/extensions/context_extensions.dart';
 import '../../../../shared/widgets/gradient_button.dart';
 import '../../application/account_providers.dart';
 
@@ -66,12 +67,7 @@ class _AddEditAccountScreenState extends ConsumerState<AddEditAccountScreen> {
     // Warn user if editing an account with existing balance
     if (_isEditing && (_editingAccount?.initialBalance.amount ?? 0) > 0) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Balance will be recalculated based on transactions.'),
-            backgroundColor: AppColors.warning,
-          ),
-        );
+        context.showWarningSnack('Balance will be recalculated based on transactions.');
       }
     }
 

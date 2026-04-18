@@ -13,6 +13,7 @@ import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../shared/extensions/context_extensions.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../../../../shared/widgets/gradient_button.dart';
 import '../../../../shared/widgets/jeweled_icon.dart';
@@ -51,14 +52,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ref.read(profileControllerProvider.notifier).setPendingAvatar(bytes, ext);
     } on PlatformException {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(context.l10n.photo_permission_required),
-            backgroundColor: AppColors.error,
-          ),
-        );
+      context.showErrorSnack(context.l10n.photo_permission_required);
     }
   }
 
@@ -152,9 +146,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         final message = failure.userMessage == 'close_session_failed'
             ? context.l10n.close_session_failed
             : failure.userMessage;
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text(message), backgroundColor: AppColors.error));
+        context.showErrorSnack(message);
       }
     });
 
@@ -167,28 +159,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
           final l10n = context.l10n;
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(
-                  nextState!.successMessage == 'profile_saved_successfully'
-                      ? l10n.profile_saved_successfully
-                      : nextState.successMessage!,
-                ),
-                backgroundColor: AppColors.success,
-              ),
-            );
+          context.showSuccessSnack(
+            nextState!.successMessage == 'profile_saved_successfully'
+                ? l10n.profile_saved_successfully
+                : nextState.successMessage!,
+          );
           ref.read(profileControllerProvider.notifier).clearFeedback();
         });
       }
 
       if (nextState?.errorMessage != null && prevState?.errorMessage != nextState?.errorMessage) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(content: Text(nextState!.errorMessage!), backgroundColor: AppColors.error),
-          );
+        context.showErrorSnack(nextState!.errorMessage!);
       }
     });
 

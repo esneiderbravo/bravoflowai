@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../widgets/app_toast.dart';
 
 /// Convenience extensions on [BuildContext].
 extension ContextExtensions on BuildContext {
@@ -16,29 +16,9 @@ extension ContextExtensions on BuildContext {
   EdgeInsets get padding => MediaQuery.paddingOf(this);
   EdgeInsets get viewInsets => MediaQuery.viewInsetsOf(this);
 
-  // ── Navigation ───────────────────────────────────────────────────────────
-  void pop<T>([T? result]) => Navigator.of(this).pop(result);
-
-  // ── Snackbars ────────────────────────────────────────────────────────────
-  void showInfoSnack(String message) {
-    ScaffoldMessenger.of(this)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message, style: textTheme.bodySmall),
-          backgroundColor: colorScheme.surfaceContainerHighest,
-        ),
-      );
-  }
-
-  void showErrorSnack(String message) {
-    ScaffoldMessenger.of(this)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message, style: textTheme.bodySmall?.copyWith(color: Colors.white)),
-          backgroundColor: AppColors.error,
-        ),
-      );
-  }
+  // ── Toasts (top-anchored) ────────────────────────────────────────────────
+  void showInfoSnack(String message) => AppToast.info(this, message);
+  void showErrorSnack(String message) => AppToast.error(this, message);
+  void showSuccessSnack(String message) => AppToast.success(this, message);
+  void showWarningSnack(String message) => AppToast.warning(this, message);
 }

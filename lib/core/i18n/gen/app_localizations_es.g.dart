@@ -224,4 +224,58 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transfer_insufficient_balance => 'El monto supera el balance disponible';
+
+  @override
+  String get tab_home => 'Inicio';
+
+  @override
+  String get tab_flow => 'Flujo';
+
+  @override
+  String get tab_more => 'Más';
+
+  @override
+  String get sign_in_title => 'Bienvenido de vuelta';
+
+  @override
+  String get sign_in_subtitle => 'Inicia sesión en tu cuenta de BravoFlow AI.';
+
+  @override
+  String get sign_in_button => 'Iniciar sesión';
+
+  @override
+  String get sign_up_link => '¿No tienes cuenta? Regístrate';
+
+  @override
+  String get sign_up_title => 'Crear cuenta';
+
+  @override
+  String get sign_up_subtitle => 'Comienza tu viaje financiero con IA.';
+
+  @override
+  String get sign_up_button => 'Registrarse';
+
+  @override
+  String get sign_in_link => '¿Ya tienes cuenta? Inicia sesión';
+
+  @override
+  String get password_label => 'Contraseña';
+
+  @override
+  String get password_min_length => 'Mínimo 6 caracteres';
+
+  @override
+  String get email_invalid => 'Ingresa un correo válido';
+
+  @override
+  String get enter_your_name => 'Ingresa tu nombre';
+
+  @override
+  String get forgot_password => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get coming_soon => 'Próximamente';
+
+  @override
+  String get account_created_confirm => '¡Cuenta creada! Revisa tu correo para confirmar.';
 }

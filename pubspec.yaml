@@ -59,6 +59,7 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   mocktail: ^1.0.4
   flutter_native_splash: ^2.4.3
+  flutter_launcher_icons: ^0.14.3
 
 flutter:
   generate: true
@@ -67,6 +68,15 @@ flutter:
   assets:
     - .env
     - assets/images/bravoflow_logo.png
+    - assets/images/bravoflow_icon_solid.png
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/bravoflow_icon_solid.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#090d20"
+  adaptive_icon_foreground: "assets/images/bravoflow_logo.png"
 
 flutter_native_splash:
   color: "#090d20"

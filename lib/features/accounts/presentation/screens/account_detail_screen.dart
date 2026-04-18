@@ -8,6 +8,7 @@ import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../shared/extensions/context_extensions.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../../../../shared/widgets/gradient_button.dart';
 import '../../../../shared/widgets/jeweled_icon.dart';
@@ -28,9 +29,7 @@ class AccountDetailScreen extends ConsumerWidget {
     final transfers = ref.read(transferNotifierProvider(accountId)).valueOrNull ?? [];
 
     if (hasTxns || transfers.isNotEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.delete_account_has_transactions)));
+      context.showErrorSnack(l10n.delete_account_has_transactions);
       return;
     }
 

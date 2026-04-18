@@ -518,6 +518,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Amount exceeds available balance'**
   String get transfer_insufficient_balance;
+
+  /// No description provided for @tab_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get tab_home;
+
+  /// No description provided for @tab_flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Flow'**
+  String get tab_flow;
+
+  /// No description provided for @tab_more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get tab_more;
+
+  /// No description provided for @sign_in_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get sign_in_title;
+
+  /// No description provided for @sign_in_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to your BravoFlow AI account.'**
+  String get sign_in_subtitle;
+
+  /// No description provided for @sign_in_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get sign_in_button;
+
+  /// No description provided for @sign_up_link.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign Up'**
+  String get sign_up_link;
+
+  /// No description provided for @sign_up_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get sign_up_title;
+
+  /// No description provided for @sign_up_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your AI-powered financial journey.'**
+  String get sign_up_subtitle;
+
+  /// No description provided for @sign_up_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get sign_up_button;
+
+  /// No description provided for @sign_in_link.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign In'**
+  String get sign_in_link;
+
+  /// No description provided for @password_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password_label;
+
+  /// No description provided for @password_min_length.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum 6 characters'**
+  String get password_min_length;
+
+  /// No description provided for @email_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email'**
+  String get email_invalid;
+
+  /// No description provided for @enter_your_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get enter_your_name;
+
+  /// No description provided for @forgot_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgot_password;
+
+  /// No description provided for @coming_soon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get coming_soon;
+
+  /// No description provided for @account_created_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created! Check your email to confirm.'**
+  String get account_created_confirm;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

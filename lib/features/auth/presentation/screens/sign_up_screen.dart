@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/i18n/app_localizations.dart';
+import '../../../../shared/extensions/context_extensions.dart';
 import '../../application/auth_providers.dart';
 import '../widgets/auth_form.dart';
 
@@ -43,6 +44,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final authState = ref.watch(authNotifierProvider);
     final isLoading = authState.isLoading;
 
@@ -50,58 +52,48 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       // Sign-up succeeded but Supabase requires email confirmation (no session).
       // Transition: AsyncLoading → AsyncData(null)
       if (prev?.isLoading == true && !next.isLoading && !next.hasError && next.value == null) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            const SnackBar(
-              content: Text('Account created! Check your email to confirm.'),
-              backgroundColor: AppColors.success,
-              duration: Duration(seconds: 6),
-            ),
-          );
+        context.showSuccessSnack(context.l10n.account_created_confirm);
         context.go('/auth/sign-in');
         return;
       }
       if (next.hasError && next.error is AppException) {
         final msg = (next.error! as AppException).failure.userMessage;
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text(msg), backgroundColor: AppColors.error));
+        context.showErrorSnack(msg);
       }
     });
 
     return Form(
       key: _formKey,
       child: AuthForm(
-        title: 'Create account',
-        subtitle: 'Start your AI-powered financial journey.',
+        title: l10n.sign_up_title,
+        subtitle: l10n.sign_up_subtitle,
         isLoading: isLoading,
-        submitLabel: 'Sign Up',
+        submitLabel: l10n.sign_up_button,
         onSubmit: _submit,
         fields: [
           TextFormField(
             controller: _nameController,
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(
-              labelText: 'Full name',
-              prefixIcon: Icon(Icons.person_outline_rounded),
+            decoration: InputDecoration(
+              labelText: l10n.full_name_label,
+              prefixIcon: const Icon(Icons.person_outline_rounded),
             ),
-            validator: (v) => (v == null || v.trim().isEmpty) ? 'Enter your name' : null,
+            validator: (v) => (v == null || v.trim().isEmpty) ? l10n.enter_your_name : null,
           ),
           TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              prefixIcon: Icon(Icons.email_outlined),
+            decoration: InputDecoration(
+              labelText: l10n.email_label,
+              prefixIcon: const Icon(Icons.email_outlined),
             ),
-            validator: (v) => (v == null || !v.contains('@')) ? 'Enter a valid email' : null,
+            validator: (v) => (v == null || !v.contains('@')) ? l10n.email_invalid : null,
           ),
           TextFormField(
             controller: _passwordController,
             obscureText: _obscurePassword,
             decoration: InputDecoration(
-              labelText: 'Password',
+              labelText: l10n.password_label,
               prefixIcon: const Icon(Icons.lock_outline_rounded),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -110,10 +102,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
               ),
             ),
-            validator: (v) => (v == null || v.length < 6) ? 'Minimum 6 characters' : null,
+            validator: (v) => (v == null || v.length < 6) ? l10n.password_min_length : null,
           ),
         ],
-        footerLabel: 'Already have an account? Sign In',
+        footerLabel: l10n.sign_in_link,
         onFooterTap: () => context.go('/auth/sign-in'),
       ),
     );
