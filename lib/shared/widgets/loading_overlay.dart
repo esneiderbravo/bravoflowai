@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/app_colors.dart';
 
-/// Full-screen centered loading indicator using the BravoFlow AI accent colour.
+/// Full-screen centered loading indicator using the Luminous Stratum accent colour.
 class LoadingOverlay extends StatelessWidget {
-  const LoadingOverlay({super.key, this.color = AppColors.primaryBlue});
+  const LoadingOverlay({super.key, this.color = AppColors.primaryFixed});
 
   final Color color;
 

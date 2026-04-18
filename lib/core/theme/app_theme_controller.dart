@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
@@ -22,10 +20,11 @@ final appThemeBootstrapProvider = Provider<void>((ref) {
     await controller.loadPreferredThemeForCurrentUser();
   }
 
-  unawaited(syncFromSession());
+  // Defer to avoid modifying provider state during build phase.
+  Future.microtask(syncFromSession);
 
   ref.listen<AsyncValue<sb.AuthState>>(authStateProvider, (prev, next) {
-    unawaited(syncFromSession());
+    Future.microtask(syncFromSession);
   });
 });
 

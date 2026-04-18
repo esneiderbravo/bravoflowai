@@ -1,11 +1,8 @@
-/// BravoFlow AI — Spacing & Layout Tokens
+/// BravoFlow AI — Luminous Stratum Spacing & Layout Tokens
 ///
-/// Centralized spacing constants used for margins, paddings, gaps, and
-/// border radii throughout the application.  No magic numbers in widgets —
-/// always reference a token from this class.
+/// No magic numbers in widgets — always reference a token from this class.
 abstract final class AppSpacing {
-  // ── Base Spacing ────────────────────────────────────────────────────────────
-
+  // ── Base Spacing ───────────────────────────────────────────────────────────
   /// 4dp — micro gap, icon-text separation.
   static const double xs = 4;
 
@@ -21,17 +18,22 @@ abstract final class AppSpacing {
   /// 32dp — screen-level margin, hero sections.
   static const double xl = 32;
 
-  // ── Border Radius ───────────────────────────────────────────────────────────
+  /// 48dp — hero spacing, xxl sections.
+  static const double xxl = 48;
 
-  /// 8dp — chips, badges, small containers.
-  static const double radiusSm = 8;
+  // ── Border Radius ──────────────────────────────────────────────────────────
+  /// 16dp — small elements, tags.
+  static const double radiusSm = 16;
 
-  /// 12dp — buttons, text-fields, input fields.
-  static const double radiusMd = 12;
+  /// 24dp — input fields, action buttons.
+  static const double radiusMd = 24;
 
-  /// 16dp — cards, surface containers.
-  static const double radiusLg = 16;
+  /// 32dp — standard cards (2rem).
+  static const double radiusLg = 32;
 
-  /// 24dp — bottom sheets, dialogs, hero cards.
-  static const double radiusXl = 24;
+  /// 48dp — glass cards, modals, bottom nav top edge (3rem).
+  static const double radiusXl = 48;
+
+  /// 9999dp — buttons, pills, fully-rounded chips.
+  static const double radiusFull = 9999;
 }

@@ -12,12 +12,12 @@ abstract final class AppConstants {
   static const double spacingXl = 32.0;
   static const double spacingXxl = 48.0;
 
-  // ── Border Radius ──────────────────────────────────────────────────────────
-  static const double radiusSm = 8.0;
-  static const double radiusMd = 12.0;
-  static const double radiusLg = 16.0;
-  static const double radiusXl = 24.0;
-  static const double radiusFull = 999.0;
+  // ── Border Radius (Luminous Stratum tokens) ───────────────────────────────
+  static const double radiusSm = 16.0;
+  static const double radiusMd = 24.0;
+  static const double radiusLg = 32.0;
+  static const double radiusXl = 48.0;
+  static const double radiusFull = 9999.0;
 
   // ── Durations ──────────────────────────────────────────────────────────────
   static const Duration animationFast = Duration(milliseconds: 150);

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../domain/entities/account.dart';
 import '../../../../domain/value_objects/money.dart';
+import '../../../../shared/widgets/gradient_button.dart';
 import '../../application/account_providers.dart';
 
 class AddEditAccountScreen extends ConsumerStatefulWidget {
@@ -105,10 +106,11 @@ class _AddEditAccountScreenState extends ConsumerState<AddEditAccountScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+      backgroundColor: AppColors.surface,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Text(
           _isEditing ? l10n.edit_account : l10n.add_account,
           style: AppTextStyles.headingLarge,
@@ -117,7 +119,7 @@ class _AddEditAccountScreenState extends ConsumerState<AddEditAccountScreen> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppConstants.spacingMd),
+          padding: const EdgeInsets.all(AppSpacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -131,7 +133,7 @@ class _AddEditAccountScreenState extends ConsumerState<AddEditAccountScreen> {
                 validator: (v) =>
                     (v == null || v.trim().isEmpty) ? l10n.account_name_required : null,
               ),
-              const SizedBox(height: AppConstants.spacingMd),
+              const SizedBox(height: AppSpacing.md),
 
               // ── Account type ────────────────────────────────────────────
               DropdownButtonFormField<AccountType>(
@@ -154,7 +156,7 @@ class _AddEditAccountScreenState extends ConsumerState<AddEditAccountScreen> {
                   if (v != null) setState(() => _selectedType = v);
                 },
               ),
-              const SizedBox(height: AppConstants.spacingMd),
+              const SizedBox(height: AppSpacing.md),
 
               // ── Initial balance ─────────────────────────────────────────
               TextFormField(
@@ -173,24 +175,13 @@ class _AddEditAccountScreenState extends ConsumerState<AddEditAccountScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: AppConstants.spacingXl),
+              const SizedBox(height: AppSpacing.xl),
 
               // ── Submit ──────────────────────────────────────────────────
-              SizedBox(
-                height: 52,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _submit,
-                  child: _isLoading
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: colorScheme.onPrimary,
-                          ),
-                        )
-                      : Text(l10n.save_account_button),
-                ),
+              GradientButton(
+                label: l10n.save_account_button,
+                onPressed: _isLoading ? null : _submit,
+                isLoading: _isLoading,
               ),
             ],
           ),

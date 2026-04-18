@@ -2,28 +2,42 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-/// BravoFlow AI — Gradient Tokens
+/// BravoFlow AI — Luminous Stratum Gradient Tokens
 ///
-/// All gradient definitions are centralised here.  Never declare a
+/// All gradient definitions are centralized here.  Never declare a
 /// [LinearGradient] inline in widget code — always reference a token.
 abstract final class AppGradients {
-  // ── Brand ──────────────────────────────────────────────────────────────────
-
-  /// Primary AI gradient: primaryBlue → violetAI → accentCyan.
+  // ── The AI Gradient ───────────────────────────────────────────────────────
+  /// Primary AI gradient: neon cyan → electric violet at 135°.
   ///
-  /// Used for hero sections, AI badges, and call-to-action elements.
-  static const LinearGradient primary = LinearGradient(
-    colors: [AppColors.primaryBlue, AppColors.violetAI, AppColors.accentCyan],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+  /// Used for: primary CTAs, hero text clips, aura borders, splash logo,
+  /// verified badges, and any "digital energy" moment.
+  static const LinearGradient ai = LinearGradient(
+    colors: [AppColors.primary, AppColors.secondary],
+    begin: Alignment(-0.7071, -0.7071), // 135° in Flutter alignment space
+    end: Alignment(0.7071, 0.7071),
   );
 
-  // ── Background ─────────────────────────────────────────────────────────────
+  /// Same gradient at full-opacity for solid fills (buttons, badges).
+  static const LinearGradient aiSolid = LinearGradient(
+    colors: [AppColors.primaryFixed, AppColors.secondary],
+    begin: Alignment(-0.7071, -0.7071),
+    end: Alignment(0.7071, 0.7071),
+  );
 
-  /// Subtle full-screen background gradient: backgroundDark → surfaceDark.
+  // ── Background ────────────────────────────────────────────────────────────
+  /// Subtle full-screen background: surface → surfaceContainerLow.
   static const LinearGradient background = LinearGradient(
-    colors: [AppColors.backgroundDark, AppColors.surfaceDark],
+    colors: [AppColors.surface, AppColors.surfaceContainerLow],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  /// Returns a [Shader] from [aiSolid] sized to [bounds].
+  /// Use with [ShaderMask] to clip gradient over text or icons.
+  static Shader aiGradientShader(Rect bounds) => aiSolid.createShader(bounds);
+
+  // ── Backward-compat alias ─────────────────────────────────────────────────
+  static const LinearGradient primary = ai;
 }

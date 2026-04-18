@@ -1,24 +1,22 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/constants/app_constants.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_gradients.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../features/accounts/presentation/widgets/accounts_scroll_widget.dart';
 import '../../../shared/widgets/ai_insight_chip.dart';
 import '../../../shared/widgets/loading_overlay.dart';
 import 'application/dashboard_providers.dart';
-import 'presentation/widgets/balance_card.dart';
 import 'presentation/widgets/quick_actions_row.dart';
 
-/// BravoFlow AI — Dashboard Screen
-///
-/// Pure presentation: observes [dashboardNotifierProvider], renders state.
-/// No business logic lives here.
+/// BravoFlow AI — Dashboard Screen (Luminous Stratum redesign)
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
@@ -26,97 +24,182 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final state = ref.watch(dashboardNotifierProvider);
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.app_title, style: AppTextStyles.headingLarge),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: AppConstants.spacingMd),
-            child: InkWell(
-              onTap: () => context.go('/profile'),
-              borderRadius: BorderRadius.circular(AppConstants.radiusFull),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundColor: colorScheme.surfaceContainerHighest,
-                child: Icon(
-                  Icons.person_outline_rounded,
-                  color: colorScheme.onSurfaceVariant,
-                  size: 20,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: AppColors.surface,
+      extendBodyBehindAppBar: true,
+      appBar: _GlassAppBar(l10n: l10n),
       body: state.when(
         loading: () => const LoadingOverlay(),
         error: (e, _) => Center(child: Text(e.toString(), style: AppTextStyles.bodyMedium)),
         data: (dashboard) => SafeArea(
+          top: false,
           child: RefreshIndicator(
-            color: AppColors.primaryBlue,
+            color: AppColors.primaryFixed,
+            backgroundColor: AppColors.surfaceContainerHigh,
             onRefresh: () => ref.read(dashboardNotifierProvider.notifier).refresh(),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(AppConstants.spacingMd),
+              padding: const EdgeInsets.only(
+                top: kToolbarHeight + AppSpacing.xl + AppSpacing.lg,
+                bottom: 100,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Greeting ──────────────────────────────────────────
-                  Text(
-                    l10n.greeting_with_name(AppUtils.timeBasedGreeting(l10n), dashboard.userName),
-                    style: AppTextStyles.bodyMedium.copyWith(color: colorScheme.onSurfaceVariant),
-                  ),
-                  const SizedBox(height: AppConstants.spacingSm),
-                  Text(l10n.dashboard_overview, style: AppTextStyles.displayMedium),
-                  const SizedBox(height: AppConstants.spacingLg),
-
-                  // ── Accounts ──────────────────────────────────────────────
-                  Text(l10n.accounts_title, style: AppTextStyles.headingMedium),
-                  const SizedBox(height: AppConstants.spacingMd),
-                  const AccountsScrollWidget(),
-                  const SizedBox(height: AppConstants.spacingLg),
-
-                  // ── Balance Card ───────────────────────────────────────
-                  BalanceCard(
-                    totalBalance: dashboard.totalBalance,
-                    monthlyChangePct: dashboard.monthlyChangePct,
-                    isPositiveChange: dashboard.isPositiveChange,
-                  ),
-                  const SizedBox(height: AppConstants.spacingLg),
-
-                  // ── AI Insights ────────────────────────────────────────
-                  Row(
-                    children: [
-                      Text(l10n.ai_insights, style: AppTextStyles.headingMedium),
-                      const SizedBox(width: AppConstants.spacingSm),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppConstants.spacingSm,
-                          vertical: AppConstants.spacingXs,
+                  // ── Greeting ─────────────────────────────────────────────
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${AppUtils.timeBasedGreeting(l10n)}, ${dashboard.userName} 👋',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          gradient: AppGradients.primary,
-                          borderRadius: BorderRadius.circular(AppConstants.radiusFull),
-                        ),
-                        child: Text(l10n.beta_label, style: AppTextStyles.labelSmall),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppConstants.spacingMd),
-                  ...dashboard.aiInsightPreviews.map(
-                    (insight) => Padding(
-                      padding: const EdgeInsets.only(bottom: AppConstants.spacingSm),
-                      child: AiInsightChip(icon: Icons.lightbulb_outline_rounded, label: insight),
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(l10n.dashboard_overview, style: AppTextStyles.headingMedium),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: AppConstants.spacingLg),
+                  const SizedBox(height: AppSpacing.xl),
 
-                  // ── Quick Actions ─────────────────────────────────────
-                  Text(l10n.quick_actions, style: AppTextStyles.headingMedium),
-                  const SizedBox(height: AppConstants.spacingMd),
-                  const QuickActionsRow(),
+                  // ── Accounts Horizontal Scroll ────────────────────────────
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(l10n.accounts_title, style: AppTextStyles.titleLarge),
+                        GestureDetector(
+                          onTap: () => context.go('/more/accounts'),
+                          child: Text(
+                            'VIEW ALL',
+                            style: AppTextStyles.labelSmall.copyWith(
+                              color: AppColors.primaryFixed,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.6,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  const AccountsScrollWidget(),
+                  const SizedBox(height: AppSpacing.xl),
+
+                  // ── AI Insights ───────────────────────────────────────────
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(l10n.ai_insights, style: AppTextStyles.titleLarge),
+                            const SizedBox(width: AppSpacing.sm),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.sm,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.secondaryContainer,
+                                borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                              ),
+                              child: Text(
+                                l10n.beta_label,
+                                style: AppTextStyles.labelSmall.copyWith(
+                                  color: AppColors.secondaryFixed,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 0.8,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        ...dashboard.aiInsightPreviews.map(
+                          (insight) => Padding(
+                            padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                            child: AiInsightChip(label: insight),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+
+                  // ── Quick Actions ─────────────────────────────────────────
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(l10n.quick_actions, style: AppTextStyles.titleLarge),
+                        const SizedBox(height: AppSpacing.md),
+                        const QuickActionsGrid(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Glassmorphism app bar pinned at top.
+class _GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _GlassAppBar({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: Container(
+          color: AppColors.surface.withValues(alpha: 0.8),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Brand title
+                  ShaderMask(
+                    shaderCallback: (bounds) => const LinearGradient(
+                      colors: [AppColors.primaryFixed, AppColors.secondary],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(bounds),
+                    child: Text(
+                      'BravoFlow AI',
+                      style: GoogleFonts.manrope(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.3,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  // Notification bell
+                  const Icon(Icons.notifications_outlined, color: AppColors.primaryFixed, size: 24),
                 ],
               ),
             ),

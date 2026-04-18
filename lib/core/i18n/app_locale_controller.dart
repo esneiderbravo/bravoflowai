@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
@@ -23,10 +21,11 @@ final appLocaleBootstrapProvider = Provider<void>((ref) {
     await controller.loadPreferredLocaleForCurrentUser();
   }
 
-  unawaited(syncFromSession());
+  // Defer to avoid modifying provider state during build phase.
+  Future.microtask(syncFromSession);
 
   ref.listen<AsyncValue<sb.AuthState>>(authStateProvider, (prev, next) {
-    unawaited(syncFromSession());
+    Future.microtask(syncFromSession);
   });
 });
 

@@ -1,78 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/i18n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../shared/widgets/jeweled_icon.dart';
 
-/// Row of quick-action icon buttons with routes.
-class QuickActionsRow extends StatelessWidget {
-  const QuickActionsRow({super.key});
+/// 2 × 2 quick-action grid for the dashboard.
+class QuickActionsGrid extends StatelessWidget {
+  const QuickActionsGrid({super.key});
 
   static const _actions = [
-    _Action(Icons.add_circle_outline_rounded, '/transactions', _ActionLabel.addTransaction),
-    _Action(Icons.account_balance_wallet_outlined, '/budget', _ActionLabel.budget),
-    _Action(Icons.bar_chart_rounded, '/transactions', _ActionLabel.reports),
-    _Action(Icons.auto_awesome_rounded, '/ai', _ActionLabel.aiChat),
+    _Action(
+      icon: Icons.add_circle_outline_rounded,
+      iconColor: AppColors.primaryFixed,
+      path: '/transactions/add',
+      title: 'Add Transaction',
+      subtitle: 'Record recent spend',
+    ),
+    _Action(
+      icon: Icons.pie_chart_outline_rounded,
+      iconColor: AppColors.secondary,
+      path: '/budget',
+      title: 'Budget',
+      subtitle: 'Adjust limits',
+    ),
+    _Action(
+      icon: Icons.bar_chart_rounded,
+      iconColor: AppColors.tertiary,
+      path: '/transactions',
+      title: 'Reports',
+      subtitle: 'Monthly summary',
+    ),
+    _Action(
+      icon: Icons.auto_awesome_rounded,
+      iconColor: AppColors.primaryFixed,
+      path: '/ai',
+      title: 'AI Chat',
+      subtitle: 'Ask anything',
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: _actions.map((a) => _ActionButton(action: a)).toList(),
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: AppSpacing.md,
+      crossAxisSpacing: AppSpacing.md,
+      childAspectRatio: 1.2,
+      children: _actions.map((a) => _ActionTile(action: a)).toList(),
+    );
+  }
+}
+
+class _ActionTile extends StatelessWidget {
+  const _ActionTile({required this.action});
+  final _Action action;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.go(action.path),
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            JeweledIcon(icon: action.icon, iconColor: action.iconColor),
+            const Spacer(),
+            Text(
+              action.title,
+              style: AppTextStyles.titleSmall.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.onSurface,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(action.subtitle, style: AppTextStyles.labelSmall),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _Action {
-  const _Action(this.icon, this.path, this.label);
+  const _Action({
+    required this.icon,
+    required this.iconColor,
+    required this.path,
+    required this.title,
+    required this.subtitle,
+  });
   final IconData icon;
+  final Color iconColor;
   final String path;
-  final _ActionLabel label;
-}
-
-enum _ActionLabel { addTransaction, budget, reports, aiChat }
-
-class _ActionButton extends StatelessWidget {
-  const _ActionButton({required this.action});
-  final _Action action;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final colorScheme = Theme.of(context).colorScheme;
-    final label = switch (action.label) {
-      _ActionLabel.addTransaction => l10n.add_transaction,
-      _ActionLabel.budget => l10n.budget,
-      _ActionLabel.reports => l10n.reports,
-      _ActionLabel.aiChat => l10n.ai_chat,
-    };
-
-    return GestureDetector(
-      onTap: () => context.go(action.path),
-      child: Column(
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withValues(alpha: 0.08),
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
-            ),
-            child: Icon(action.icon, color: colorScheme.primary, size: 26),
-          ),
-          const SizedBox(height: AppConstants.spacingXs),
-          Text(label, style: AppTextStyles.labelSmall, textAlign: TextAlign.center),
-        ],
-      ),
-    );
-  }
+  final String title;
+  final String subtitle;
 }

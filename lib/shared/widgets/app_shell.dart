@@ -1,23 +1,29 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/i18n/app_localizations.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_spacing.dart';
 
 /// Persistent bottom-navigation shell used by all main app routes.
+///
+/// Implements the Luminous Stratum glass bottom-nav:
+/// - [AppColors.surface] @ 90 % + backdrop blur 24
+/// - Rounded top corners at [AppSpacing.radiusXl]
+/// - 4 tabs: Home / Flow / Bravo AI / More
+/// - Active tab: [AppColors.primaryFixed] pill indicator
 class AppShell extends StatelessWidget {
   const AppShell({super.key, required this.child});
 
   final Widget child;
 
   static const _tabs = [
-    _TabItem(icon: Icons.dashboard_outlined, label: _TabLabel.home, path: '/dashboard'),
-    _TabItem(
-      icon: Icons.receipt_long_outlined,
-      label: _TabLabel.transactions,
-      path: '/transactions',
-    ),
-    _TabItem(icon: Icons.auto_awesome_outlined, label: _TabLabel.ai, path: '/ai'),
-    _TabItem(icon: Icons.more_horiz, label: _TabLabel.more, path: '/more'),
+    _TabItem(icon: Icons.grid_view_rounded, label: 'Home', path: '/dashboard'),
+    _TabItem(icon: Icons.swap_horiz_rounded, label: 'Flow', path: '/transactions'),
+    _TabItem(icon: Icons.auto_awesome_rounded, label: 'Bravo AI', path: '/ai'),
+    _TabItem(icon: Icons.more_horiz_rounded, label: 'More', path: '/more'),
   ];
 
   int _locationToIndex(String location) {
@@ -31,29 +37,118 @@ class AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final currentIndex = _locationToIndex(location);
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+      backgroundColor: AppColors.surface,
+      extendBody: true,
       body: child,
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: colorScheme.surface,
-        indicatorColor: colorScheme.primary.withValues(alpha: 0.15),
-        selectedIndex: currentIndex,
-        onDestinationSelected: (i) => context.go(_tabs[i].path),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: _tabs.map((t) {
-          final label = switch (t.label) {
-            _TabLabel.home => context.l10n.tab_home,
-            _TabLabel.transactions => context.l10n.tab_transactions,
-            _TabLabel.ai => context.l10n.tab_ai,
-            _TabLabel.more => context.l10n.tab_more,
-          };
-          return NavigationDestination(
-            icon: Icon(t.icon),
-            selectedIcon: Icon(t.icon),
-            label: label,
-          );
-        }).toList(),
+      bottomNavigationBar: _GlassNavBar(
+        currentIndex: currentIndex,
+        tabs: _tabs,
+        onTap: (i) => context.go(_tabs[i].path),
+      ),
+    );
+  }
+}
+
+class _GlassNavBar extends StatelessWidget {
+  const _GlassNavBar({required this.currentIndex, required this.tabs, required this.onTap});
+
+  final int currentIndex;
+  final List<_TabItem> tabs;
+  final ValueChanged<int> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(AppSpacing.radiusXl),
+        topRight: Radius.circular(AppSpacing.radiusXl),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.surface.withValues(alpha: 0.9),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(AppSpacing.radiusXl),
+              topRight: Radius.circular(AppSpacing.radiusXl),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.onSurface.withValues(alpha: 0.05),
+                blurRadius: 40,
+                offset: const Offset(0, -12),
+              ),
+            ],
+          ),
+          padding: EdgeInsets.only(
+            top: AppSpacing.md,
+            bottom: bottomPadding + AppSpacing.md,
+            left: AppSpacing.md,
+            right: AppSpacing.md,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(tabs.length, (i) {
+              final isActive = i == currentIndex;
+              return _NavTabItem(tab: tabs[i], isActive: isActive, onTap: () => onTap(i));
+            }),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NavTabItem extends StatelessWidget {
+  const _NavTabItem({required this.tab, required this.isActive, required this.onTap});
+
+  final _TabItem tab;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isActive ? AppColors.primaryFixed : AppColors.outline.withValues(alpha: 0.6);
+
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+        decoration: BoxDecoration(
+          gradient: isActive
+              ? LinearGradient(
+                  colors: [
+                    AppColors.primaryFixed.withValues(alpha: 0.10),
+                    AppColors.secondary.withValues(alpha: 0.10),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(tab.icon, color: color, size: 22),
+            const SizedBox(height: 4),
+            Text(
+              tab.label.toUpperCase(),
+              style: GoogleFonts.manrope(
+                fontSize: 9,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.6,
+                color: color,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -62,8 +157,6 @@ class AppShell extends StatelessWidget {
 class _TabItem {
   const _TabItem({required this.icon, required this.label, required this.path});
   final IconData icon;
-  final _TabLabel label;
+  final String label;
   final String path;
 }
-
-enum _TabLabel { home, transactions, ai, more }

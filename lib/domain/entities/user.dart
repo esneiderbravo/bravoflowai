@@ -11,11 +11,13 @@ class AppUser extends Equatable {
     required this.name,
     required this.currency,
     required this.createdAt,
+    this.avatarUrl,
   });
 
   final String id;
   final String email;
   final String name;
+  final String? avatarUrl;
 
   /// ISO 4217 currency code, e.g. "USD".
   final String currency;
@@ -23,5 +25,5 @@ class AppUser extends Equatable {
   final DateTime createdAt;
 
   @override
-  List<Object> get props => [id, email, name, currency, createdAt];
+  List<Object?> get props => [id, email, name, avatarUrl, currency, createdAt];
 }

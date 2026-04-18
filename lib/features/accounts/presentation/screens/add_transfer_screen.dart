@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../domain/entities/transfer.dart';
 import '../../../../domain/value_objects/money.dart';
+import '../../../../shared/widgets/gradient_button.dart';
 import '../../application/account_balance_provider.dart';
 import '../../application/account_providers.dart';
 import '../../application/transfer_providers.dart';
@@ -69,7 +70,6 @@ class _AddTransferScreenState extends ConsumerState<AddTransferScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final colorScheme = Theme.of(context).colorScheme;
     final accounts = ref.watch(accountNotifierProvider).valueOrNull ?? [];
 
     // Check if amount exceeds fromAccount balance
@@ -80,11 +80,15 @@ class _AddTransferScreenState extends ConsumerState<AddTransferScreen> {
     final exceedsBalance = fromBalance != null && enteredAmount > fromBalance.amount;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.add_transfer, style: AppTextStyles.headingLarge)),
+      backgroundColor: AppColors.surface,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(l10n.add_transfer, style: AppTextStyles.headingLarge),
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppConstants.spacingMd),
+          padding: const EdgeInsets.all(AppSpacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -101,7 +105,7 @@ class _AddTransferScreenState extends ConsumerState<AddTransferScreen> {
                 onChanged: (v) => setState(() => _fromAccountId = v),
                 validator: (v) => v == null ? l10n.account_name_required : null,
               ),
-              const SizedBox(height: AppConstants.spacingMd),
+              const SizedBox(height: AppSpacing.md),
 
               // ── To account ──────────────────────────────────────────────
               DropdownButtonFormField<String>(
@@ -121,7 +125,7 @@ class _AddTransferScreenState extends ConsumerState<AddTransferScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: AppConstants.spacingMd),
+              const SizedBox(height: AppSpacing.md),
 
               // ── Amount ──────────────────────────────────────────────────
               TextFormField(
@@ -147,13 +151,13 @@ class _AddTransferScreenState extends ConsumerState<AddTransferScreen> {
                 },
               ),
               if (exceedsBalance) ...[
-                const SizedBox(height: AppConstants.spacingXs),
+                const SizedBox(height: AppSpacing.xs),
                 Text(
                   l10n.transfer_insufficient_balance,
                   style: AppTextStyles.bodySmall.copyWith(color: AppColors.warning),
                 ),
               ],
-              const SizedBox(height: AppConstants.spacingMd),
+              const SizedBox(height: AppSpacing.md),
 
               // ── Date picker ─────────────────────────────────────────────
               ListTile(
@@ -165,7 +169,7 @@ class _AddTransferScreenState extends ConsumerState<AddTransferScreen> {
                 ),
                 onTap: _pickDate,
               ),
-              const SizedBox(height: AppConstants.spacingMd),
+              const SizedBox(height: AppSpacing.md),
 
               // ── Note ────────────────────────────────────────────────────
               TextFormField(
@@ -175,24 +179,13 @@ class _AddTransferScreenState extends ConsumerState<AddTransferScreen> {
                   prefixIcon: const Icon(Icons.notes_rounded),
                 ),
               ),
-              const SizedBox(height: AppConstants.spacingXl),
+              const SizedBox(height: AppSpacing.xl),
 
               // ── Submit ──────────────────────────────────────────────────
-              SizedBox(
-                height: 52,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _submit,
-                  child: _isLoading
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: colorScheme.onPrimary,
-                          ),
-                        )
-                      : Text(l10n.save_transfer_button),
-                ),
+              GradientButton(
+                label: l10n.save_transfer_button,
+                onPressed: _isLoading ? null : _submit,
+                isLoading: _isLoading,
               ),
             ],
           ),

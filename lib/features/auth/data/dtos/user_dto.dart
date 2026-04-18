@@ -9,6 +9,7 @@ class UserDto {
     required this.name,
     required this.currency,
     required this.createdAt,
+    this.avatarUrl,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) => UserDto(
@@ -17,22 +18,29 @@ class UserDto {
     name: json['name'] as String? ?? '',
     currency: json['currency'] as String? ?? 'USD',
     createdAt: json['created_at'] as String? ?? DateTime.now().toIso8601String(),
+    avatarUrl: json['avatar_url'] as String?,
   );
 
-  factory UserDto.fromSupabaseUser(sb.User user, {String name = '', String currency = 'USD'}) =>
-      UserDto(
-        id: user.id,
-        email: user.email ?? '',
-        name: name,
-        currency: currency,
-        createdAt: user.createdAt,
-      );
+  factory UserDto.fromSupabaseUser(
+    sb.User user, {
+    String name = '',
+    String currency = 'USD',
+    String? avatarUrl,
+  }) => UserDto(
+    id: user.id,
+    email: user.email ?? '',
+    name: name,
+    currency: currency,
+    createdAt: user.createdAt,
+    avatarUrl: avatarUrl ?? user.userMetadata?['avatar_url'] as String?,
+  );
 
   final String id;
   final String email;
   final String name;
   final String currency;
   final String createdAt;
+  final String? avatarUrl;
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'currency': currency};
 
@@ -42,5 +50,6 @@ class UserDto {
     name: name,
     currency: currency,
     createdAt: DateTime.parse(createdAt),
+    avatarUrl: avatarUrl,
   );
 }

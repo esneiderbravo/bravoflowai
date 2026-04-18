@@ -1,10 +1,16 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/i18n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../shared/widgets/glass_card.dart';
+import '../../../../shared/widgets/gradient_button.dart';
+import '../../../../shared/widgets/jeweled_icon.dart';
 import '../../../transactions/application/transaction_providers.dart';
 import '../../application/account_balance_provider.dart';
 import '../../application/account_providers.dart';
@@ -20,9 +26,8 @@ class AccountDetailScreen extends ConsumerWidget {
     final transactions = ref.read(transactionNotifierProvider).valueOrNull ?? [];
     final hasTxns = transactions.any((t) => t.accountId == accountId);
     final transfers = ref.read(transferNotifierProvider(accountId)).valueOrNull ?? [];
-    final hasTransfers = transfers.isNotEmpty;
 
-    if (hasTxns || hasTransfers) {
+    if (hasTxns || transfers.isNotEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.delete_account_has_transactions)));
@@ -41,7 +46,7 @@ class AccountDetailScreen extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: Text(l10n.delete_account, style: const TextStyle(color: Colors.red)),
+            child: Text(l10n.delete_account, style: const TextStyle(color: AppColors.error)),
           ),
         ],
       ),
@@ -65,125 +70,269 @@ class AccountDetailScreen extends ConsumerWidget {
 
     if (account == null) {
       return Scaffold(
-        appBar: AppBar(),
-        body: const Center(child: CircularProgressIndicator()),
+        backgroundColor: AppColors.surface,
+        appBar: AppBar(backgroundColor: Colors.transparent),
+        body: const Center(child: CircularProgressIndicator(color: AppColors.primaryFixed)),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(account.name, style: AppTextStyles.headingLarge),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit_outlined),
-            onPressed: () => context.push('/more/accounts/$accountId/edit'),
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete_outline),
-            onPressed: () => _confirmDelete(context, ref),
-          ),
-        ],
+      backgroundColor: AppColors.surface,
+      extendBodyBehindAppBar: true,
+      appBar: _DetailAppBar(
+        accountName: account.name,
+        onEdit: () => context.push('/more/accounts/$accountId/edit'),
+        onDelete: () => _confirmDelete(context, ref),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppConstants.spacingMd),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Balance card ─────────────────────────────────────────────
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(AppConstants.spacingMd),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            top: kToolbarHeight + AppSpacing.xl,
+            bottom: 120,
+            left: AppSpacing.lg,
+            right: AppSpacing.lg,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: AppSpacing.lg),
+              // ── Balance Hero Card ─────────────────────────────────────
+              GlassCard(
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.account_balance, style: AppTextStyles.bodyMedium),
-                    const SizedBox(height: AppConstants.spacingSm),
+                    Text(
+                      l10n.account_balance.toUpperCase(),
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColors.onSurfaceVariant,
+                        letterSpacing: 2.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
                     balanceAsync.when(
-                      loading: () => const CircularProgressIndicator(),
+                      loading: () => const CircularProgressIndicator(
+                        color: AppColors.primaryFixed,
+                        strokeWidth: 2,
+                      ),
                       error: (e, _) => Text(e.toString()),
                       data: (balance) =>
                           Text(balance.toString(), style: AppTextStyles.displayMedium),
                     ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      account.type.name.toUpperCase(),
+                      style: AppTextStyles.labelSmall.copyWith(color: AppColors.primaryFixed),
+                    ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: AppConstants.spacingLg),
+              const SizedBox(height: AppSpacing.xl),
 
-            // ── Transactions ─────────────────────────────────────────────
-            Text(l10n.tab_transactions, style: AppTextStyles.headingMedium),
-            const SizedBox(height: AppConstants.spacingMd),
-            if (accountTransactions.isEmpty)
-              Text(l10n.transactions_empty_title, style: AppTextStyles.bodyMedium)
-            else
-              ...accountTransactions.map(
-                (t) => ListTile(
-                  leading: Icon(
-                    t.isIncome ? Icons.arrow_downward_rounded : Icons.arrow_upward_rounded,
-                    color: t.isIncome ? Colors.green : Colors.red,
-                  ),
-                  title: Text(t.description),
-                  subtitle: Text(t.date.toIso8601String().substring(0, 10)),
-                  trailing: Text(
-                    '${t.isExpense ? '-' : '+'}${t.amount}',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: t.isIncome ? Colors.green : Colors.red,
+              // ── Transactions ─────────────────────────────────────────
+              Text(l10n.tab_transactions, style: AppTextStyles.titleLarge),
+              const SizedBox(height: AppSpacing.md),
+              if (accountTransactions.isEmpty)
+                Text(
+                  l10n.transactions_empty_title,
+                  style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
+                )
+              else
+                ...accountTransactions.map(
+                  (t) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                    child: Row(
+                      children: [
+                        JeweledIcon(
+                          icon: t.isIncome
+                              ? Icons.arrow_downward_rounded
+                              : Icons.arrow_upward_rounded,
+                          iconColor: t.isIncome ? AppColors.success : AppColors.error,
+                        ),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                t.description,
+                                style: AppTextStyles.titleSmall.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                t.date.toIso8601String().substring(0, 10),
+                                style: AppTextStyles.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          '${t.isExpense ? '-' : '+'}${t.amount}',
+                          style: AppTextStyles.titleSmall.copyWith(
+                            color: t.isIncome ? AppColors.success : AppColors.error,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
+
+              const SizedBox(height: AppSpacing.xl),
+
+              // ── Transfers ────────────────────────────────────────────
+              Text(l10n.add_transfer, style: AppTextStyles.titleLarge),
+              const SizedBox(height: AppSpacing.md),
+              transfersAsync.when(
+                loading: () => const CircularProgressIndicator(color: AppColors.primaryFixed),
+                error: (e, _) => Text(e.toString()),
+                data: (transfers) {
+                  if (transfers.isEmpty) {
+                    return Text(
+                      l10n.transactions_empty_title,
+                      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
+                    );
+                  }
+                  return Column(
+                    children: transfers.map((t) {
+                      final isIncoming = t.toAccountId == accountId;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                        child: Row(
+                          children: [
+                            JeweledIcon(
+                              icon: isIncoming
+                                  ? Icons.call_received_rounded
+                                  : Icons.call_made_rounded,
+                              iconColor: isIncoming ? AppColors.success : AppColors.warning,
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    t.note ?? l10n.add_transfer,
+                                    style: AppTextStyles.titleSmall.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    t.date.toIso8601String().substring(0, 10),
+                                    style: AppTextStyles.bodySmall,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              '${isIncoming ? '+' : '-'}${t.amount}',
+                              style: AppTextStyles.titleSmall.copyWith(
+                                color: isIncoming ? AppColors.success : AppColors.warning,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  );
+                },
               ),
 
-            const SizedBox(height: AppConstants.spacingLg),
+              const SizedBox(height: AppSpacing.xl),
 
-            // ── Transfers ────────────────────────────────────────────────
-            Text(l10n.add_transfer, style: AppTextStyles.headingMedium),
-            const SizedBox(height: AppConstants.spacingMd),
-            transfersAsync.when(
-              loading: () => const CircularProgressIndicator(),
-              error: (e, _) => Text(e.toString()),
-              data: (transfers) {
-                if (transfers.isEmpty) {
-                  return Text(l10n.transactions_empty_title, style: AppTextStyles.bodyMedium);
-                }
-                return Column(
-                  children: transfers.map((t) {
-                    final isIncoming = t.toAccountId == accountId;
-                    return ListTile(
-                      leading: Icon(
-                        isIncoming ? Icons.call_received_rounded : Icons.call_made_rounded,
-                        color: isIncoming ? Colors.green : Colors.orange,
-                      ),
-                      title: Text(t.note ?? l10n.add_transfer),
-                      subtitle: Text(t.date.toIso8601String().substring(0, 10)),
-                      trailing: Text(
-                        '${isIncoming ? '+' : '-'}${t.amount}',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: isIncoming ? Colors.green : Colors.orange,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-          ],
+              // ── Transfer CTA ─────────────────────────────────────────
+              GradientButton(
+                label: l10n.add_transfer,
+                icon: Icons.swap_horiz_rounded,
+                onPressed: () => context.push('/more/accounts/transfer/add'),
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            heroTag: 'add_transfer',
-            onPressed: () => context.push('/more/accounts/transfer/add'),
-            child: const Icon(Icons.swap_horiz_rounded),
+    );
+  }
+}
+
+class _DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _DetailAppBar({required this.accountName, required this.onEdit, required this.onDelete});
+
+  final String accountName;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: Container(
+          color: AppColors.surface.withValues(alpha: 0.8),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).maybePop(),
+                    child: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: AppColors.primaryFixed,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(
+                        colors: [AppColors.primaryFixed, AppColors.secondary],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(bounds),
+                      child: Text(
+                        accountName,
+                        style: const TextStyle(
+                          fontFamily: 'Manrope',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit_outlined,
+                      color: AppColors.onSurfaceVariant,
+                      size: 20,
+                    ),
+                    onPressed: onEdit,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline, color: AppColors.error, size: 20),
+                    onPressed: onDelete,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+            ),
           ),
-          const SizedBox(height: AppConstants.spacingSm),
-          FloatingActionButton(
-            heroTag: 'add_transaction',
-            onPressed: () => context.push('/transactions/add'),
-            child: const Icon(Icons.add),
-          ),
-        ],
+        ),
       ),
     );
   }

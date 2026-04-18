@@ -106,7 +106,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               // ── Account picker ──────────────────────────────────────────
               accountsAsync.when(
                 loading: () => const SizedBox.shrink(),
-                error: (_, _) => const SizedBox.shrink(),
+                error: (e, _) => const SizedBox.shrink(),
                 data: (accounts) => DropdownButtonFormField<String>(
                   initialValue: _selectedAccountId,
                   decoration: InputDecoration(

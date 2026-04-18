@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/error/app_exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
 import '../../application/auth_providers.dart';
 import '../widgets/auth_form.dart';
 
@@ -34,7 +33,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     await ref
         .read(authNotifierProvider.notifier)
         .signIn(email: _emailController.text.trim(), password: _passwordController.text);
-    // Router auto-redirects on auth state change — no manual navigation needed.
   }
 
   @override
@@ -59,6 +57,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         isLoading: isLoading,
         submitLabel: 'Sign In',
         onSubmit: _submit,
+        footerLabel: "Don't have an account? Sign Up",
+        onFooterTap: () => context.go('/auth/sign-up'),
         fields: [
           TextFormField(
             controller: _emailController,
@@ -85,19 +85,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             validator: (v) => (v == null || v.length < 6) ? 'Minimum 6 characters' : null,
           ),
         ],
-        footer: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Don't have an account? ", style: AppTextStyles.bodySmall),
-            GestureDetector(
-              onTap: () => context.go('/auth/sign-up'),
-              child: Text(
-                'Sign Up',
-                style: AppTextStyles.bodySmall.copyWith(color: AppColors.primaryBlue),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

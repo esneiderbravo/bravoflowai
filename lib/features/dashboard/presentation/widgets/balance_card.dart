@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_gradients.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_utils.dart';
+import '../../../../shared/widgets/glass_card.dart';
 
-/// Gradient balance summary card.
+/// Balance summary hero card (glass + gradient).
 class BalanceCard extends StatelessWidget {
   const BalanceCard({
     super.key,
@@ -27,33 +27,33 @@ class BalanceCard extends StatelessWidget {
     final changeIcon = isPositiveChange ? Icons.trending_up_rounded : Icons.trending_down_rounded;
     final sign = isPositiveChange ? '+' : '';
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: AppGradients.primary,
-        borderRadius: BorderRadius.circular(AppConstants.radiusLg),
-        boxShadow: AppColors.aiGlow(AppColors.primaryBlue),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppConstants.spacingLg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.total_balance, style: AppTextStyles.labelMedium),
-            const SizedBox(height: AppConstants.spacingSm),
-            Text(AppUtils.formatCurrency(totalBalance), style: AppTextStyles.displayLarge),
-            const SizedBox(height: AppConstants.spacingSm),
-            Row(
-              children: [
-                Icon(changeIcon, color: changeColor, size: 16),
-                const SizedBox(width: AppConstants.spacingXs),
-                Text(
-                  l10n.monthly_change('$sign${monthlyChangePct.toStringAsFixed(1)}'),
-                  style: AppTextStyles.bodySmall.copyWith(color: changeColor),
-                ),
-              ],
+    return GlassCard(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.total_balance,
+            style: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.onSurfaceVariant,
+              letterSpacing: 1.6,
+              fontWeight: FontWeight.w700,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(AppUtils.formatCurrency(totalBalance), style: AppTextStyles.displayMedium),
+          const SizedBox(height: AppSpacing.sm),
+          Row(
+            children: [
+              Icon(changeIcon, color: changeColor, size: 16),
+              const SizedBox(width: AppSpacing.xs),
+              Text(
+                l10n.monthly_change('$sign${monthlyChangePct.toStringAsFixed(1)}'),
+                style: AppTextStyles.bodySmall.copyWith(color: changeColor),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
