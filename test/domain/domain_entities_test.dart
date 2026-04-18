@@ -1,5 +1,3 @@
-import 'package:bravoflowai/domain/entities/ai_insight.dart';
-import 'package:bravoflowai/domain/entities/budget.dart';
 import 'package:bravoflowai/domain/entities/category.dart';
 import 'package:bravoflowai/domain/entities/transaction.dart';
 import 'package:bravoflowai/domain/entities/user.dart';
@@ -46,31 +44,6 @@ void main() {
       );
       expect(tx.isIncome, isTrue);
       expect(tx.isExpense, isFalse);
-    });
-
-    test('Budget holds expected fields', () {
-      const category = Category(id: 'c1', userId: 'u1', name: 'Food');
-      final budget = Budget(
-        id: 'b1',
-        userId: 'u1',
-        category: category,
-        amount: const Money(amount: 400),
-        period: BudgetPeriod.monthly,
-        startsAt: DateTime(2026, 4, 1),
-      );
-      expect(budget.period, BudgetPeriod.monthly);
-    });
-
-    test('AiInsight defaults confidence to 1.0', () {
-      final insight = AiInsight(
-        id: 'a1',
-        userId: 'u1',
-        type: AiInsightType.saving,
-        title: 'Save more',
-        body: 'Reduce dining out.',
-        generatedAt: DateTime(2026, 4, 11),
-      );
-      expect(insight.confidence, 1.0);
     });
   });
 }

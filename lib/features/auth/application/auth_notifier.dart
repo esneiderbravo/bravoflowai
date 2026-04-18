@@ -17,7 +17,7 @@ class AuthNotifier extends AsyncNotifier<AppUser?> {
   @override
   Future<AppUser?> build() async {
     final result = await ref.read(authRepositoryProvider).getCurrentUser();
-    return result.getOrElse((_) => null);
+    return result.fold((_) => null, (user) => user);
   }
 
   Future<void> signIn({required String email, required String password}) async {

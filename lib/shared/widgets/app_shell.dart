@@ -22,7 +22,6 @@ class AppShell extends StatelessWidget {
   static const _tabs = [
     _TabItem(icon: Icons.grid_view_rounded, label: 'Home', path: '/dashboard'),
     _TabItem(icon: Icons.swap_horiz_rounded, label: 'Flow', path: '/transactions'),
-    _TabItem(icon: Icons.auto_awesome_rounded, label: 'Bravo AI', path: '/ai'),
     _TabItem(icon: Icons.more_horiz_rounded, label: 'More', path: '/more'),
   ];
 

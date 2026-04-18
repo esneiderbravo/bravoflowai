@@ -11,10 +11,8 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../features/accounts/presentation/widgets/accounts_scroll_widget.dart';
-import '../../../shared/widgets/ai_insight_chip.dart';
 import '../../../shared/widgets/loading_overlay.dart';
 import 'application/dashboard_providers.dart';
-import 'presentation/widgets/quick_actions_row.dart';
 
 /// BravoFlow AI — Dashboard Screen (Luminous Stratum redesign)
 class DashboardScreen extends ConsumerWidget {
@@ -91,62 +89,6 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   const AccountsScrollWidget(),
-                  const SizedBox(height: AppSpacing.xl),
-
-                  // ── AI Insights ───────────────────────────────────────────
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(l10n.ai_insights, style: AppTextStyles.titleLarge),
-                            const SizedBox(width: AppSpacing.sm),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.sm,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.secondaryContainer,
-                                borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
-                              ),
-                              child: Text(
-                                l10n.beta_label,
-                                style: AppTextStyles.labelSmall.copyWith(
-                                  color: AppColors.secondaryFixed,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 0.8,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        ...dashboard.aiInsightPreviews.map(
-                          (insight) => Padding(
-                            padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                            child: AiInsightChip(label: insight),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
-
-                  // ── Quick Actions ─────────────────────────────────────────
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(l10n.quick_actions, style: AppTextStyles.titleLarge),
-                        const SizedBox(height: AppSpacing.md),
-                        const QuickActionsGrid(),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

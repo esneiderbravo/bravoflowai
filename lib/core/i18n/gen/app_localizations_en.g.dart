@@ -12,13 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get app_title => 'BravoFlow AI';
 
   @override
-  String get welcome_message => 'Welcome';
-
-  @override
   String get profile_title => 'Profile';
-
-  @override
-  String get save_button => 'Save';
 
   @override
   String get language_label => 'Language';
@@ -34,12 +28,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theme_light => 'Light';
-
-  @override
-  String get theme_updated_successfully => 'Theme updated.';
-
-  @override
-  String get theme_update_failed => 'Could not update theme preference.';
 
   @override
   String get transactions_empty_title => 'No transactions yet';
@@ -73,12 +61,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save_transaction_button => 'Save transaction';
-
-  @override
-  String get budget_empty_title => 'No budgets yet';
-
-  @override
-  String get budget_empty_message => 'Budget tracking is coming soon.';
 
   @override
   String get retry_button => 'Retry';
@@ -126,22 +108,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language_english => 'English';
 
   @override
-  String get language_updated_successfully => 'Language updated.';
-
-  @override
-  String get language_update_failed => 'Could not update language preference.';
-
-  @override
   String get dashboard_overview => 'Your Financial Overview';
-
-  @override
-  String get ai_insights => 'AI Insights';
-
-  @override
-  String get beta_label => 'BETA';
-
-  @override
-  String get quick_actions => 'Quick Actions';
 
   @override
   String get total_balance => 'Total Balance';
@@ -155,25 +122,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add_transaction => 'Add\nTransaction';
 
   @override
-  String get budget => 'Budget';
-
-  @override
-  String get reports => 'Reports';
-
-  @override
-  String get ai_chat => 'AI Chat';
-
-  @override
-  String get tab_home => 'Home';
-
-  @override
   String get tab_transactions => 'Transactions';
-
-  @override
-  String get tab_ai => 'AI';
-
-  @override
-  String get tab_budget => 'Budget';
 
   @override
   String get greeting_morning => 'Good morning';
@@ -183,14 +132,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get greeting_evening => 'Good evening';
-
-  @override
-  String greeting_with_name(Object greeting, Object name) {
-    return '$greeting, $name 👋';
-  }
-
-  @override
-  String get tab_more => 'More';
 
   @override
   String get more_accounts => 'Accounts';

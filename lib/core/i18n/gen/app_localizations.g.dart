@@ -99,23 +99,11 @@ abstract class AppLocalizations {
   /// **'BravoFlow AI'**
   String get app_title;
 
-  /// No description provided for @welcome_message.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome'**
-  String get welcome_message;
-
   /// No description provided for @profile_title.
   ///
   /// In en, this message translates to:
   /// **'Profile'**
   String get profile_title;
-
-  /// No description provided for @save_button.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get save_button;
 
   /// No description provided for @language_label.
   ///
@@ -146,18 +134,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get theme_light;
-
-  /// No description provided for @theme_updated_successfully.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme updated.'**
-  String get theme_updated_successfully;
-
-  /// No description provided for @theme_update_failed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not update theme preference.'**
-  String get theme_update_failed;
 
   /// No description provided for @transactions_empty_title.
   ///
@@ -224,18 +200,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save transaction'**
   String get save_transaction_button;
-
-  /// No description provided for @budget_empty_title.
-  ///
-  /// In en, this message translates to:
-  /// **'No budgets yet'**
-  String get budget_empty_title;
-
-  /// No description provided for @budget_empty_message.
-  ///
-  /// In en, this message translates to:
-  /// **'Budget tracking is coming soon.'**
-  String get budget_empty_message;
 
   /// No description provided for @retry_button.
   ///
@@ -327,41 +291,11 @@ abstract class AppLocalizations {
   /// **'English'**
   String get language_english;
 
-  /// No description provided for @language_updated_successfully.
-  ///
-  /// In en, this message translates to:
-  /// **'Language updated.'**
-  String get language_updated_successfully;
-
-  /// No description provided for @language_update_failed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not update language preference.'**
-  String get language_update_failed;
-
   /// No description provided for @dashboard_overview.
   ///
   /// In en, this message translates to:
   /// **'Your Financial Overview'**
   String get dashboard_overview;
-
-  /// No description provided for @ai_insights.
-  ///
-  /// In en, this message translates to:
-  /// **'AI Insights'**
-  String get ai_insights;
-
-  /// No description provided for @beta_label.
-  ///
-  /// In en, this message translates to:
-  /// **'BETA'**
-  String get beta_label;
-
-  /// No description provided for @quick_actions.
-  ///
-  /// In en, this message translates to:
-  /// **'Quick Actions'**
-  String get quick_actions;
 
   /// No description provided for @total_balance.
   ///
@@ -381,47 +315,11 @@ abstract class AppLocalizations {
   /// **'Add\nTransaction'**
   String get add_transaction;
 
-  /// No description provided for @budget.
-  ///
-  /// In en, this message translates to:
-  /// **'Budget'**
-  String get budget;
-
-  /// No description provided for @reports.
-  ///
-  /// In en, this message translates to:
-  /// **'Reports'**
-  String get reports;
-
-  /// No description provided for @ai_chat.
-  ///
-  /// In en, this message translates to:
-  /// **'AI Chat'**
-  String get ai_chat;
-
-  /// No description provided for @tab_home.
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
-  String get tab_home;
-
   /// No description provided for @tab_transactions.
   ///
   /// In en, this message translates to:
   /// **'Transactions'**
   String get tab_transactions;
-
-  /// No description provided for @tab_ai.
-  ///
-  /// In en, this message translates to:
-  /// **'AI'**
-  String get tab_ai;
-
-  /// No description provided for @tab_budget.
-  ///
-  /// In en, this message translates to:
-  /// **'Budget'**
-  String get tab_budget;
 
   /// No description provided for @greeting_morning.
   ///
@@ -440,18 +338,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Good evening'**
   String get greeting_evening;
-
-  /// No description provided for @greeting_with_name.
-  ///
-  /// In en, this message translates to:
-  /// **'{greeting}, {name} 👋'**
-  String greeting_with_name(Object greeting, Object name);
-
-  /// No description provided for @tab_more.
-  ///
-  /// In en, this message translates to:
-  /// **'More'**
-  String get tab_more;
 
   /// No description provided for @more_accounts.
   ///

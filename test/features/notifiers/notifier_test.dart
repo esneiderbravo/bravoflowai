@@ -1,18 +1,11 @@
 import 'package:bravoflowai/core/error/failure.dart';
-import 'package:bravoflowai/core/services/app_providers.dart';
-import 'package:bravoflowai/domain/entities/ai_insight.dart';
-import 'package:bravoflowai/domain/entities/budget.dart';
 import 'package:bravoflowai/domain/entities/category.dart';
 import 'package:bravoflowai/domain/entities/transaction.dart';
 import 'package:bravoflowai/domain/entities/user.dart';
-import 'package:bravoflowai/domain/repositories/ai_repository.dart';
 import 'package:bravoflowai/domain/repositories/auth_repository.dart';
-import 'package:bravoflowai/domain/repositories/budget_repository.dart';
 import 'package:bravoflowai/domain/repositories/transaction_repository.dart';
 import 'package:bravoflowai/domain/value_objects/money.dart';
-import 'package:bravoflowai/features/ai_insights/application/ai_providers.dart';
 import 'package:bravoflowai/features/auth/application/auth_providers.dart';
-import 'package:bravoflowai/features/budget/application/budget_providers.dart';
 import 'package:bravoflowai/features/transactions/application/transaction_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,10 +15,6 @@ import 'package:mocktail/mocktail.dart';
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockTransactionRepository extends Mock implements TransactionRepository {}
-
-class MockBudgetRepository extends Mock implements BudgetRepository {}
-
-class MockAiRepository extends Mock implements AiRepository {}
 
 void main() {
   final category = const Category(id: 'c1', userId: 'u1', name: 'Food');
@@ -39,22 +28,6 @@ void main() {
     date: DateTime(2026, 4, 11),
     type: TransactionType.expense,
     createdAt: DateTime(2026, 4, 11),
-  );
-  final budget = Budget(
-    id: 'b1',
-    userId: 'u1',
-    category: category,
-    amount: const Money(amount: 300),
-    period: BudgetPeriod.monthly,
-    startsAt: DateTime(2026, 4, 1),
-  );
-  final insight = AiInsight(
-    id: 'a1',
-    userId: 'u1',
-    type: AiInsightType.saving,
-    title: 'Save',
-    body: 'Reduce dining out',
-    generatedAt: DateTime(2026, 4, 11),
   );
 
   test('AuthNotifier emits signed-in user', () async {
@@ -134,38 +107,6 @@ void main() {
     await container.read(transactionNotifierProvider.notifier).add(tx);
 
     expect(container.read(transactionNotifierProvider).value?.length, 1);
-  });
-
-  test('BudgetNotifier adds item', () async {
-    final repo = MockBudgetRepository();
-    when(() => repo.getAll()).thenAnswer((_) async => const Right([]));
-    when(() => repo.create(budget)).thenAnswer((_) async => Right(budget));
-
-    final container = ProviderContainer(
-      overrides: [budgetRepositoryProvider.overrideWithValue(repo)],
-    );
-    addTearDown(container.dispose);
-
-    await container.read(budgetNotifierProvider.future);
-    await container.read(budgetNotifierProvider.notifier).add(budget);
-
-    expect(container.read(budgetNotifierProvider).value?.length, 1);
-  });
-
-  test('AiNotifier loads insights', () async {
-    final repo = MockAiRepository();
-    when(() => repo.getInsights('u1')).thenAnswer((_) async => Right([insight]));
-
-    final container = ProviderContainer(
-      overrides: [
-        aiRepositoryProvider.overrideWithValue(repo),
-        currentUserIdProvider.overrideWithValue('u1'),
-      ],
-    );
-    addTearDown(container.dispose);
-
-    final value = await container.read(aiNotifierProvider.future);
-    expect(value.first.id, 'a1');
   });
 
   test('Notifier surfaces failures', () async {

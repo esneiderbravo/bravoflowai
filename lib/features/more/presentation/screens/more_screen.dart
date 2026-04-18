@@ -88,25 +88,6 @@ class MoreScreen extends ConsumerWidget {
                 label: l10n.more_accounts,
                 onTap: () => context.go('/more/accounts'),
               ),
-              _SettingsTile(
-                icon: Icons.swap_horiz_rounded,
-                iconColor: AppColors.secondary,
-                label: l10n.add_transfer,
-                onTap: () => context.push('/more/accounts/transfer/add'),
-              ),
-
-              const SizedBox(height: AppSpacing.xl),
-
-              // ── AI & Insights ────────────────────────────────────────────
-              const _SectionLabel('AI & Insights'),
-              const SizedBox(height: AppSpacing.sm),
-              _SettingsTile(
-                icon: Icons.auto_awesome_rounded,
-                iconColor: AppColors.tertiary,
-                label: 'Bravo AI',
-                onTap: () {},
-              ),
-
               const SizedBox(height: AppSpacing.xl),
 
               // ── Sign Out ─────────────────────────────────────────────────

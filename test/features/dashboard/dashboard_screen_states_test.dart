@@ -20,12 +20,7 @@ class _LoadingDashboardNotifier extends DashboardNotifier {
 class _DataDashboardNotifier extends DashboardNotifier {
   @override
   Future<DashboardState> build() async {
-    return const DashboardState(
-      userName: 'User',
-      totalBalance: 1250,
-      monthlyChangePct: 1.2,
-      aiInsightPreviews: ['Test insight'],
-    );
+    return const DashboardState(userName: 'User', totalBalance: 1250, monthlyChangePct: 1.2);
   }
 }
 
@@ -68,7 +63,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Tu resumen financiero'), findsOneWidget);
-    expect(find.text('Test insight'), findsOneWidget);
   });
 
   testWidgets('DashboardScreen shows error state', (tester) async {

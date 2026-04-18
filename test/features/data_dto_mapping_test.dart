@@ -1,5 +1,3 @@
-import 'package:bravoflowai/domain/entities/ai_insight.dart';
-import 'package:bravoflowai/features/ai_insights/data/dtos/ai_insight_dto.dart';
 import 'package:bravoflowai/features/auth/data/dtos/user_dto.dart';
 import 'package:bravoflowai/features/profile/data/dtos/profile_dto.dart';
 import 'package:bravoflowai/features/transactions/data/dtos/transaction_dto.dart';
@@ -39,24 +37,6 @@ void main() {
       expect(tx.description, 'Lunch');
       expect(tx.category.name, 'Food');
       expect(tx.amount.amount, 50.5);
-    });
-
-    test('AiInsightDto maps json to domain and back', () {
-      final dto = AiInsightDto.fromJson({
-        'id': 'a1',
-        'user_id': 'u1',
-        'type': 'prediction',
-        'title': 'Forecast',
-        'body': 'You may overspend next week.',
-        'confidence': 0.8,
-        'generated_at': '2026-04-11T10:00:00.000Z',
-        'related_transaction_ids': ['t1'],
-      });
-
-      final insight = dto.toDomain();
-      expect(insight.type, AiInsightType.prediction);
-      expect(insight.relatedTransactionIds, ['t1']);
-      expect(dto.toJson()['title'], 'Forecast');
     });
 
     test('ProfileDto maps json to domain', () {

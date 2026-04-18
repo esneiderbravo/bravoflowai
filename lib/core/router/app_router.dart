@@ -6,7 +6,6 @@ import '../../features/accounts/presentation/screens/account_detail_screen.dart'
 import '../../features/accounts/presentation/screens/accounts_screen.dart';
 import '../../features/accounts/presentation/screens/add_edit_account_screen.dart';
 import '../../features/accounts/presentation/screens/add_transfer_screen.dart';
-import '../../features/ai_insights/ai_insights_screen.dart';
 import '../../features/auth/presentation/screens/sign_in_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
@@ -74,7 +73,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '/transactions/add',
             builder: (context, state) => const AddTransactionScreen(),
           ),
-          GoRoute(path: '/ai', builder: (context, state) => const AiInsightsScreen()),
           GoRoute(path: '/more', builder: (context, state) => const MoreScreen()),
           GoRoute(path: '/more/accounts', builder: (context, state) => const AccountsScreen()),
           GoRoute(
