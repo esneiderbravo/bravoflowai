@@ -74,7 +74,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             child: Text(l10n.close_session_confirm_cancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: AppColors.error, foregroundColor: Colors.white),
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.error,
+              foregroundColor: Colors.white,
+            ),
             onPressed: () => Navigator.of(dialogContext).pop(true),
             child: Text(l10n.close_session_confirm_confirm),
           ),
