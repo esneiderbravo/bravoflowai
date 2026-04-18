@@ -11,16 +11,24 @@ The system SHALL replace the Budget bottom-navigation tab with a **More** tab us
 - **WHEN** the user views the bottom navigation
 - **THEN** the Budget tab SHALL NOT appear
 
-### Requirement: More screen hosts the Accounts section
-The system SHALL provide a More screen (route `/more`) that lists navigation items, starting with **Accounts**.
+### Requirement: More screen hosts the Profile entry and Finance section
+The system SHALL provide a More screen (route `/more`) that lists navigation items starting with a tappable **Profile** hero card, followed by a **Finance** section containing **Accounts**.
+
+#### Scenario: More screen renders profile entry
+- **WHEN** the user taps the More tab
+- **THEN** the system SHALL display a tappable profile hero card at the top that navigates to `/profile`
 
 #### Scenario: More screen renders accounts entry
 - **WHEN** the user taps the More tab
-- **THEN** the system SHALL display a screen with an Accounts list item that navigates to `/more/accounts`
+- **THEN** the system SHALL display a screen with an Accounts list item under the Finance section that navigates to `/more/accounts`
 
-### Requirement: More tab is extensible for future settings
-The More screen layout SHALL be designed as a settings-style list so future items (e.g., notifications, preferences) can be added without structural changes.
+### Requirement: More tab sections are extensible for future settings
+The More screen layout SHALL use clearly labelled sections so future items can be added to any section without structural changes.
 
-#### Scenario: Adding a future settings item
-- **WHEN** a new settings item is added to the More screen
-- **THEN** it SHALL appear as a new list tile below existing items without layout modifications
+#### Scenario: Adding a future profile item
+- **WHEN** a new profile-related item is added to the More screen
+- **THEN** it SHALL appear within the Profile section without requiring layout modifications
+
+#### Scenario: Adding a future finance item
+- **WHEN** a new finance item is added to the More screen
+- **THEN** it SHALL appear as a new tile under the Finance section without requiring layout modifications

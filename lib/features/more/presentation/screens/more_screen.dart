@@ -7,7 +7,6 @@ import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../shared/widgets/ghost_button.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../../../../shared/widgets/jeweled_icon.dart';
 import '../../../auth/application/auth_providers.dart';
@@ -33,47 +32,55 @@ class MoreScreen extends ConsumerWidget {
             children: [
               const SizedBox(height: AppSpacing.xl),
 
-              // ── Profile Hero ────────────────────────────────────────────
-              GlassCard(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                child: Row(
-                  children: [
-                    _UserAvatar(avatarUrl: user?.avatarUrl, name: displayName),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ShaderMask(
-                            shaderCallback: (b) => const LinearGradient(
-                              colors: [AppColors.primaryFixed, AppColors.secondary],
-                            ).createShader(b),
-                            child: Text(
-                              displayName,
-                              style: GoogleFonts.manrope(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
+              // ── Profile Hero (tappable) ──────────────────────────────────
+              GestureDetector(
+                onTap: () => context.go('/profile'),
+                child: GlassCard(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  child: Row(
+                    children: [
+                      _UserAvatar(avatarUrl: user?.avatarUrl, name: displayName),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ShaderMask(
+                              shaderCallback: (b) => const LinearGradient(
+                                colors: [AppColors.primaryFixed, AppColors.secondary],
+                              ).createShader(b),
+                              child: Text(
+                                displayName,
+                                style: GoogleFonts.manrope(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            email,
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.onSurfaceVariant,
-                            ),
-                          ),
-                          if (user?.currency != null)
                             Text(
-                              user!.currency,
-                              style: AppTextStyles.labelSmall.copyWith(
-                                color: AppColors.primaryFixed,
+                              email,
+                              style: AppTextStyles.bodySmall.copyWith(
+                                color: AppColors.onSurfaceVariant,
                               ),
                             ),
-                        ],
+                            if (user?.currency != null)
+                              Text(
+                                user!.currency,
+                                style: AppTextStyles.labelSmall.copyWith(
+                                  color: AppColors.primaryFixed,
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      const Icon(
+                        Icons.chevron_right_rounded,
+                        color: AppColors.onSurfaceVariant,
+                        size: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
@@ -87,37 +94,6 @@ class MoreScreen extends ConsumerWidget {
                 iconColor: AppColors.primaryFixed,
                 label: l10n.more_accounts,
                 onTap: () => context.go('/more/accounts'),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-
-              // ── Sign Out ─────────────────────────────────────────────────
-              GhostButton(
-                label: l10n.close_session_action,
-                onPressed: () async {
-                  final confirmed = await showDialog<bool>(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: Text(l10n.close_session_confirm_title),
-                      content: Text(l10n.close_session_confirm_body),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(false),
-                          child: Text(l10n.close_session_confirm_cancel),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(true),
-                          child: Text(
-                            l10n.close_session_confirm_confirm,
-                            style: const TextStyle(color: AppColors.error),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                  if (confirmed == true) {
-                    await ref.read(authNotifierProvider.notifier).signOut();
-                  }
-                },
               ),
 
               const SizedBox(height: AppSpacing.xxl),

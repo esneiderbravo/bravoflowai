@@ -339,6 +339,18 @@ abstract class AppLocalizations {
   /// **'Good evening'**
   String get greeting_evening;
 
+  /// No description provided for @profile_section_personal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get profile_section_personal;
+
+  /// No description provided for @more_preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get more_preferences;
+
   /// No description provided for @more_accounts.
   ///
   /// In en, this message translates to:

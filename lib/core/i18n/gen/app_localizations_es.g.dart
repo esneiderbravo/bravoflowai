@@ -135,6 +135,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get greeting_evening => 'Buenas noches';
 
   @override
+  String get profile_section_personal => 'Personal';
+
+  @override
+  String get more_preferences => 'Preferencias';
+
+  @override
   String get more_accounts => 'Cuentas';
 
   @override

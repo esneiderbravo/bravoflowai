@@ -134,6 +134,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get greeting_evening => 'Good evening';
 
   @override
+  String get profile_section_personal => 'Personal';
+
+  @override
+  String get more_preferences => 'Preferences';
+
+  @override
   String get more_accounts => 'Accounts';
 
   @override

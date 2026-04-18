@@ -46,6 +46,8 @@
   "greeting_morning": "Good morning",
   "greeting_afternoon": "Good afternoon",
   "greeting_evening": "Good evening",
+  "profile_section_personal": "Personal",
+  "more_preferences": "Preferences",
   "more_accounts": "Accounts",
   "accounts_title": "Accounts",
   "add_account": "Add account",
