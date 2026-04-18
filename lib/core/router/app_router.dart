@@ -6,6 +6,7 @@ import '../../features/accounts/presentation/screens/account_detail_screen.dart'
 import '../../features/accounts/presentation/screens/accounts_screen.dart';
 import '../../features/accounts/presentation/screens/add_edit_account_screen.dart';
 import '../../features/accounts/presentation/screens/add_transfer_screen.dart';
+import '../../features/auth/application/auth_providers.dart';
 import '../../features/auth/presentation/screens/sign_in_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
@@ -19,9 +20,13 @@ import '../services/app_providers.dart';
 // ── Router refresh notifier ───────────────────────────────────────────────────
 
 /// Bridges Riverpod auth state changes → go_router refreshListenable.
+///
+/// Listens to both the Supabase raw stream and the Riverpod [authNotifierProvider]
+/// so the router reacts immediately to sign-out regardless of which fires first.
 class _RouterNotifier extends ChangeNotifier {
   _RouterNotifier(Ref ref) {
     ref.listen<AsyncValue<dynamic>>(authStateProvider, (prev, next) => notifyListeners());
+    ref.listen<AsyncValue<dynamic>>(authNotifierProvider, (prev, next) => notifyListeners());
   }
 }
 
@@ -42,13 +47,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     debugLogDiagnostics: false,
 
     redirect: (BuildContext context, GoRouterState state) {
-      final isAuthenticated = ref.read(isAuthenticatedProvider);
       final isAuthRoute = state.matchedLocation.startsWith('/auth');
 
-      // Not signed in → send to sign-in (unless already on an auth route)
-      if (!isAuthenticated && !isAuthRoute) return '/auth/sign-in';
+      // Primary check: Riverpod notifier reflects sign-in/sign-out immediately,
+      // before the Supabase stream has a chance to emit.
+      final authNotifier = ref.read(authNotifierProvider);
+      if (authNotifier is AsyncData) {
+        final isAuthenticated = authNotifier.value != null;
+        if (!isAuthenticated && !isAuthRoute) return '/auth/sign-in';
+        if (isAuthenticated && isAuthRoute) return '/dashboard';
+        return null;
+      }
 
-      // Already signed in → skip auth routes
+      // Fallback while the notifier is still loading (cold start):
+      // use the Supabase stream + persisted session.
+      final isAuthenticated = ref.read(isAuthenticatedProvider);
+      if (!isAuthenticated && !isAuthRoute) return '/auth/sign-in';
       if (isAuthenticated && isAuthRoute) return '/dashboard';
 
       return null; // no redirect needed
