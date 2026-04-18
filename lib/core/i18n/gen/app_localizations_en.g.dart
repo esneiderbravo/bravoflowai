@@ -93,6 +93,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get save_changes_button => 'Save changes';
 
   @override
+  String get close_session_action => 'Close session';
+
+  @override
+  String get close_session_signing_out => 'Closing session...';
+
+  @override
+  String get close_session_confirm_title => 'Close session?';
+
+  @override
+  String get close_session_confirm_body => 'You will need to sign in again to continue.';
+
+  @override
+  String get close_session_confirm_cancel => 'Cancel';
+
+  @override
+  String get close_session_confirm_confirm => 'Close session';
+
+  @override
+  String get close_session_failed => 'Could not close the session. Please try again.';
+
+  @override
   String get photo_permission_required => 'Photo permission is required. Enable it in Settings.';
 
   @override

@@ -16,9 +16,8 @@ abstract final class AppLocaleConfig {
     return defaultLocale;
   }
 
-  static Locale fromLanguageCode(String? value) => sanitize(
-    (value == null || value.trim().isEmpty) ? null : Locale(value.trim().toLowerCase()),
-  );
+  static Locale fromLanguageCode(String? value) =>
+      sanitize((value == null || value.trim().isEmpty) ? null : Locale(value.trim().toLowerCase()));
 
   static String toLanguageCode(Locale locale) => sanitize(locale).languageCode;
 }
@@ -26,5 +25,3 @@ abstract final class AppLocaleConfig {
 extension AppLocalizationsX on BuildContext {
   AppLocalizations get l10n => gen.AppLocalizations.of(this);
 }
-
-

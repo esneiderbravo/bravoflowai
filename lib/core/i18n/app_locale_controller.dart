@@ -67,4 +67,3 @@ class AppLocaleController extends Notifier<Locale> {
     }
   }
 }
-

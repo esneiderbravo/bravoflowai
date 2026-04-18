@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/error/app_exception.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../domain/entities/user.dart';
 import 'auth_providers.dart';
 
@@ -11,6 +12,8 @@ import 'auth_providers.dart';
 ///  - [AsyncData(null)] — signed out
 ///  - [AsyncError] — last operation failed
 class AuthNotifier extends AsyncNotifier<AppUser?> {
+  bool _isSigningOut = false;
+
   @override
   Future<AppUser?> build() async {
     final result = await ref.read(authRepositoryProvider).getCurrentUser();
@@ -42,7 +45,16 @@ class AuthNotifier extends AsyncNotifier<AppUser?> {
   }
 
   Future<void> signOut() async {
-    await ref.read(authRepositoryProvider).signOut();
-    state = const AsyncData(null);
+    if (_isSigningOut) return;
+    _isSigningOut = true;
+    state = const AsyncLoading();
+
+    final result = await ref.read(authRepositoryProvider).signOut();
+    state = result.match(
+      (_) =>
+          AsyncError(const AppException(AuthFailure('close_session_failed')), StackTrace.current),
+      (_) => const AsyncData(null),
+    );
+    _isSigningOut = false;
   }
 }
