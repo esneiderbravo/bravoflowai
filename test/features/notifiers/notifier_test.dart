@@ -86,6 +86,39 @@ void main() {
     expect(container.read(authNotifierProvider).value?.id, 'u1');
   });
 
+  test('AuthNotifier signOut emits signed-out state on success', () async {
+    final repo = MockAuthRepository();
+    when(() => repo.getCurrentUser()).thenAnswer((_) async => const Right(null));
+    when(() => repo.signOut()).thenAnswer((_) async => const Right(unit));
+
+    final container = ProviderContainer(
+      overrides: [authRepositoryProvider.overrideWithValue(repo)],
+    );
+    addTearDown(container.dispose);
+
+    await container.read(authNotifierProvider.notifier).signOut();
+
+    final state = container.read(authNotifierProvider);
+    expect(state.hasError, isFalse);
+    expect(state.valueOrNull, isNull);
+  });
+
+  test('AuthNotifier signOut emits error on failure', () async {
+    final repo = MockAuthRepository();
+    when(() => repo.getCurrentUser()).thenAnswer((_) async => const Right(null));
+    when(() => repo.signOut()).thenAnswer((_) async => const Left(AuthFailure('boom')));
+
+    final container = ProviderContainer(
+      overrides: [authRepositoryProvider.overrideWithValue(repo)],
+    );
+    addTearDown(container.dispose);
+
+    await container.read(authNotifierProvider.notifier).signOut();
+
+    final state = container.read(authNotifierProvider);
+    expect(state.hasError, isTrue);
+  });
+
   test('TransactionNotifier adds item', () async {
     final repo = MockTransactionRepository();
     when(() => repo.getAll()).thenAnswer((_) async => const Right([]));

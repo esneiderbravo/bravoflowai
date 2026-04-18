@@ -6,8 +6,7 @@ import 'package:integration_test/integration_test.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('Feature flow smoke: dashboard -> transactions -> ai -> budget',
-      (tester) async {
+  testWidgets('Feature flow smoke: dashboard -> transactions -> ai -> budget', (tester) async {
     final router = GoRouter(
       initialLocation: '/dashboard',
       routes: [
@@ -17,8 +16,7 @@ void main() {
         ),
         GoRoute(
           path: '/transactions',
-          builder: (context, state) =>
-              const Scaffold(body: Text('Transactions')),
+          builder: (context, state) => const Scaffold(body: Text('Transactions')),
         ),
         GoRoute(
           path: '/ai',

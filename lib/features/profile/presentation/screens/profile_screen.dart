@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/error/app_exception.dart';
@@ -9,6 +10,7 @@ import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../auth/application/auth_providers.dart';
 import '../../application/profile_providers.dart';
 import '../../application/profile_state.dart';
 
@@ -59,8 +61,52 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return path.substring(index + 1).toLowerCase();
   }
 
+  Future<void> _closeSession() async {
+    final l10n = context.l10n;
+    final shouldClose = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.close_session_confirm_title),
+        content: Text(l10n.close_session_confirm_body),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.close_session_confirm_cancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.error, foregroundColor: Colors.white),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(l10n.close_session_confirm_confirm),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldClose != true) return;
+    await ref.read(authNotifierProvider.notifier).signOut();
+    if (!mounted) return;
+
+    // Fallback navigation in case auth-stream redirect is delayed.
+    final authState = ref.read(authNotifierProvider);
+    if (!authState.hasError) {
+      context.go('/auth/sign-in');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(authNotifierProvider, (prev, next) {
+      if (next.hasError && next.error is AppException) {
+        final failure = (next.error! as AppException).failure;
+        final message = failure.userMessage == 'close_session_failed'
+            ? context.l10n.close_session_failed
+            : failure.userMessage;
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(message), backgroundColor: AppColors.error));
+      }
+    });
+
     ref.listen<AsyncValue<ProfileState>>(profileControllerProvider, (prev, next) {
       final nextState = next.valueOrNull;
       final prevState = prev?.valueOrNull;
@@ -97,6 +143,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     });
 
     final state = ref.watch(profileControllerProvider);
+    final authState = ref.watch(authNotifierProvider);
+    final isClosingSession = authState.isLoading;
 
     return state.when(
       loading: () => Scaffold(
@@ -249,6 +297,32 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 ),
                               )
                             : Text(context.l10n.save_changes_button),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    SizedBox(
+                      height: AppSpacing.xl + AppSpacing.lg,
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppColors.error,
+                          side: const BorderSide(color: AppColors.error),
+                        ),
+                        onPressed: isClosingSession ? null : _closeSession,
+                        icon: isClosingSession
+                            ? const SizedBox(
+                                width: AppSpacing.md,
+                                height: AppSpacing.md,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.error,
+                                ),
+                              )
+                            : const Icon(Icons.logout_rounded),
+                        label: Text(
+                          isClosingSession
+                              ? context.l10n.close_session_signing_out
+                              : context.l10n.close_session_action,
+                        ),
                       ),
                     ),
                   ],

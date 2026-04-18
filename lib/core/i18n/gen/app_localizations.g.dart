@@ -261,6 +261,48 @@ abstract class AppLocalizations {
   /// **'Save changes'**
   String get save_changes_button;
 
+  /// No description provided for @close_session_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Close session'**
+  String get close_session_action;
+
+  /// No description provided for @close_session_signing_out.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing session...'**
+  String get close_session_signing_out;
+
+  /// No description provided for @close_session_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Close session?'**
+  String get close_session_confirm_title;
+
+  /// No description provided for @close_session_confirm_body.
+  ///
+  /// In en, this message translates to:
+  /// **'You will need to sign in again to continue.'**
+  String get close_session_confirm_body;
+
+  /// No description provided for @close_session_confirm_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get close_session_confirm_cancel;
+
+  /// No description provided for @close_session_confirm_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Close session'**
+  String get close_session_confirm_confirm;
+
+  /// No description provided for @close_session_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not close the session. Please try again.'**
+  String get close_session_failed;
+
   /// No description provided for @photo_permission_required.
   ///
   /// In en, this message translates to:

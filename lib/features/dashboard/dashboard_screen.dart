@@ -64,10 +64,7 @@ class DashboardScreen extends ConsumerWidget {
                 children: [
                   // ── Greeting ──────────────────────────────────────────
                   Text(
-                    l10n.greeting_with_name(
-                      AppUtils.timeBasedGreeting(l10n),
-                      dashboard.userName,
-                    ),
+                    l10n.greeting_with_name(AppUtils.timeBasedGreeting(l10n), dashboard.userName),
                     style: AppTextStyles.bodyMedium.copyWith(color: colorScheme.onSurfaceVariant),
                   ),
                   const SizedBox(height: AppConstants.spacingSm),

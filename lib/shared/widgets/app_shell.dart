@@ -11,7 +11,11 @@ class AppShell extends StatelessWidget {
 
   static const _tabs = [
     _TabItem(icon: Icons.dashboard_outlined, label: _TabLabel.home, path: '/dashboard'),
-    _TabItem(icon: Icons.receipt_long_outlined, label: _TabLabel.transactions, path: '/transactions'),
+    _TabItem(
+      icon: Icons.receipt_long_outlined,
+      label: _TabLabel.transactions,
+      path: '/transactions',
+    ),
     _TabItem(icon: Icons.auto_awesome_outlined, label: _TabLabel.ai, path: '/ai'),
     _TabItem(icon: Icons.account_balance_wallet_outlined, label: _TabLabel.budget, path: '/budget'),
   ];
@@ -37,23 +41,19 @@ class AppShell extends StatelessWidget {
         selectedIndex: currentIndex,
         onDestinationSelected: (i) => context.go(_tabs[i].path),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: _tabs
-            .map(
-              (t) {
-                final label = switch (t.label) {
-                  _TabLabel.home => context.l10n.tab_home,
-                  _TabLabel.transactions => context.l10n.tab_transactions,
-                  _TabLabel.ai => context.l10n.tab_ai,
-                  _TabLabel.budget => context.l10n.tab_budget,
-                };
-                return NavigationDestination(
-                  icon: Icon(t.icon),
-                  selectedIcon: Icon(t.icon),
-                  label: label,
-                );
-              },
-            )
-            .toList(),
+        destinations: _tabs.map((t) {
+          final label = switch (t.label) {
+            _TabLabel.home => context.l10n.tab_home,
+            _TabLabel.transactions => context.l10n.tab_transactions,
+            _TabLabel.ai => context.l10n.tab_ai,
+            _TabLabel.budget => context.l10n.tab_budget,
+          };
+          return NavigationDestination(
+            icon: Icon(t.icon),
+            selectedIcon: Icon(t.icon),
+            label: label,
+          );
+        }).toList(),
       ),
     );
   }
@@ -67,4 +67,3 @@ class _TabItem {
 }
 
 enum _TabLabel { home, transactions, ai, budget }
-

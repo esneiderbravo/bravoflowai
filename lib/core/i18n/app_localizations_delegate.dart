@@ -5,14 +5,12 @@ import 'app_localizations.dart';
 import 'gen/app_localizations.g.dart' as gen;
 
 abstract final class AppLocalizationDelegates {
-  static final List<LocalizationsDelegate<dynamic>> delegates =
-      <LocalizationsDelegate<dynamic>>[
-        gen.AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ];
+  static final List<LocalizationsDelegate<dynamic>> delegates = <LocalizationsDelegate<dynamic>>[
+    gen.AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ];
 
   static List<Locale> get supportedLocales => AppLocaleConfig.supportedLocales;
 }
-
