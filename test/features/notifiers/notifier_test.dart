@@ -32,6 +32,7 @@ void main() {
   final tx = Transaction(
     id: 't1',
     userId: 'u1',
+    accountId: 'acc1',
     amount: const Money(amount: 20),
     category: category,
     description: 'Lunch',

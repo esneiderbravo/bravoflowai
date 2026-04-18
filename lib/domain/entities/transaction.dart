@@ -12,6 +12,7 @@ class Transaction extends Equatable {
   const Transaction({
     required this.id,
     required this.userId,
+    required this.accountId,
     required this.amount,
     required this.category,
     required this.description,
@@ -22,6 +23,7 @@ class Transaction extends Equatable {
 
   final String id;
   final String userId;
+  final String accountId;
   final Money amount;
   final Category category;
   final String description;
@@ -33,5 +35,15 @@ class Transaction extends Equatable {
   bool get isExpense => type == TransactionType.expense;
 
   @override
-  List<Object> get props => [id, userId, amount, category, description, date, type, createdAt];
+  List<Object> get props => [
+    id,
+    userId,
+    accountId,
+    amount,
+    category,
+    description,
+    date,
+    type,
+    createdAt,
+  ];
 }

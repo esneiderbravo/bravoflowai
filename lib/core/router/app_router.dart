@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/accounts/presentation/screens/account_detail_screen.dart';
+import '../../features/accounts/presentation/screens/accounts_screen.dart';
+import '../../features/accounts/presentation/screens/add_edit_account_screen.dart';
+import '../../features/accounts/presentation/screens/add_transfer_screen.dart';
 import '../../features/ai_insights/ai_insights_screen.dart';
 import '../../features/auth/presentation/screens/sign_in_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
-import '../../features/budget/presentation/screens/budget_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
+import '../../features/more/presentation/screens/more_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/transactions/presentation/screens/add_transaction_screen.dart';
 import '../../features/transactions/presentation/screens/transaction_list_screen.dart';
@@ -71,7 +75,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const AddTransactionScreen(),
           ),
           GoRoute(path: '/ai', builder: (context, state) => const AiInsightsScreen()),
-          GoRoute(path: '/budget', builder: (context, state) => const BudgetScreen()),
+          GoRoute(path: '/more', builder: (context, state) => const MoreScreen()),
+          GoRoute(path: '/more/accounts', builder: (context, state) => const AccountsScreen()),
+          GoRoute(
+            path: '/more/accounts/add',
+            builder: (context, state) => const AddEditAccountScreen(),
+          ),
+          GoRoute(
+            path: '/more/accounts/transfer/add',
+            builder: (context, state) => const AddTransferScreen(),
+          ),
+          GoRoute(
+            path: '/more/accounts/:id',
+            builder: (context, state) =>
+                AccountDetailScreen(accountId: state.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: '/more/accounts/:id/edit',
+            builder: (context, state) =>
+                AddEditAccountScreen(accountId: state.pathParameters['id']),
+          ),
         ],
       ),
     ],

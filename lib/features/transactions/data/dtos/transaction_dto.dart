@@ -7,6 +7,7 @@ class TransactionDto {
   const TransactionDto({
     required this.id,
     required this.userId,
+    required this.accountId,
     required this.amount,
     required this.categoryId,
     required this.categoryName,
@@ -19,6 +20,7 @@ class TransactionDto {
   factory TransactionDto.fromJson(Map<String, dynamic> json) => TransactionDto(
     id: json['id'] as String,
     userId: json['user_id'] as String,
+    accountId: json['account_id'] as String? ?? '',
     amount: (json['amount'] as num).toDouble(),
     categoryId: json['category_id'] as String? ?? '',
     categoryName: (json['categories'] as Map?)?['name'] as String? ?? 'Uncategorized',
@@ -31,6 +33,7 @@ class TransactionDto {
   factory TransactionDto.fromDomain(Transaction t) => TransactionDto(
     id: t.id,
     userId: t.userId,
+    accountId: t.accountId,
     amount: t.amount.amount,
     categoryId: t.category.id,
     categoryName: t.category.name,
@@ -42,6 +45,7 @@ class TransactionDto {
 
   final String id;
   final String userId;
+  final String accountId;
   final double amount;
   final String categoryId;
   final String categoryName;
@@ -53,6 +57,7 @@ class TransactionDto {
   /// Converts to the Supabase insert/update payload (no generated fields).
   Map<String, dynamic> toJson() => {
     'user_id': userId,
+    'account_id': accountId.isEmpty ? null : accountId,
     'amount': amount,
     'category_id': categoryId.isEmpty ? null : categoryId,
     'description': description,
@@ -65,6 +70,7 @@ class TransactionDto {
     return Transaction(
       id: id,
       userId: userId,
+      accountId: accountId,
       amount: Money(amount: amount),
       category: category,
       description: description,

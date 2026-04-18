@@ -446,6 +446,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{greeting}, {name} 👋'**
   String greeting_with_name(Object greeting, Object name);
+
+  /// No description provided for @tab_more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get tab_more;
+
+  /// No description provided for @more_accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get more_accounts;
+
+  /// No description provided for @accounts_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accounts_title;
+
+  /// No description provided for @add_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Add account'**
+  String get add_account;
+
+  /// No description provided for @edit_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit account'**
+  String get edit_account;
+
+  /// No description provided for @delete_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get delete_account;
+
+  /// No description provided for @delete_account_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this account?'**
+  String get delete_account_confirm;
+
+  /// No description provided for @delete_account_has_transactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot delete: account has transactions or transfers.'**
+  String get delete_account_has_transactions;
+
+  /// No description provided for @add_transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Add transfer'**
+  String get add_transfer;
+
+  /// No description provided for @account_type_checking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking'**
+  String get account_type_checking;
+
+  /// No description provided for @account_type_savings.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings'**
+  String get account_type_savings;
+
+  /// No description provided for @account_type_cash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get account_type_cash;
+
+  /// No description provided for @account_type_investment.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get account_type_investment;
+
+  /// No description provided for @account_type_other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get account_type_other;
+
+  /// No description provided for @initial_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial balance'**
+  String get initial_balance;
+
+  /// No description provided for @account_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get account_balance;
+
+  /// No description provided for @transfer_from.
+  ///
+  /// In en, this message translates to:
+  /// **'From account'**
+  String get transfer_from;
+
+  /// No description provided for @transfer_to.
+  ///
+  /// In en, this message translates to:
+  /// **'To account'**
+  String get transfer_to;
+
+  /// No description provided for @transfer_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get transfer_note;
+
+  /// No description provided for @transfer_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get transfer_amount;
+
+  /// No description provided for @save_account_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Save account'**
+  String get save_account_button;
+
+  /// No description provided for @save_transfer_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Save transfer'**
+  String get save_transfer_button;
+
+  /// No description provided for @account_type_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Account type'**
+  String get account_type_label;
+
+  /// No description provided for @account_name_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Account name'**
+  String get account_name_label;
+
+  /// No description provided for @account_name_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an account name'**
+  String get account_name_required;
+
+  /// No description provided for @transfer_amount_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount'**
+  String get transfer_amount_required;
+
+  /// No description provided for @transfer_amount_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid amount'**
+  String get transfer_amount_invalid;
+
+  /// No description provided for @transfer_same_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Source and destination must be different'**
+  String get transfer_same_account;
+
+  /// No description provided for @transfer_insufficient_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount exceeds available balance'**
+  String get transfer_insufficient_balance;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

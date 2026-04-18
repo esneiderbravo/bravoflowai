@@ -8,10 +8,13 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../domain/entities/category.dart';
 import '../../../../domain/entities/transaction.dart';
 import '../../../../domain/value_objects/money.dart';
+import '../../../accounts/application/account_providers.dart';
 import '../../application/transaction_providers.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
-  const AddTransactionScreen({super.key});
+  const AddTransactionScreen({super.key, this.preselectedAccountId});
+
+  final String? preselectedAccountId;
 
   @override
   ConsumerState<AddTransactionScreen> createState() => _AddTransactionScreenState();
@@ -22,10 +25,17 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   final _descController = TextEditingController();
   final _amountController = TextEditingController();
   TransactionType _type = TransactionType.expense;
+  String? _selectedAccountId;
   bool _isLoading = false;
 
   // Placeholder category until categories feature is built
   final _placeholderCategory = const Category(id: '', userId: '', name: 'General', isDefault: true);
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedAccountId = widget.preselectedAccountId;
+  }
 
   @override
   void dispose() {
@@ -42,6 +52,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     final transaction = Transaction(
       id: '',
       userId: '',
+      accountId: _selectedAccountId ?? '',
       amount: Money(amount: amount),
       category: _placeholderCategory,
       description: _descController.text.trim(),
@@ -58,6 +69,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final colorScheme = Theme.of(context).colorScheme;
+    final accountsAsync = ref.watch(accountNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.add_transaction_title, style: AppTextStyles.headingLarge)),
@@ -90,6 +102,24 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 onSelectionChanged: (s) => setState(() => _type = s.first),
               ),
               const SizedBox(height: AppConstants.spacingLg),
+
+              // ── Account picker ──────────────────────────────────────────
+              accountsAsync.when(
+                loading: () => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
+                data: (accounts) => DropdownButtonFormField<String>(
+                  initialValue: _selectedAccountId,
+                  decoration: InputDecoration(
+                    labelText: l10n.account_name_label,
+                    prefixIcon: const Icon(Icons.account_balance_wallet_outlined),
+                  ),
+                  items: accounts
+                      .map((a) => DropdownMenuItem(value: a.id, child: Text(a.name)))
+                      .toList(),
+                  onChanged: (v) => setState(() => _selectedAccountId = v),
+                ),
+              ),
+              const SizedBox(height: AppConstants.spacingMd),
 
               // ── Amount ──────────────────────────────────────────────────
               TextFormField(

@@ -188,4 +188,92 @@ class AppLocalizationsEn extends AppLocalizations {
   String greeting_with_name(Object greeting, Object name) {
     return '$greeting, $name 👋';
   }
+
+  @override
+  String get tab_more => 'More';
+
+  @override
+  String get more_accounts => 'Accounts';
+
+  @override
+  String get accounts_title => 'Accounts';
+
+  @override
+  String get add_account => 'Add account';
+
+  @override
+  String get edit_account => 'Edit account';
+
+  @override
+  String get delete_account => 'Delete account';
+
+  @override
+  String get delete_account_confirm => 'Delete this account?';
+
+  @override
+  String get delete_account_has_transactions =>
+      'Cannot delete: account has transactions or transfers.';
+
+  @override
+  String get add_transfer => 'Add transfer';
+
+  @override
+  String get account_type_checking => 'Checking';
+
+  @override
+  String get account_type_savings => 'Savings';
+
+  @override
+  String get account_type_cash => 'Cash';
+
+  @override
+  String get account_type_investment => 'Investment';
+
+  @override
+  String get account_type_other => 'Other';
+
+  @override
+  String get initial_balance => 'Initial balance';
+
+  @override
+  String get account_balance => 'Balance';
+
+  @override
+  String get transfer_from => 'From account';
+
+  @override
+  String get transfer_to => 'To account';
+
+  @override
+  String get transfer_note => 'Note (optional)';
+
+  @override
+  String get transfer_amount => 'Amount';
+
+  @override
+  String get save_account_button => 'Save account';
+
+  @override
+  String get save_transfer_button => 'Save transfer';
+
+  @override
+  String get account_type_label => 'Account type';
+
+  @override
+  String get account_name_label => 'Account name';
+
+  @override
+  String get account_name_required => 'Enter an account name';
+
+  @override
+  String get transfer_amount_required => 'Enter an amount';
+
+  @override
+  String get transfer_amount_invalid => 'Invalid amount';
+
+  @override
+  String get transfer_same_account => 'Source and destination must be different';
+
+  @override
+  String get transfer_insufficient_balance => 'Amount exceeds available balance';
 }

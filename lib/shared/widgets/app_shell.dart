@@ -17,7 +17,7 @@ class AppShell extends StatelessWidget {
       path: '/transactions',
     ),
     _TabItem(icon: Icons.auto_awesome_outlined, label: _TabLabel.ai, path: '/ai'),
-    _TabItem(icon: Icons.account_balance_wallet_outlined, label: _TabLabel.budget, path: '/budget'),
+    _TabItem(icon: Icons.more_horiz, label: _TabLabel.more, path: '/more'),
   ];
 
   int _locationToIndex(String location) {
@@ -46,7 +46,7 @@ class AppShell extends StatelessWidget {
             _TabLabel.home => context.l10n.tab_home,
             _TabLabel.transactions => context.l10n.tab_transactions,
             _TabLabel.ai => context.l10n.tab_ai,
-            _TabLabel.budget => context.l10n.tab_budget,
+            _TabLabel.more => context.l10n.tab_more,
           };
           return NavigationDestination(
             icon: Icon(t.icon),
@@ -66,4 +66,4 @@ class _TabItem {
   final String path;
 }
 
-enum _TabLabel { home, transactions, ai, budget }
+enum _TabLabel { home, transactions, ai, more }

@@ -35,6 +35,10 @@ begin
     )
   )
   on conflict (id) do nothing; -- idempotent: skip if profile already exists
+
+  insert into public.accounts (user_id, name, type, initial_balance, currency, is_default)
+  values (new.id, 'Cash', 'cash', 0, coalesce(nullif(trim(new.raw_user_meta_data ->> 'currency'), ''), 'USD'), true);
+
   return new;
 end;
 $$;

@@ -189,4 +189,92 @@ class AppLocalizationsEs extends AppLocalizations {
   String greeting_with_name(Object greeting, Object name) {
     return '$greeting, $name 👋';
   }
+
+  @override
+  String get tab_more => 'Más';
+
+  @override
+  String get more_accounts => 'Cuentas';
+
+  @override
+  String get accounts_title => 'Cuentas';
+
+  @override
+  String get add_account => 'Agregar cuenta';
+
+  @override
+  String get edit_account => 'Editar cuenta';
+
+  @override
+  String get delete_account => 'Eliminar cuenta';
+
+  @override
+  String get delete_account_confirm => '¿Eliminar esta cuenta?';
+
+  @override
+  String get delete_account_has_transactions =>
+      'No se puede eliminar: la cuenta tiene transacciones o transferencias.';
+
+  @override
+  String get add_transfer => 'Agregar transferencia';
+
+  @override
+  String get account_type_checking => 'Corriente';
+
+  @override
+  String get account_type_savings => 'Ahorros';
+
+  @override
+  String get account_type_cash => 'Efectivo';
+
+  @override
+  String get account_type_investment => 'Inversión';
+
+  @override
+  String get account_type_other => 'Otra';
+
+  @override
+  String get initial_balance => 'Balance inicial';
+
+  @override
+  String get account_balance => 'Balance';
+
+  @override
+  String get transfer_from => 'Cuenta origen';
+
+  @override
+  String get transfer_to => 'Cuenta destino';
+
+  @override
+  String get transfer_note => 'Nota (opcional)';
+
+  @override
+  String get transfer_amount => 'Monto';
+
+  @override
+  String get save_account_button => 'Guardar cuenta';
+
+  @override
+  String get save_transfer_button => 'Guardar transferencia';
+
+  @override
+  String get account_type_label => 'Tipo de cuenta';
+
+  @override
+  String get account_name_label => 'Nombre de la cuenta';
+
+  @override
+  String get account_name_required => 'Ingresa un nombre para la cuenta';
+
+  @override
+  String get transfer_amount_required => 'Ingresa un monto';
+
+  @override
+  String get transfer_amount_invalid => 'Monto inválido';
+
+  @override
+  String get transfer_same_account => 'El origen y destino deben ser diferentes';
+
+  @override
+  String get transfer_insufficient_balance => 'El monto supera el balance disponible';
 }
