@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../features/accounts/presentation/screens/account_detail_screen.dart';
 import '../../features/accounts/presentation/screens/accounts_screen.dart';
 import '../../features/accounts/presentation/screens/add_edit_account_screen.dart';
-import '../../features/accounts/presentation/screens/add_transfer_screen.dart';
 import '../../features/auth/application/auth_providers.dart';
 import '../../features/auth/presentation/screens/sign_in_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
@@ -77,10 +76,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/more/accounts/add',
         builder: (context, state) => const AddEditAccountScreen(),
-      ),
-      GoRoute(
-        path: '/more/accounts/transfer/add',
-        builder: (context, state) => const AddTransferScreen(),
       ),
       GoRoute(
         path: '/more/accounts/:id',

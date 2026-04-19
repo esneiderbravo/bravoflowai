@@ -34,7 +34,7 @@ class MoreScreen extends ConsumerWidget {
 
               // ── Profile Hero (tappable) ──────────────────────────────────
               GestureDetector(
-                onTap: () => context.go('/profile'),
+                onTap: () => context.push('/profile'),
                 child: GlassCard(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   child: Row(
@@ -93,7 +93,7 @@ class MoreScreen extends ConsumerWidget {
                 icon: Icons.account_balance_wallet_outlined,
                 iconColor: AppColors.primaryFixed,
                 label: l10n.more_accounts,
-                onTap: () => context.go('/more/accounts'),
+                onTap: () => context.push('/more/accounts'),
               ),
 
               const SizedBox(height: AppSpacing.xl),
@@ -105,7 +105,7 @@ class MoreScreen extends ConsumerWidget {
                 icon: Icons.label_outline_rounded,
                 iconColor: AppColors.secondary,
                 label: l10n.more_categories,
-                onTap: () => context.go('/more/categories'),
+                onTap: () => context.push('/more/categories'),
               ),
 
               const SizedBox(height: AppSpacing.xxl),

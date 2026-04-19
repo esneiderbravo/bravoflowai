@@ -11,7 +11,6 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../domain/entities/account.dart';
 import '../../../../domain/entities/transaction.dart';
-import '../../../../domain/entities/transfer.dart';
 import '../../../../domain/value_objects/money.dart';
 import '../../../../shared/extensions/context_extensions.dart';
 import '../../../../shared/widgets/glass_card.dart';
@@ -19,7 +18,6 @@ import '../../../../shared/widgets/jeweled_icon.dart';
 import '../../../transactions/application/transaction_providers.dart';
 import '../../application/account_balance_provider.dart';
 import '../../application/account_providers.dart';
-import '../../application/transfer_providers.dart';
 import '../widgets/account_card.dart';
 
 final _currencyFmt = NumberFormat.currency(locale: 'en_US', symbol: '\$');
@@ -33,9 +31,8 @@ class AccountDetailScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final transactions = ref.read(transactionNotifierProvider).valueOrNull ?? [];
     final hasTxns = transactions.any((t) => t.accountId == accountId);
-    final transfers = ref.read(transferNotifierProvider(accountId)).valueOrNull ?? [];
 
-    if (hasTxns || transfers.isNotEmpty) {
+    if (hasTxns) {
       context.showErrorSnack(l10n.delete_account_has_transactions);
       return;
     }
@@ -74,8 +71,6 @@ class AccountDetailScreen extends ConsumerWidget {
     final accountTransactions = allTransactions.where((t) => t.accountId == accountId).toList();
     final incomeTransactions = accountTransactions.where((t) => t.isIncome).toList();
     final expenseTransactions = accountTransactions.where((t) => t.isExpense).toList();
-    final transfersAsync = ref.watch(transferNotifierProvider(accountId));
-    final transfers = transfersAsync.valueOrNull ?? [];
 
     final totalIncome = incomeTransactions.fold<double>(0, (sum, t) => sum + t.amount.amount);
     final totalExpenses = expenseTransactions.fold<double>(0, (sum, t) => sum + t.amount.amount);
@@ -166,11 +161,11 @@ class AccountDetailScreen extends ConsumerWidget {
                   Expanded(
                     child: _StatCard(
                       label: l10n.transfers,
-                      value: '${transfers.length}',
-                      count: transfers.length,
+                      value: '0',
+                      count: 0,
                       icon: Icons.swap_horiz_rounded,
                       color: AppColors.secondary,
-                      onTap: () => _showTransferSheet(context, l10n, transfers),
+                      onTap: () => _showTransferSheet(context),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.md),
@@ -195,6 +190,61 @@ class AccountDetailScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.xl),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  void _showTransferSheet(BuildContext context) {
+    final l10n = context.l10n;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppColors.surfaceContainerLow,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.6,
+        maxChildSize: 0.92,
+        builder: (_, controller) => Column(
+          children: [
+            const SizedBox(height: AppSpacing.sm),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.outline,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: Row(
+                children: [
+                  const JeweledIcon(
+                    icon: Icons.swap_horiz_rounded,
+                    iconColor: AppColors.secondary,
+                    size: 36,
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Text(l10n.transfers, style: AppTextStyles.titleLarge),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            const Divider(color: AppColors.outlineVariant, height: 1),
+            Expanded(
+              child: Center(
+                child: Text(
+                  l10n.accounts_no_transfers,
+                  style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -303,134 +353,6 @@ class AccountDetailScreen extends ConsumerWidget {
                               '${t.isExpense ? '-' : '+'} ${_currencyFmt.format(t.amount.amount)}',
                               style: AppTextStyles.titleSmall.copyWith(
                                 color: t.isIncome ? AppColors.success : AppColors.error,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showTransferSheet(BuildContext context, AppLocalizations l10n, List<Transfer> transfers) {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: AppColors.surfaceContainerLow,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: 0.5,
-        maxChildSize: 0.92,
-        builder: (_, controller) => Column(
-          children: [
-            const SizedBox(height: AppSpacing.sm),
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.outline,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: Row(
-                children: [
-                  const JeweledIcon(
-                    icon: Icons.swap_horiz_rounded,
-                    iconColor: AppColors.secondary,
-                    size: 36,
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Text(l10n.transfers, style: AppTextStyles.titleLarge),
-                  const Spacer(),
-                  Text(
-                    '${transfers.length}',
-                    style: AppTextStyles.titleLarge.copyWith(
-                      color: AppColors.secondary,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const Divider(color: AppColors.outlineVariant, height: 1),
-            Expanded(
-              child: transfers.isEmpty
-                  ? Center(
-                      child: Text(
-                        context.l10n.accounts_no_transfers,
-                        style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
-                      ),
-                    )
-                  : ListView.separated(
-                      controller: controller,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.lg,
-                        vertical: AppSpacing.md,
-                      ),
-                      itemCount: transfers.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.sm),
-                      itemBuilder: (_, i) {
-                        final t = transfers[i];
-                        final isIncoming = t.toAccountId == accountId;
-                        return Row(
-                          children: [
-                            JeweledIcon(
-                              icon: isIncoming
-                                  ? Icons.call_received_rounded
-                                  : Icons.call_made_rounded,
-                              iconColor: isIncoming ? AppColors.success : AppColors.warning,
-                              size: 36,
-                            ),
-                            const SizedBox(width: AppSpacing.md),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    isIncoming
-                                        ? context.l10n.transfer_received
-                                        : context.l10n.transfer_sent,
-                                    style: AppTextStyles.labelSmall.copyWith(
-                                      color: isIncoming ? AppColors.success : AppColors.warning,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                  Text(
-                                    t.note?.isNotEmpty == true
-                                        ? t.note!
-                                        : t.date.toIso8601String().substring(0, 10),
-                                    style: AppTextStyles.titleSmall.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    t.date.toIso8601String().substring(0, 10),
-                                    style: AppTextStyles.bodySmall.copyWith(
-                                      color: AppColors.onSurfaceVariant,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              '${isIncoming ? '+' : '-'} ${_currencyFmt.format(t.amount.amount)}',
-                              style: AppTextStyles.titleSmall.copyWith(
-                                color: isIncoming ? AppColors.success : AppColors.warning,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -842,7 +764,7 @@ class _DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onDelete;
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16);
 
   @override
   Widget build(BuildContext context) {
@@ -860,7 +782,7 @@ class _DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.of(context).maybePop(),
+                    onTap: () => context.canPop() ? context.pop() : context.go('/more/accounts'),
                     child: const Icon(
                       Icons.arrow_back_ios_rounded,
                       color: AppColors.primaryFixed,

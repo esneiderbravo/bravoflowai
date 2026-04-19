@@ -398,6 +398,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get category_name_label => 'Category name';
 
   @override
+  String get category_name_hint => 'e.g. Groceries';
+
+  @override
   String get category_name_required => 'Enter a category name';
 
   @override

@@ -381,7 +381,7 @@ class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   const _ProfileAppBar();
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16);
 
   @override
   Widget build(BuildContext context) {
@@ -393,28 +393,35 @@ class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.sm,
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
               ),
               child: Row(
                 children: <Widget>[
-                  IconButton(
-                    onPressed: () => context.go('/more'),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-                    color: AppColors.onSurface,
+                  GestureDetector(
+                    onTap: () => context.canPop() ? context.pop() : context.go('/more'),
+                    child: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: AppColors.primaryFixed,
+                      size: 20,
+                    ),
                   ),
-                  const SizedBox(width: AppSpacing.sm),
-                  ShaderMask(
-                    shaderCallback: (b) => const LinearGradient(
-                      colors: [AppColors.primaryFixed, AppColors.secondary],
-                    ).createShader(b),
-                    child: Text(
-                      context.l10n.profile_title,
-                      style: GoogleFonts.manrope(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.3,
-                        color: Colors.white,
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: ShaderMask(
+                      shaderCallback: (b) => const LinearGradient(
+                        colors: [AppColors.primaryFixed, AppColors.secondary],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(b),
+                      child: Text(
+                        context.l10n.profile_title,
+                        style: GoogleFonts.manrope(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.3,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

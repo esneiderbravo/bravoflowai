@@ -507,7 +507,7 @@ class _FormAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16);
 
   @override
   Widget build(BuildContext context) {
@@ -525,7 +525,7 @@ class _FormAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.of(context).maybePop(),
+                    onTap: () => context.canPop() ? context.pop() : context.go('/more/accounts'),
                     child: const Icon(
                       Icons.arrow_back_ios_rounded,
                       color: AppColors.primaryFixed,

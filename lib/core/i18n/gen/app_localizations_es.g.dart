@@ -400,6 +400,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get category_name_label => 'Nombre de categoría';
 
   @override
+  String get category_name_hint => 'p.ej. Comestibles';
+
+  @override
   String get category_name_required => 'Ingresa un nombre de categoría';
 
   @override

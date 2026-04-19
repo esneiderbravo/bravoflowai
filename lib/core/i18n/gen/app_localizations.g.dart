@@ -861,6 +861,12 @@ abstract class AppLocalizations {
   /// **'Category name'**
   String get category_name_label;
 
+  /// No description provided for @category_name_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Groceries'**
+  String get category_name_hint;
+
   /// No description provided for @category_name_required.
   ///
   /// In en, this message translates to:

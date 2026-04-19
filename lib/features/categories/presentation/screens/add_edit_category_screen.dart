@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -132,17 +135,17 @@ class _AddEditCategoryScreenState extends ConsumerState<AddEditCategoryScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Text(
-          _isEditing ? l10n.edit_category_title : l10n.add_category_title,
-          style: AppTextStyles.headingLarge,
-        ),
-      ),
+      extendBodyBehindAppBar: true,
+      appBar: _FormAppBar(title: _isEditing ? l10n.edit_category_title : l10n.add_category_title),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.only(
+            top: kToolbarHeight + AppSpacing.xxl + AppSpacing.lg,
+            bottom: 100,
+            left: AppSpacing.lg,
+            right: AppSpacing.lg,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -166,10 +169,19 @@ class _AddEditCategoryScreenState extends ConsumerState<AddEditCategoryScreen> {
               const SizedBox(height: AppSpacing.xl),
 
               // ── Name ──────────────────────────────────────────────────
+              Text(
+                l10n.category_name_label.toUpperCase(),
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.onSurfaceVariant,
+                  letterSpacing: 2.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: l10n.category_name_label,
+                  hintText: l10n.category_name_hint,
                   prefixIcon: const Icon(Icons.label_outline_rounded),
                 ),
                 validator: (v) =>
@@ -270,10 +282,18 @@ class _AddEditCategoryScreenState extends ConsumerState<AddEditCategoryScreen> {
               ),
               const SizedBox(height: AppSpacing.sm),
               // Custom hex input
+              Text(
+                l10n.category_colour_custom_label.toUpperCase(),
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.onSurfaceVariant,
+                  letterSpacing: 2.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
               TextFormField(
                 controller: _colorController,
                 decoration: InputDecoration(
-                  labelText: l10n.category_colour_custom_label,
                   hintText: l10n.category_colour_hint,
                   prefixIcon: const Icon(Icons.color_lens_outlined),
                 ),
@@ -469,6 +489,68 @@ class _IconPickerSheetState extends State<_IconPickerSheet> {
           ),
         );
       },
+    );
+  }
+}
+
+// ── Glass app bar ─────────────────────────────────────────────────────────────
+
+class _FormAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _FormAppBar({required this.title});
+
+  final String title;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: Container(
+          color: AppColors.surface.withValues(alpha: 0.8),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => context.canPop() ? context.pop() : context.go('/more/categories'),
+                    child: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: AppColors.primaryFixed,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(
+                        colors: [AppColors.primaryFixed, AppColors.secondary],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(bounds),
+                      child: Text(
+                        title,
+                        style: GoogleFonts.manrope(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.3,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

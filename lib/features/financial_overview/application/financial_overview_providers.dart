@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/error/app_exception.dart';
 import '../../../features/accounts/application/account_providers.dart';
-import '../../../features/accounts/application/transfer_providers.dart';
 import '../../../features/transactions/application/transaction_providers.dart';
 import '../data/repositories/financial_overview_repository_impl.dart';
 import '../domain/entities/category_summary.dart';
@@ -15,7 +14,6 @@ final financialOverviewRepositoryProvider = Provider<FinancialOverviewRepository
   (ref) => FinancialOverviewRepositoryImpl(
     accountRepository: ref.read(accountRepositoryProvider),
     transactionRepository: ref.read(transactionRepositoryProvider),
-    transferRepository: ref.read(transferRepositoryProvider),
   ),
 );
 

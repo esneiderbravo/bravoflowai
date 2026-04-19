@@ -193,7 +193,7 @@ class _GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppLocalizations l10n;
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16);
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +211,7 @@ class _GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
+                    onTap: () => context.pop(),
                     child: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       color: AppColors.onSurface,

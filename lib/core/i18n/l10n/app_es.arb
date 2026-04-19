@@ -141,6 +141,7 @@
   "add_category_title": "Agregar categoría",
   "edit_category_title": "Editar categoría",
   "category_name_label": "Nombre de categoría",
+  "category_name_hint": "p.ej. Comestibles",
   "category_name_required": "Ingresa un nombre de categoría",
   "category_icon_section": "Ícono",
   "category_icon_hint": "Toca para elegir un ícono",

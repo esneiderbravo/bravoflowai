@@ -115,7 +115,7 @@ class _GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppLocalizations l10n;
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16);
 
   @override
   Widget build(BuildContext context) {

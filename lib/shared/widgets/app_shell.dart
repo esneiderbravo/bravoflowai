@@ -102,10 +102,13 @@ class _GlassNavBar extends StatelessWidget {
               topLeft: Radius.circular(AppSpacing.radiusXl),
               topRight: Radius.circular(AppSpacing.radiusXl),
             ),
+            border: Border(
+              top: BorderSide(color: AppColors.outlineVariant.withValues(alpha: 0.4), width: 1),
+            ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.onSurface.withValues(alpha: 0.05),
-                blurRadius: 40,
+                color: AppColors.onSurface.withValues(alpha: 0.12),
+                blurRadius: 32,
                 offset: const Offset(0, -12),
               ),
             ],
@@ -210,7 +213,7 @@ class _NavTabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? AppColors.primaryFixed : AppColors.outline.withValues(alpha: 0.6);
+    final color = isActive ? AppColors.primaryFixed : AppColors.onSurfaceVariant;
 
     return GestureDetector(
       onTap: onTap,
@@ -222,8 +225,8 @@ class _NavTabItem extends StatelessWidget {
           gradient: isActive
               ? LinearGradient(
                   colors: [
-                    AppColors.primaryFixed.withValues(alpha: 0.10),
-                    AppColors.secondary.withValues(alpha: 0.10),
+                    AppColors.primaryFixed.withValues(alpha: 0.18),
+                    AppColors.secondary.withValues(alpha: 0.18),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

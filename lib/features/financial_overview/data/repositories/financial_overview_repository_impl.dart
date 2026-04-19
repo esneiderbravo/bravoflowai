@@ -5,27 +5,20 @@ import '../../../../domain/entities/account.dart';
 import '../../../../domain/entities/transaction.dart';
 import '../../../../domain/repositories/account_repository.dart';
 import '../../../../domain/repositories/transaction_repository.dart';
-import '../../../../domain/repositories/transfer_repository.dart';
 import '../../../../domain/value_objects/money.dart';
 import '../../domain/entities/category_summary.dart';
 import '../../domain/entities/financial_summary.dart';
 import '../../domain/repositories/financial_overview_repository.dart';
 
 /// Aggregates financial data from existing repositories in memory.
-///
-/// Transfers are net-zero at the portfolio level, so global [totalBalance]
-/// is computed as: SUM(account.initialBalance + income txns - expense txns).
-/// Per-account transfer logic is handled by [accountBalanceProvider] separately.
 class FinancialOverviewRepositoryImpl implements FinancialOverviewRepository {
   const FinancialOverviewRepositoryImpl({
     required this.accountRepository,
     required this.transactionRepository,
-    required this.transferRepository,
   });
 
   final AccountRepository accountRepository;
   final TransactionRepository transactionRepository;
-  final TransferRepository transferRepository;
 
   @override
   Future<Either<Failure, FinancialSummary>> getFinancialSummary(DateTime month) async {
@@ -64,7 +57,6 @@ class FinancialOverviewRepositoryImpl implements FinancialOverviewRepository {
   // ── Private helpers ──────────────────────────────────────────────────────
 
   /// Global balance = SUM per account of (initialBalance + income - expense).
-  /// Transfers net to zero across the portfolio and are intentionally excluded.
   Money _computeTotalBalance(List<Account> accounts, List<Transaction> transactions) {
     double total = 0;
     for (final account in accounts) {
