@@ -49,6 +49,7 @@
   "profile_section_personal": "Personal",
   "more_preferences": "Preferencias",
   "more_accounts": "Cuentas",
+  "more_categories": "Categorías",
   "accounts_title": "Cuentas",
   "add_account": "Agregar cuenta",
   "edit_account": "Editar cuenta",
@@ -115,5 +116,38 @@
   "flow_net_balance": "Neto",
   "quick_add_title": "Agregar rápido",
   "quick_add_select_account": "Seleccionar cuenta",
-  "quick_add_account_required": "Por favor selecciona una cuenta"
+  "quick_add_account_required": "Por favor selecciona una cuenta",
+  "transaction_category_label": "Categoría",
+  "transaction_category_required": "Selecciona una categoría",
+
+  "more_section_finance": "Finanzas",
+  "more_section_organisation": "Organización",
+
+  "categories_title": "Categorías",
+  "categories_section_default": "Predeterminadas",
+  "categories_section_custom": "Personalizadas",
+  "categories_empty_custom": "Aún no hay categorías personalizadas. Toca + para crear una.",
+  "categories_delete_title": "¿Eliminar categoría?",
+  "categories_delete_body": "¿Eliminar \"{name}\"? Las transacciones vinculadas perderán su categoría.",
+  "@categories_delete_body": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "categories_delete_confirm": "Eliminar",
+  "common_cancel": "Cancelar",
+
+  "add_category_title": "Agregar categoría",
+  "edit_category_title": "Editar categoría",
+  "category_name_label": "Nombre de categoría",
+  "category_name_required": "Ingresa un nombre de categoría",
+  "category_icon_section": "Ícono",
+  "category_icon_hint": "Toca para elegir un ícono",
+  "category_colour_section": "Color",
+  "category_colour_custom_label": "Color personalizado (opcional)",
+  "category_colour_hint": "#3A86FF",
+  "category_colour_invalid": "Ingresa un color hex válido (ej. #3A86FF)",
+  "add_category_button": "Agregar categoría",
+  "category_choose_icon_title": "Elegir ícono",
+  "category_icon_search_hint": "Buscar íconos\u2026"
 }

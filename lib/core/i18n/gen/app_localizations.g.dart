@@ -201,6 +201,18 @@ abstract class AppLocalizations {
   /// **'Save transaction'**
   String get save_transaction_button;
 
+  /// No description provided for @transaction_category_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get transaction_category_label;
+
+  /// No description provided for @transaction_category_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a category'**
+  String get transaction_category_required;
+
   /// No description provided for @retry_button.
   ///
   /// In en, this message translates to:
@@ -356,6 +368,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accounts'**
   String get more_accounts;
+
+  /// No description provided for @more_categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get more_categories;
 
   /// No description provided for @accounts_title.
   ///
@@ -758,6 +776,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please select an account'**
   String get quick_add_account_required;
+
+  /// No description provided for @more_section_finance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get more_section_finance;
+
+  /// No description provided for @more_section_organisation.
+  ///
+  /// In en, this message translates to:
+  /// **'Organisation'**
+  String get more_section_organisation;
+
+  /// No description provided for @categories_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categories_title;
+
+  /// No description provided for @categories_section_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get categories_section_default;
+
+  /// No description provided for @categories_section_custom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get categories_section_custom;
+
+  /// No description provided for @categories_empty_custom.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom categories yet. Tap + to create one.'**
+  String get categories_empty_custom;
+
+  /// No description provided for @categories_delete_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete category?'**
+  String get categories_delete_title;
+
+  /// No description provided for @categories_delete_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"? Transactions linked to it will lose their category.'**
+  String categories_delete_body(String name);
+
+  /// No description provided for @categories_delete_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get categories_delete_confirm;
+
+  /// No description provided for @common_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get common_cancel;
+
+  /// No description provided for @add_category_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Category'**
+  String get add_category_title;
+
+  /// No description provided for @edit_category_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Category'**
+  String get edit_category_title;
+
+  /// No description provided for @category_name_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Category name'**
+  String get category_name_label;
+
+  /// No description provided for @category_name_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a category name'**
+  String get category_name_required;
+
+  /// No description provided for @category_icon_section.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get category_icon_section;
+
+  /// No description provided for @category_icon_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to choose an icon'**
+  String get category_icon_hint;
+
+  /// No description provided for @category_colour_section.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour'**
+  String get category_colour_section;
+
+  /// No description provided for @category_colour_custom_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom colour (optional)'**
+  String get category_colour_custom_label;
+
+  /// No description provided for @category_colour_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'#3A86FF'**
+  String get category_colour_hint;
+
+  /// No description provided for @category_colour_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid hex colour (e.g. #3A86FF)'**
+  String get category_colour_invalid;
+
+  /// No description provided for @add_category_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Add category'**
+  String get add_category_button;
+
+  /// No description provided for @category_choose_icon_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Icon'**
+  String get category_choose_icon_title;
+
+  /// No description provided for @category_icon_search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search icons…'**
+  String get category_icon_search_hint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

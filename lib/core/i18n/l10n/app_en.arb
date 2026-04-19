@@ -18,6 +18,8 @@
   "transaction_description_label": "Description",
   "transaction_description_required": "Enter a description",
   "save_transaction_button": "Save transaction",
+  "transaction_category_label": "Category",
+  "transaction_category_required": "Select a category",
   "retry_button": "Retry",
   "full_name_label": "Full name",
   "email_label": "Email",
@@ -49,6 +51,7 @@
   "profile_section_personal": "Personal",
   "more_preferences": "Preferences",
   "more_accounts": "Accounts",
+  "more_categories": "Categories",
   "accounts_title": "Accounts",
   "add_account": "Add account",
   "edit_account": "Edit account",
@@ -115,5 +118,36 @@
   "flow_net_balance": "Net",
   "quick_add_title": "Quick Add",
   "quick_add_select_account": "Select account",
-  "quick_add_account_required": "Please select an account"
+  "quick_add_account_required": "Please select an account",
+
+  "more_section_finance": "Finance",
+  "more_section_organisation": "Organisation",
+
+  "categories_title": "Categories",
+  "categories_section_default": "Default",
+  "categories_section_custom": "Custom",
+  "categories_empty_custom": "No custom categories yet. Tap + to create one.",
+  "categories_delete_title": "Delete category?",
+  "categories_delete_body": "Delete \"{name}\"? Transactions linked to it will lose their category.",
+  "@categories_delete_body": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "categories_delete_confirm": "Delete",
+  "common_cancel": "Cancel",
+
+  "add_category_title": "Add Category",
+  "edit_category_title": "Edit Category",
+  "category_name_label": "Category name",
+  "category_name_required": "Enter a category name",
+  "category_icon_section": "Icon",
+  "category_icon_hint": "Tap to choose an icon",
+  "category_colour_section": "Colour",
+  "category_colour_custom_label": "Custom colour (optional)",
+  "category_colour_hint": "#3A86FF",
+  "category_colour_invalid": "Enter a valid hex colour (e.g. #3A86FF)",
+  "add_category_button": "Add category",
+  "category_choose_icon_title": "Choose Icon",
+  "category_icon_search_hint": "Search icons\u2026"
 }

@@ -9,6 +9,8 @@ import '../../features/accounts/presentation/screens/add_transfer_screen.dart';
 import '../../features/auth/application/auth_providers.dart';
 import '../../features/auth/presentation/screens/sign_in_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
+import '../../features/categories/presentation/screens/add_edit_category_screen.dart';
+import '../../features/categories/presentation/screens/categories_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/more/presentation/screens/more_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
@@ -96,6 +98,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '/more/accounts/:id/edit',
             builder: (context, state) =>
                 AddEditAccountScreen(accountId: state.pathParameters['id']),
+          ),
+          GoRoute(path: '/more/categories', builder: (context, state) => const CategoriesScreen()),
+          GoRoute(
+            path: '/more/categories/add',
+            builder: (context, state) => const AddEditCategoryScreen(),
+          ),
+          GoRoute(
+            path: '/more/categories/:id/edit',
+            builder: (context, state) =>
+                AddEditCategoryScreen(categoryId: state.pathParameters['id']),
           ),
         ],
       ),

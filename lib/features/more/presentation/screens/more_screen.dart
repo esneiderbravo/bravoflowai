@@ -87,13 +87,25 @@ class MoreScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // ── Finance ──────────────────────────────────────────────────
-              const _SectionLabel('Finance'),
+              _SectionLabel(l10n.more_section_finance),
               const SizedBox(height: AppSpacing.sm),
               _SettingsTile(
                 icon: Icons.account_balance_wallet_outlined,
                 iconColor: AppColors.primaryFixed,
                 label: l10n.more_accounts,
                 onTap: () => context.go('/more/accounts'),
+              ),
+
+              const SizedBox(height: AppSpacing.xl),
+
+              // ── Organisation ─────────────────────────────────────────────
+              _SectionLabel(l10n.more_section_organisation),
+              const SizedBox(height: AppSpacing.sm),
+              _SettingsTile(
+                icon: Icons.label_outline_rounded,
+                iconColor: AppColors.secondary,
+                label: l10n.more_categories,
+                onTap: () => context.go('/more/categories'),
               ),
 
               const SizedBox(height: AppSpacing.xxl),

@@ -14,6 +14,7 @@ import '../../../../domain/value_objects/money.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../../../../shared/widgets/gradient_button.dart';
 import '../../../accounts/application/account_providers.dart';
+import '../../../categories/presentation/widgets/category_picker_sheet.dart';
 import '../../application/transaction_providers.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
@@ -31,10 +32,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   final _amountController = TextEditingController();
   TransactionType _type = TransactionType.expense;
   String? _selectedAccountId;
+  Category? _selectedCategory;
+  bool _categoryError = false;
   bool _isLoading = false;
-
-  // Placeholder category until categories feature is built
-  final _placeholderCategory = const Category(id: '', userId: '', name: 'General', isDefault: true);
 
   @override
   void initState() {
@@ -50,7 +50,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Future<void> _submit() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
+    final formValid = _formKey.currentState?.validate() ?? false;
+    final categoryValid = _selectedCategory != null;
+    if (!categoryValid) setState(() => _categoryError = true);
+    if (!formValid || !categoryValid) return;
     setState(() => _isLoading = true);
 
     final amount = double.tryParse(_amountController.text) ?? 0;
@@ -59,7 +62,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       userId: '',
       accountId: _selectedAccountId ?? '',
       amount: Money(amount: amount),
-      category: _placeholderCategory,
+      category: _selectedCategory!,
       description: _descController.text.trim(),
       date: DateTime.now(),
       type: _type,
@@ -119,6 +122,23 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                               .toList(),
                           onChanged: (v) => setState(() => _selectedAccountId = v),
                         ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+
+                      // Category picker
+                      _CategoryPickerField(
+                        selected: _selectedCategory,
+                        label: l10n.transaction_category_label,
+                        errorText: _categoryError ? l10n.transaction_category_required : null,
+                        onTap: () async {
+                          final picked = await CategoryPickerSheet.show(context);
+                          if (picked != null) {
+                            setState(() {
+                              _selectedCategory = picked;
+                              _categoryError = false;
+                            });
+                          }
+                        },
                       ),
                       const SizedBox(height: AppSpacing.md),
 
@@ -376,6 +396,57 @@ class _StyledDropdown<T> extends StatelessWidget {
       ),
       items: items,
       onChanged: onChanged,
+    );
+  }
+}
+
+// ── Category picker field ─────────────────────────────────────────────────────
+
+class _CategoryPickerField extends StatelessWidget {
+  const _CategoryPickerField({
+    required this.selected,
+    required this.label,
+    required this.onTap,
+    this.errorText,
+  });
+
+  final Category? selected;
+  final String label;
+  final VoidCallback onTap;
+  final String? errorText;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasError = errorText != null;
+    final borderColor = hasError
+        ? AppColors.error
+        : AppColors.outlineVariant.withValues(alpha: 0.3);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.md),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceContainerHigh.withValues(alpha: 0.4),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          border: Border.all(color: borderColor),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.category_outlined, color: AppColors.onSurfaceVariant, size: 20),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: selected == null
+                  ? Text(
+                      label,
+                      style: AppTextStyles.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+                    )
+                  : Text(selected!.name, style: AppTextStyles.bodyMedium),
+            ),
+            const Icon(Icons.expand_more_rounded, color: AppColors.onSurfaceVariant, size: 20),
+          ],
+        ),
+      ),
     );
   }
 }

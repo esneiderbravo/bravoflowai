@@ -63,6 +63,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get save_transaction_button => 'Guardar transaccion';
 
   @override
+  String get transaction_category_label => 'Categoría';
+
+  @override
+  String get transaction_category_required => 'Selecciona una categoría';
+
+  @override
   String get retry_button => 'Reintentar';
 
   @override
@@ -142,6 +148,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get more_accounts => 'Cuentas';
+
+  @override
+  String get more_categories => 'Categorías';
 
   @override
   String get accounts_title => 'Cuentas';
@@ -344,4 +353,76 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get quick_add_account_required => 'Por favor selecciona una cuenta';
+
+  @override
+  String get more_section_finance => 'Finanzas';
+
+  @override
+  String get more_section_organisation => 'Organización';
+
+  @override
+  String get categories_title => 'Categorías';
+
+  @override
+  String get categories_section_default => 'Predeterminadas';
+
+  @override
+  String get categories_section_custom => 'Personalizadas';
+
+  @override
+  String get categories_empty_custom =>
+      'Aún no hay categorías personalizadas. Toca + para crear una.';
+
+  @override
+  String get categories_delete_title => '¿Eliminar categoría?';
+
+  @override
+  String categories_delete_body(String name) {
+    return '¿Eliminar \"$name\"? Las transacciones vinculadas perderán su categoría.';
+  }
+
+  @override
+  String get categories_delete_confirm => 'Eliminar';
+
+  @override
+  String get common_cancel => 'Cancelar';
+
+  @override
+  String get add_category_title => 'Agregar categoría';
+
+  @override
+  String get edit_category_title => 'Editar categoría';
+
+  @override
+  String get category_name_label => 'Nombre de categoría';
+
+  @override
+  String get category_name_required => 'Ingresa un nombre de categoría';
+
+  @override
+  String get category_icon_section => 'Ícono';
+
+  @override
+  String get category_icon_hint => 'Toca para elegir un ícono';
+
+  @override
+  String get category_colour_section => 'Color';
+
+  @override
+  String get category_colour_custom_label => 'Color personalizado (opcional)';
+
+  @override
+  String get category_colour_hint => '#3A86FF';
+
+  @override
+  String get category_colour_invalid => 'Ingresa un color hex válido (ej. #3A86FF)';
+
+  @override
+  String get add_category_button => 'Agregar categoría';
+
+  @override
+  String get category_choose_icon_title => 'Elegir ícono';
+
+  @override
+  String get category_icon_search_hint => 'Buscar íconos…';
 }
