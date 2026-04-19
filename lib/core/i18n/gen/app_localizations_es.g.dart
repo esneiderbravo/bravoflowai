@@ -175,6 +175,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get add_transfer => 'Agregar transferencia';
 
   @override
+  String get transfers => 'Transferencias';
+
+  @override
   String get account_type_checking => 'Corriente';
 
   @override
@@ -425,4 +428,132 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get category_icon_search_hint => 'Buscar íconos…';
+
+  @override
+  String get account_color_label => 'Color';
+
+  @override
+  String get account_icon_label => 'Ícono';
+
+  @override
+  String get account_currency_label => 'Moneda';
+
+  @override
+  String get account_is_default_label => 'Marcar como cuenta predeterminada';
+
+  @override
+  String get account_created_success => 'Cuenta creada exitosamente';
+
+  @override
+  String get account_updated_success => 'Cuenta actualizada exitosamente';
+
+  @override
+  String get account_error_save => 'No se pudo guardar la cuenta. Inténtalo de nuevo.';
+
+  @override
+  String get accounts_total_balance => 'SALDO TOTAL';
+
+  @override
+  String get accounts_no_accounts => 'Sin cuentas aún';
+
+  @override
+  String get account_available_label => 'DISPONIBLE';
+
+  @override
+  String accounts_count_one(int count) {
+    return '$count cuenta';
+  }
+
+  @override
+  String accounts_count_other(int count) {
+    return '$count cuentas';
+  }
+
+  @override
+  String get accounts_across_one => 'En 1 cuenta';
+
+  @override
+  String accounts_across_other(int count) {
+    return 'En $count cuentas';
+  }
+
+  @override
+  String get accounts_empty_subtitle =>
+      'Agrega tu primera cuenta para comenzar a rastrear tus finanzas.';
+
+  @override
+  String get accounts_add_account => 'Agregar cuenta';
+
+  @override
+  String get accounts_no_records => 'Sin registros aún';
+
+  @override
+  String get accounts_no_transfers => 'Sin transferencias aún';
+
+  @override
+  String get account_icon_selected_label => 'Ícono seleccionado';
+
+  @override
+  String get icon_bank => 'Banco';
+
+  @override
+  String get icon_savings => 'Ahorros';
+
+  @override
+  String get icon_cash => 'Efectivo';
+
+  @override
+  String get icon_investment => 'Inversión';
+
+  @override
+  String get icon_wallet => 'Billetera';
+
+  @override
+  String get icon_card => 'Tarjeta';
+
+  @override
+  String get icon_money => 'Dinero';
+
+  @override
+  String get icon_exchange => 'Cambio';
+
+  @override
+  String get icon_business => 'Negocio';
+
+  @override
+  String get icon_property => 'Propiedad';
+
+  @override
+  String get icon_digital => 'Digital';
+
+  @override
+  String get icon_home => 'Hogar';
+
+  @override
+  String get transfer_received => 'Recibida';
+
+  @override
+  String get transfer_sent => 'Enviada';
+
+  @override
+  String get label_default => 'PREDETERMINADA';
+
+  @override
+  String get label_income => 'Ingresos';
+
+  @override
+  String get label_expenses => 'Gastos';
+
+  @override
+  String get label_net => 'NETO';
+
+  @override
+  String label_record_one(int count) {
+    return '$count registro';
+  }
+
+  @override
+  String label_record_other(int count) {
+    return '$count registros';
+  }
 }

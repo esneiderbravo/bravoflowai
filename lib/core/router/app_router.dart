@@ -73,6 +73,32 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/auth/sign-in', builder: (context, state) => const SignInScreen()),
       GoRoute(path: '/auth/sign-up', builder: (context, state) => const SignUpScreen()),
 
+      // ── Full-screen routes (no shell / no bottom nav) ───────────────────
+      GoRoute(
+        path: '/more/accounts/add',
+        builder: (context, state) => const AddEditAccountScreen(),
+      ),
+      GoRoute(
+        path: '/more/accounts/transfer/add',
+        builder: (context, state) => const AddTransferScreen(),
+      ),
+      GoRoute(
+        path: '/more/accounts/:id',
+        builder: (context, state) => AccountDetailScreen(accountId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/more/accounts/:id/edit',
+        builder: (context, state) => AddEditAccountScreen(accountId: state.pathParameters['id']),
+      ),
+      GoRoute(
+        path: '/more/categories/add',
+        builder: (context, state) => const AddEditCategoryScreen(),
+      ),
+      GoRoute(
+        path: '/more/categories/:id/edit',
+        builder: (context, state) => AddEditCategoryScreen(categoryId: state.pathParameters['id']),
+      ),
+
       // ── App shell routes (with bottom nav) ─────────────────────────────
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),
@@ -81,34 +107,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(path: '/profile', builder: (context, state) => const ProfileScreen()),
           GoRoute(path: '/more', builder: (context, state) => const MoreScreen()),
           GoRoute(path: '/more/accounts', builder: (context, state) => const AccountsScreen()),
-          GoRoute(
-            path: '/more/accounts/add',
-            builder: (context, state) => const AddEditAccountScreen(),
-          ),
-          GoRoute(
-            path: '/more/accounts/transfer/add',
-            builder: (context, state) => const AddTransferScreen(),
-          ),
-          GoRoute(
-            path: '/more/accounts/:id',
-            builder: (context, state) =>
-                AccountDetailScreen(accountId: state.pathParameters['id']!),
-          ),
-          GoRoute(
-            path: '/more/accounts/:id/edit',
-            builder: (context, state) =>
-                AddEditAccountScreen(accountId: state.pathParameters['id']),
-          ),
           GoRoute(path: '/more/categories', builder: (context, state) => const CategoriesScreen()),
-          GoRoute(
-            path: '/more/categories/add',
-            builder: (context, state) => const AddEditCategoryScreen(),
-          ),
-          GoRoute(
-            path: '/more/categories/:id/edit',
-            builder: (context, state) =>
-                AddEditCategoryScreen(categoryId: state.pathParameters['id']),
-          ),
         ],
       ),
     ],

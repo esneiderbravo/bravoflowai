@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 /// BravoFlow AI — Currency enum
 enum Currency { usd, eur, gbp, brl }
@@ -39,5 +40,8 @@ class Money extends Equatable {
   List<Object> get props => [amount, currency];
 
   @override
-  String toString() => '$currencySymbol${amount.toStringAsFixed(2)}';
+  String toString() {
+    final fmt = NumberFormat.currency(symbol: currencySymbol, decimalDigits: 2);
+    return fmt.format(amount);
+  }
 }

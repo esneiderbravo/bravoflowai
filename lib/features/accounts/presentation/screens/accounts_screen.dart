@@ -5,9 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../shared/widgets/glass_card.dart';
+import '../../application/account_balance_provider.dart';
 import '../../application/account_providers.dart';
 import '../widgets/account_card.dart';
 
@@ -16,12 +19,14 @@ class AccountsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final accountsAsync = ref.watch(accountNotifierProvider);
+    final totalAsync = ref.watch(totalBalanceProvider);
 
     return Scaffold(
       backgroundColor: AppColors.surface,
       extendBodyBehindAppBar: true,
-      appBar: const _AccountsAppBar(),
+      appBar: _AccountsAppBar(l10n: l10n),
       body: accountsAsync.when(
         loading: () => const Center(
           child: CircularProgressIndicator(color: AppColors.primaryFixed, strokeWidth: 2),
@@ -31,81 +36,69 @@ class AccountsScreen extends ConsumerWidget {
           top: false,
           child: SingleChildScrollView(
             padding: const EdgeInsets.only(
-              top: kToolbarHeight + AppSpacing.xl,
+              top: kToolbarHeight + AppSpacing.xxl + AppSpacing.lg,
               bottom: 100,
-              left: AppSpacing.lg,
-              right: AppSpacing.lg,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Net Worth Editorial Header ────────────────────────────
                 const SizedBox(height: AppSpacing.lg),
-                Text(
-                  'TOTAL BALANCE',
-                  style: AppTextStyles.labelSmall.copyWith(
-                    color: AppColors.onSurfaceVariant,
-                    letterSpacing: 2.0,
-                    fontWeight: FontWeight.w700,
+
+                // ── Total Balance Hero ────────────────────────────────────
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                  child: _TotalBalanceCard(
+                    totalAsync: totalAsync,
+                    accountCount: accounts.length,
+                    l10n: l10n,
                   ),
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => const LinearGradient(
-                          colors: [AppColors.primary, AppColors.secondary],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ).createShader(bounds),
-                        child: Text(
-                          _totalBalance(accounts),
-                          style: GoogleFonts.manrope(
-                            fontSize: 42,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -1,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Text(
-                        '+2.4%',
-                        style: AppTextStyles.titleMedium.copyWith(color: AppColors.primary),
-                      ),
-                    ),
-                  ],
                 ),
                 const SizedBox(height: AppSpacing.xl),
 
+                // ── Account count badge ───────────────────────────────────
+                if (accounts.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryFixed.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: AppColors.primaryFixed.withValues(alpha: 0.2)),
+                      ),
+                      child: Text(
+                        accounts.length == 1
+                            ? l10n.accounts_count_one(accounts.length)
+                            : l10n.accounts_count_other(accounts.length),
+                        style: AppTextStyles.labelSmall.copyWith(
+                          color: AppColors.primaryFixed,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                const SizedBox(height: AppSpacing.md),
+
                 // ── Account Cards ─────────────────────────────────────────
                 if (accounts.isEmpty)
-                  Center(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: AppSpacing.xxl),
-                        const Icon(
-                          Icons.account_balance_wallet_outlined,
-                          size: 64,
-                          color: AppColors.onSurfaceVariant,
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        Text('No accounts yet', style: AppTextStyles.headingSmall),
-                      ],
-                    ),
-                  )
+                  _EmptyState(l10n: l10n)
                 else
-                  ...accounts.map(
-                    (account) => Padding(
-                      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                      child: AccountCard(
-                        account: account,
-                        onTap: () => context.push('/more/accounts/${account.id}'),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Column(
+                      children: accounts
+                          .map(
+                            (account) => Padding(
+                              padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                              child: AccountCard(
+                                account: account,
+                                onTap: () => context.push('/more/accounts/${account.id}'),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
                   ),
               ],
@@ -113,28 +106,203 @@ class AccountsScreen extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/more/accounts/add'),
-        backgroundColor: AppColors.primaryFixed,
-        foregroundColor: AppColors.onPrimary,
-        elevation: 0,
-        label: Text(
-          'Add Account',
-          style: AppTextStyles.labelLarge.copyWith(color: AppColors.onPrimary),
-        ),
-        icon: const Icon(Icons.add_rounded, color: AppColors.onPrimary),
-      ),
     );
-  }
-
-  String _totalBalance(List<dynamic> accounts) {
-    if (accounts.isEmpty) return '\$0.00';
-    return '\$—';
   }
 }
 
+// ── Total Balance Hero Card ───────────────────────────────────────────────────
+
+class _TotalBalanceCard extends StatelessWidget {
+  const _TotalBalanceCard({
+    required this.totalAsync,
+    required this.accountCount,
+    required this.l10n,
+  });
+
+  final AsyncValue<dynamic> totalAsync;
+  final int accountCount;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassCard(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      backgroundColor: AppColors.surfaceContainerHigh.withValues(alpha: 0.6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Label row with accent bar ──────────────────────────────
+          Row(
+            children: [
+              Container(
+                width: 4,
+                height: 14,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [AppColors.primaryFixed, AppColors.secondary],
+                  ),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                l10n.accounts_total_balance.toUpperCase(),
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.onSurfaceVariant,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.6,
+                  fontSize: 9,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+
+          // ── Balance amount ─────────────────────────────────────────
+          totalAsync.when(
+            loading: () => const SizedBox(
+              height: 44,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(color: AppColors.primaryFixed, strokeWidth: 2),
+                ),
+              ),
+            ),
+            error: (e, _) => Text(
+              '\$—',
+              style: AppTextStyles.headingLarge.copyWith(
+                fontWeight: FontWeight.w800,
+                color: AppColors.onSurface,
+              ),
+            ),
+            data: (total) => ShaderMask(
+              shaderCallback: (bounds) => const LinearGradient(
+                colors: [AppColors.primaryFixed, AppColors.secondary],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ).createShader(bounds),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  total.toString(),
+                  style: GoogleFonts.manrope(
+                    fontSize: 38,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -1,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+
+          // ── Subtitle ───────────────────────────────────────────────
+          Text(
+            accountCount == 1 ? l10n.accounts_across_one : l10n.accounts_across_other(accountCount),
+            style: AppTextStyles.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      child: Column(
+        children: [
+          const SizedBox(height: AppSpacing.xxl),
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.xl),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.primaryFixed.withValues(alpha: 0.08),
+              border: Border.all(color: AppColors.primaryFixed.withValues(alpha: 0.15)),
+            ),
+            child: const Icon(
+              Icons.account_balance_wallet_outlined,
+              size: 48,
+              color: AppColors.primaryFixed,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            l10n.accounts_no_accounts,
+            style: AppTextStyles.headingSmall.copyWith(fontWeight: FontWeight.w700),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            l10n.accounts_empty_subtitle,
+            style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GestureDetector(
+            onTap: () => context.push('/more/accounts/add'),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.xl,
+                vertical: AppSpacing.md,
+              ),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [AppColors.primaryFixed, AppColors.secondary],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primaryFixed.withValues(alpha: 0.3),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.add_rounded, color: AppColors.onPrimary, size: 18),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    l10n.accounts_add_account,
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: AppColors.onPrimary,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── App bar ───────────────────────────────────────────────────────────────────
+
 class _AccountsAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _AccountsAppBar();
+  const _AccountsAppBar({required this.l10n});
+  final AppLocalizations l10n;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -170,18 +338,21 @@ class _AccountsAppBar extends StatelessWidget implements PreferredSizeWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ).createShader(bounds),
-                      child: const Text(
-                        'Accounts',
-                        style: TextStyle(
-                          fontFamily: 'Manrope',
+                      child: Text(
+                        l10n.accounts_title,
+                        style: GoogleFonts.manrope(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
+                          letterSpacing: -0.3,
                           color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                  const Icon(Icons.search_rounded, color: AppColors.primaryFixed, size: 22),
+                  GestureDetector(
+                    onTap: () => context.push('/more/accounts/add'),
+                    child: const Icon(Icons.add_rounded, color: AppColors.primaryFixed, size: 26),
+                  ),
                 ],
               ),
             ),

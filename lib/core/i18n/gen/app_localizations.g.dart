@@ -417,6 +417,12 @@ abstract class AppLocalizations {
   /// **'Add transfer'**
   String get add_transfer;
 
+  /// No description provided for @transfers.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfers'**
+  String get transfers;
+
   /// No description provided for @account_type_checking.
   ///
   /// In en, this message translates to:
@@ -914,6 +920,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search icons…'**
   String get category_icon_search_hint;
+
+  /// No description provided for @account_color_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour'**
+  String get account_color_label;
+
+  /// No description provided for @account_icon_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get account_icon_label;
+
+  /// No description provided for @account_currency_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get account_currency_label;
+
+  /// No description provided for @account_is_default_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as default account'**
+  String get account_is_default_label;
+
+  /// No description provided for @account_created_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully'**
+  String get account_created_success;
+
+  /// No description provided for @account_updated_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Account updated successfully'**
+  String get account_updated_success;
+
+  /// No description provided for @account_error_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save account. Please try again.'**
+  String get account_error_save;
+
+  /// No description provided for @accounts_total_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL BALANCE'**
+  String get accounts_total_balance;
+
+  /// No description provided for @accounts_no_accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts yet'**
+  String get accounts_no_accounts;
+
+  /// No description provided for @account_available_label.
+  ///
+  /// In en, this message translates to:
+  /// **'AVAILABLE'**
+  String get account_available_label;
+
+  /// No description provided for @accounts_count_one.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} account'**
+  String accounts_count_one(int count);
+
+  /// No description provided for @accounts_count_other.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} accounts'**
+  String accounts_count_other(int count);
+
+  /// No description provided for @accounts_across_one.
+  ///
+  /// In en, this message translates to:
+  /// **'Across 1 account'**
+  String get accounts_across_one;
+
+  /// No description provided for @accounts_across_other.
+  ///
+  /// In en, this message translates to:
+  /// **'Across {count} accounts'**
+  String accounts_across_other(int count);
+
+  /// No description provided for @accounts_empty_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first account to start tracking your finances.'**
+  String get accounts_empty_subtitle;
+
+  /// No description provided for @accounts_add_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Account'**
+  String get accounts_add_account;
+
+  /// No description provided for @accounts_no_records.
+  ///
+  /// In en, this message translates to:
+  /// **'No records yet'**
+  String get accounts_no_records;
+
+  /// No description provided for @accounts_no_transfers.
+  ///
+  /// In en, this message translates to:
+  /// **'No transfers yet'**
+  String get accounts_no_transfers;
+
+  /// No description provided for @account_icon_selected_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon selected'**
+  String get account_icon_selected_label;
+
+  /// No description provided for @icon_bank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get icon_bank;
+
+  /// No description provided for @icon_savings.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings'**
+  String get icon_savings;
+
+  /// No description provided for @icon_cash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get icon_cash;
+
+  /// No description provided for @icon_investment.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get icon_investment;
+
+  /// No description provided for @icon_wallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get icon_wallet;
+
+  /// No description provided for @icon_card.
+  ///
+  /// In en, this message translates to:
+  /// **'Card'**
+  String get icon_card;
+
+  /// No description provided for @icon_money.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get icon_money;
+
+  /// No description provided for @icon_exchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange'**
+  String get icon_exchange;
+
+  /// No description provided for @icon_business.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get icon_business;
+
+  /// No description provided for @icon_property.
+  ///
+  /// In en, this message translates to:
+  /// **'Property'**
+  String get icon_property;
+
+  /// No description provided for @icon_digital.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital'**
+  String get icon_digital;
+
+  /// No description provided for @icon_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get icon_home;
+
+  /// No description provided for @transfer_received.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get transfer_received;
+
+  /// No description provided for @transfer_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get transfer_sent;
+
+  /// No description provided for @label_default.
+  ///
+  /// In en, this message translates to:
+  /// **'DEFAULT'**
+  String get label_default;
+
+  /// No description provided for @label_income.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get label_income;
+
+  /// No description provided for @label_expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get label_expenses;
+
+  /// No description provided for @label_net.
+  ///
+  /// In en, this message translates to:
+  /// **'NET'**
+  String get label_net;
+
+  /// No description provided for @label_record_one.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} record'**
+  String label_record_one(int count);
+
+  /// No description provided for @label_record_other.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} records'**
+  String label_record_other(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

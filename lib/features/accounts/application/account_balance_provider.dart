@@ -4,6 +4,19 @@ import '../../transactions/application/transaction_providers.dart';
 import 'account_providers.dart';
 import 'transfer_providers.dart';
 
+/// Sums all per-account balances into a single total.
+final totalBalanceProvider = FutureProvider<Money>((ref) async {
+  final accounts = await ref.watch(accountNotifierProvider.future);
+  if (accounts.isEmpty) return const Money(amount: 0);
+
+  double total = 0;
+  for (final account in accounts) {
+    final money = await ref.watch(accountBalanceProvider(account.id).future);
+    total += money.amount;
+  }
+  return Money(amount: total);
+});
+
 /// Computes the derived balance for a given account.
 ///
 /// Balance = initialBalance + sum(income txns) - sum(expense txns)

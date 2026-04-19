@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -9,6 +10,7 @@ import '../../../../domain/entities/account.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../../application/account_balance_provider.dart';
 import '../../application/account_providers.dart';
+import 'account_card.dart';
 
 /// Horizontal scrollable accounts strip for the Dashboard.
 class AccountsScrollWidget extends ConsumerWidget {
@@ -112,7 +114,7 @@ class _AccountHeroCard extends ConsumerWidget {
                   ),
                   const SizedBox(width: AppSpacing.sm),
                   Text(
-                    account.type.name.toUpperCase(),
+                    accountTypeName(AppLocalizations.of(context), account.type).toUpperCase(),
                     style: AppTextStyles.labelSmall.copyWith(
                       color: AppColors.onSurfaceVariant,
                       fontWeight: FontWeight.w700,
