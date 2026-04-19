@@ -277,4 +277,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get account_created_confirm => 'Account created! Check your email to confirm.';
+
+  @override
+  String get financial_overview_total_balance => 'Total Balance';
+
+  @override
+  String get financial_overview_across_accounts => 'Across all accounts';
+
+  @override
+  String get financial_overview_this_month => 'This Month';
+
+  @override
+  String get financial_overview_income => 'Income';
+
+  @override
+  String get financial_overview_expenses => 'Expenses';
+
+  @override
+  String get financial_overview_net_balance => 'Net Balance';
+
+  @override
+  String get financial_overview_top_spending => 'Top Spending';
+
+  @override
+  String get financial_overview_no_expenses => 'No expenses recorded this month';
+
+  @override
+  String get flow_tab_all => 'All';
+
+  @override
+  String get flow_tab_income => 'Income';
+
+  @override
+  String get flow_tab_expenses => 'Expenses';
+
+  @override
+  String get flow_today => 'Today';
+
+  @override
+  String get flow_yesterday => 'Yesterday';
+
+  @override
+  String get flow_empty_all => 'No transactions yet';
+
+  @override
+  String get flow_empty_income => 'No income recorded yet';
+
+  @override
+  String get flow_empty_expenses => 'No expenses recorded yet';
+
+  @override
+  String get flow_monthly_income => 'Income';
+
+  @override
+  String get flow_monthly_expenses => 'Expenses';
+
+  @override
+  String get flow_net_balance => 'Net';
+
+  @override
+  String get quick_add_title => 'Quick Add';
+
+  @override
+  String get quick_add_select_account => 'Select account';
+
+  @override
+  String get quick_add_account_required => 'Please select an account';
 }

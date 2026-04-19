@@ -12,8 +12,6 @@ import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/more/presentation/screens/more_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
-import '../../features/transactions/presentation/screens/add_transaction_screen.dart';
-import '../../features/transactions/presentation/screens/transaction_list_screen.dart';
 import '../../shared/widgets/app_shell.dart';
 import '../services/app_providers.dart';
 
@@ -79,14 +77,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(path: '/dashboard', builder: (context, state) => const DashboardScreen()),
           GoRoute(path: '/profile', builder: (context, state) => const ProfileScreen()),
-          GoRoute(
-            path: '/transactions',
-            builder: (context, state) => const TransactionListScreen(),
-          ),
-          GoRoute(
-            path: '/transactions/add',
-            builder: (context, state) => const AddTransactionScreen(),
-          ),
           GoRoute(path: '/more', builder: (context, state) => const MoreScreen()),
           GoRoute(path: '/more/accounts', builder: (context, state) => const AccountsScreen()),
           GoRoute(

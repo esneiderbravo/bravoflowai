@@ -1,13 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/i18n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../domain/entities/category.dart';
 import '../../../../domain/entities/transaction.dart';
 import '../../../../domain/value_objects/money.dart';
+import '../../../../shared/widgets/glass_card.dart';
+import '../../../../shared/widgets/gradient_button.dart';
 import '../../../accounts/application/account_providers.dart';
 import '../../application/transaction_providers.dart';
 
@@ -68,109 +73,309 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final colorScheme = Theme.of(context).colorScheme;
     final accountsAsync = ref.watch(accountNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.add_transaction_title, style: AppTextStyles.headingLarge)),
-      body: Form(
-        key: _formKey,
+      backgroundColor: AppColors.surface,
+      extendBodyBehindAppBar: true,
+      appBar: _GlassAppBar(l10n: l10n),
+      body: SafeArea(
+        top: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppConstants.spacingMd),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ── Type toggle ─────────────────────────────────────────────
-              SegmentedButton<TransactionType>(
-                segments: <ButtonSegment<TransactionType>>[
-                  ButtonSegment<TransactionType>(
-                    value: TransactionType.expense,
-                    label: Text(l10n.transaction_type_expense),
-                    icon: const Icon(Icons.arrow_upward_rounded),
+          padding: const EdgeInsets.only(
+            top: kToolbarHeight + AppSpacing.xl,
+            left: AppSpacing.lg,
+            right: AppSpacing.lg,
+            bottom: AppSpacing.xxl,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // ── Type pill toggle ────────────────────────────────────
+                _TypeToggle(
+                  selected: _type,
+                  onSelect: (t) => setState(() => _type = t),
+                  l10n: l10n,
+                ),
+                const SizedBox(height: AppSpacing.lg),
+
+                // ── Form fields card ────────────────────────────────────
+                GlassCard(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  child: Column(
+                    children: [
+                      // Account picker
+                      accountsAsync.when(
+                        loading: () => const SizedBox.shrink(),
+                        error: (e, st) => const SizedBox.shrink(),
+                        data: (accounts) => _StyledDropdown<String>(
+                          value: _selectedAccountId,
+                          label: l10n.account_name_label,
+                          icon: Icons.account_balance_wallet_outlined,
+                          items: accounts
+                              .map((a) => DropdownMenuItem(value: a.id, child: Text(a.name)))
+                              .toList(),
+                          onChanged: (v) => setState(() => _selectedAccountId = v),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+
+                      // Amount field
+                      _StyledTextField(
+                        controller: _amountController,
+                        label: l10n.transaction_amount_label,
+                        icon: Icons.attach_money_rounded,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        prefixText: '\$ ',
+                        validator: (v) {
+                          if (v == null || v.isEmpty) return l10n.transaction_amount_required;
+                          if (double.tryParse(v) == null) return l10n.transaction_amount_invalid;
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+
+                      // Description field
+                      _StyledTextField(
+                        controller: _descController,
+                        label: l10n.transaction_description_label,
+                        icon: Icons.notes_rounded,
+                        validator: (v) => (v == null || v.trim().isEmpty)
+                            ? l10n.transaction_description_required
+                            : null,
+                      ),
+                    ],
                   ),
-                  ButtonSegment<TransactionType>(
-                    value: TransactionType.income,
-                    label: Text(l10n.transaction_type_income),
-                    icon: const Icon(Icons.arrow_downward_rounded),
-                  ),
-                ],
-                showSelectedIcon: false,
-                style: ButtonStyle(
-                  textStyle: WidgetStatePropertyAll<TextStyle>(AppTextStyles.labelMedium),
                 ),
-                selected: {_type},
-                onSelectionChanged: (s) => setState(() => _type = s.first),
-              ),
-              const SizedBox(height: AppConstants.spacingLg),
+                const SizedBox(height: AppSpacing.xl),
 
-              // ── Account picker ──────────────────────────────────────────
-              accountsAsync.when(
-                loading: () => const SizedBox.shrink(),
-                error: (e, _) => const SizedBox.shrink(),
-                data: (accounts) => DropdownButtonFormField<String>(
-                  initialValue: _selectedAccountId,
-                  decoration: InputDecoration(
-                    labelText: l10n.account_name_label,
-                    prefixIcon: const Icon(Icons.account_balance_wallet_outlined),
-                  ),
-                  items: accounts
-                      .map((a) => DropdownMenuItem(value: a.id, child: Text(a.name)))
-                      .toList(),
-                  onChanged: (v) => setState(() => _selectedAccountId = v),
-                ),
-              ),
-              const SizedBox(height: AppConstants.spacingMd),
-
-              // ── Amount ──────────────────────────────────────────────────
-              TextFormField(
-                controller: _amountController,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: l10n.transaction_amount_label,
-                  prefixText: '\$ ',
-                  prefixIcon: const Icon(Icons.attach_money_rounded),
-                ),
-                validator: (v) {
-                  if (v == null || v.isEmpty) return l10n.transaction_amount_required;
-                  if (double.tryParse(v) == null) return l10n.transaction_amount_invalid;
-                  return null;
-                },
-              ),
-              const SizedBox(height: AppConstants.spacingMd),
-
-              // ── Description ─────────────────────────────────────────────
-              TextFormField(
-                controller: _descController,
-                decoration: InputDecoration(
-                  labelText: l10n.transaction_description_label,
-                  prefixIcon: const Icon(Icons.notes_rounded),
-                ),
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? l10n.transaction_description_required : null,
-              ),
-              const SizedBox(height: AppConstants.spacingXl),
-
-              // ── Submit ──────────────────────────────────────────────────
-              SizedBox(
-                height: 52,
-                child: ElevatedButton(
+                // ── Save button ─────────────────────────────────────────
+                GradientButton(
+                  label: l10n.save_transaction_button,
+                  isLoading: _isLoading,
                   onPressed: _isLoading ? null : _submit,
-                  child: _isLoading
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: colorScheme.onPrimary,
-                          ),
-                        )
-                      : Text(l10n.save_transaction_button),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+// ── Glass app bar ─────────────────────────────────────────────────────────────
+
+class _GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _GlassAppBar({required this.l10n});
+  final AppLocalizations l10n;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: Container(
+          color: AppColors.surface.withValues(alpha: 0.8),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: AppColors.onSurface,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Text(l10n.add_transaction_title, style: AppTextStyles.titleLarge),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Type pill toggle ──────────────────────────────────────────────────────────
+
+class _TypeToggle extends StatelessWidget {
+  const _TypeToggle({required this.selected, required this.onSelect, required this.l10n});
+
+  final TransactionType selected;
+  final ValueChanged<TransactionType> onSelect;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final options = [
+      (TransactionType.expense, l10n.transaction_type_expense, Icons.arrow_upward_rounded),
+      (TransactionType.income, l10n.transaction_type_income, Icons.arrow_downward_rounded),
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.xs),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceContainerHigh.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+        border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.15)),
+      ),
+      child: Row(
+        children: options.map((opt) {
+          final (type, label, icon) = opt;
+          final isActive = selected == type;
+          final accentColor = type == TransactionType.income ? AppColors.success : AppColors.error;
+
+          return Expanded(
+            child: GestureDetector(
+              onTap: () => onSelect(type),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: isActive ? accentColor.withValues(alpha: 0.15) : null,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      size: 14,
+                      color: isActive ? accentColor : AppColors.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Text(
+                      label,
+                      style: AppTextStyles.labelMedium.copyWith(
+                        color: isActive ? accentColor : AppColors.onSurfaceVariant,
+                        fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+// ── Styled form field helpers ─────────────────────────────────────────────────
+
+class _StyledTextField extends StatelessWidget {
+  const _StyledTextField({
+    required this.controller,
+    required this.label,
+    required this.icon,
+    this.keyboardType,
+    this.prefixText,
+    this.validator,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final IconData icon;
+  final TextInputType? keyboardType;
+  final String? prefixText;
+  final String? Function(String?)? validator;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      style: AppTextStyles.bodyMedium,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: AppTextStyles.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+        prefixText: prefixText,
+        prefixIcon: Icon(icon, color: AppColors.onSurfaceVariant, size: 20),
+        filled: true,
+        fillColor: AppColors.surfaceContainerHigh.withValues(alpha: 0.4),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: BorderSide(color: AppColors.outlineVariant.withValues(alpha: 0.3)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: BorderSide(color: AppColors.outlineVariant.withValues(alpha: 0.3)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: const BorderSide(color: AppColors.primaryFixed),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: const BorderSide(color: AppColors.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: const BorderSide(color: AppColors.error),
+        ),
+      ),
+      validator: validator,
+    );
+  }
+}
+
+class _StyledDropdown<T> extends StatelessWidget {
+  const _StyledDropdown({
+    required this.value,
+    required this.label,
+    required this.icon,
+    required this.items,
+    required this.onChanged,
+  });
+
+  final T? value;
+  final String label;
+  final IconData icon;
+  final List<DropdownMenuItem<T>> items;
+  final ValueChanged<T?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<T>(
+      initialValue: value,
+      style: AppTextStyles.bodyMedium,
+      dropdownColor: AppColors.surfaceContainerHigh,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: AppTextStyles.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+        prefixIcon: Icon(icon, color: AppColors.onSurfaceVariant, size: 20),
+        filled: true,
+        fillColor: AppColors.surfaceContainerHigh.withValues(alpha: 0.4),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: BorderSide(color: AppColors.outlineVariant.withValues(alpha: 0.3)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: BorderSide(color: AppColors.outlineVariant.withValues(alpha: 0.3)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+          borderSide: const BorderSide(color: AppColors.primaryFixed),
+        ),
+      ),
+      items: items,
+      onChanged: onChanged,
     );
   }
 }

@@ -278,4 +278,70 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get account_created_confirm => '¡Cuenta creada! Revisa tu correo para confirmar.';
+
+  @override
+  String get financial_overview_total_balance => 'Balance Total';
+
+  @override
+  String get financial_overview_across_accounts => 'En todas las cuentas';
+
+  @override
+  String get financial_overview_this_month => 'Este Mes';
+
+  @override
+  String get financial_overview_income => 'Ingresos';
+
+  @override
+  String get financial_overview_expenses => 'Gastos';
+
+  @override
+  String get financial_overview_net_balance => 'Balance Neto';
+
+  @override
+  String get financial_overview_top_spending => 'Gastos Principales';
+
+  @override
+  String get financial_overview_no_expenses => 'Sin gastos registrados este mes';
+
+  @override
+  String get flow_tab_all => 'Todo';
+
+  @override
+  String get flow_tab_income => 'Ingresos';
+
+  @override
+  String get flow_tab_expenses => 'Gastos';
+
+  @override
+  String get flow_today => 'Hoy';
+
+  @override
+  String get flow_yesterday => 'Ayer';
+
+  @override
+  String get flow_empty_all => 'Aún no hay transacciones';
+
+  @override
+  String get flow_empty_income => 'Aún no hay ingresos registrados';
+
+  @override
+  String get flow_empty_expenses => 'Aún no hay gastos registrados';
+
+  @override
+  String get flow_monthly_income => 'Ingresos';
+
+  @override
+  String get flow_monthly_expenses => 'Gastos';
+
+  @override
+  String get flow_net_balance => 'Neto';
+
+  @override
+  String get quick_add_title => 'Agregar rápido';
+
+  @override
+  String get quick_add_select_account => 'Seleccionar cuenta';
+
+  @override
+  String get quick_add_account_required => 'Por favor selecciona una cuenta';
 }

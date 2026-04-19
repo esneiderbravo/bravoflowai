@@ -11,6 +11,8 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../features/accounts/presentation/widgets/accounts_scroll_widget.dart';
+import '../../../features/financial_overview/application/financial_overview_providers.dart';
+import '../../../features/financial_overview/presentation/widgets/financial_overview_section.dart';
 import '../../../shared/widgets/loading_overlay.dart';
 import 'application/dashboard_providers.dart';
 
@@ -35,7 +37,11 @@ class DashboardScreen extends ConsumerWidget {
           child: RefreshIndicator(
             color: AppColors.primaryFixed,
             backgroundColor: AppColors.surfaceContainerHigh,
-            onRefresh: () => ref.read(dashboardNotifierProvider.notifier).refresh(),
+            onRefresh: () async {
+              await ref.read(dashboardNotifierProvider.notifier).refresh();
+              ref.invalidate(financialSummaryProvider);
+              ref.invalidate(categorySummaryProvider);
+            },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.only(
@@ -63,6 +69,10 @@ class DashboardScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.xl),
+
+                  // ── Financial Overview ────────────────────────────────
+                  const FinancialOverviewSection(),
                   const SizedBox(height: AppSpacing.xl),
 
                   // ── Accounts Horizontal Scroll ────────────────────────────

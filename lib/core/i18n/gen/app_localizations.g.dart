@@ -626,6 +626,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account created! Check your email to confirm.'**
   String get account_created_confirm;
+
+  /// No description provided for @financial_overview_total_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Balance'**
+  String get financial_overview_total_balance;
+
+  /// No description provided for @financial_overview_across_accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all accounts'**
+  String get financial_overview_across_accounts;
+
+  /// No description provided for @financial_overview_this_month.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month'**
+  String get financial_overview_this_month;
+
+  /// No description provided for @financial_overview_income.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get financial_overview_income;
+
+  /// No description provided for @financial_overview_expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get financial_overview_expenses;
+
+  /// No description provided for @financial_overview_net_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Balance'**
+  String get financial_overview_net_balance;
+
+  /// No description provided for @financial_overview_top_spending.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Spending'**
+  String get financial_overview_top_spending;
+
+  /// No description provided for @financial_overview_no_expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses recorded this month'**
+  String get financial_overview_no_expenses;
+
+  /// No description provided for @flow_tab_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get flow_tab_all;
+
+  /// No description provided for @flow_tab_income.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get flow_tab_income;
+
+  /// No description provided for @flow_tab_expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get flow_tab_expenses;
+
+  /// No description provided for @flow_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get flow_today;
+
+  /// No description provided for @flow_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get flow_yesterday;
+
+  /// No description provided for @flow_empty_all.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get flow_empty_all;
+
+  /// No description provided for @flow_empty_income.
+  ///
+  /// In en, this message translates to:
+  /// **'No income recorded yet'**
+  String get flow_empty_income;
+
+  /// No description provided for @flow_empty_expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses recorded yet'**
+  String get flow_empty_expenses;
+
+  /// No description provided for @flow_monthly_income.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get flow_monthly_income;
+
+  /// No description provided for @flow_monthly_expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get flow_monthly_expenses;
+
+  /// No description provided for @flow_net_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Net'**
+  String get flow_net_balance;
+
+  /// No description provided for @quick_add_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Add'**
+  String get quick_add_title;
+
+  /// No description provided for @quick_add_select_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Select account'**
+  String get quick_add_select_account;
+
+  /// No description provided for @quick_add_account_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an account'**
+  String get quick_add_account_required;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
